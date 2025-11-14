@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Gestión de Servicios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+<div class="min-h-screen flex flex-col">
+
+    <!-- Topbar -->
+    <header class="bg-white border-b shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-violet-600 to-violet-500 flex items-center justify-center text-white font-semibold">GS</div>
+                    <div>
+                        <div class="text-lg font-semibold">Gestión de Servicios</div>
+                        <div class="text-sm text-gray-500">Panel administrativo</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="hidden sm:block">
+                        <input type="search" placeholder="Buscar..." class="px-3 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-200">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">Admin</span>
+                        <div class="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-violet-700">A</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1">
+
+        <!-- Sidebar -->
+        <aside class="w-64 hidden md:block bg-gradient-to-b from-violet-700 to-violet-600 text-white p-6">
+            <h2 class="text-xl font-bold mb-6">Menú</h2>
+
+            <nav class="flex flex-col gap-2">
+                <a href="/clientes" class="block py-2 px-3 rounded-md hover:bg-violet-600/80">Clientes</a>
+                <a href="#" class="block py-2 px-3 rounded-md hover:bg-violet-600/80">Servicios</a>
+                <a href="#" class="block py-2 px-3 rounded-md hover:bg-violet-600/80">Facturación</a>
+                <a href="#" class="block py-2 px-3 rounded-md hover:bg-violet-600/80">Pagos</a>
+            </nav>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="flex-1 p-6 md:p-10 max-w-7xl mx-auto">
+            <h1 class="text-2xl md:text-3xl font-extrabold mb-4 text-violet-700" th:text="${titulo}">Título</h1>
+
+            <section class="bg-white shadow rounded-lg p-6">
+                <!-- Aquí Thymeleaf insertará el contenido específico -->
+                <div th:replace="${contenido}"></div>
+            </section>
+        </main>
+
+    </div>
+
+    <footer class="border-t bg-white text-sm text-gray-500 p-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">© 2025 Gestión de Servicios</div>
+    </footer>
+
+</div>
+
+</body>
+</html>
