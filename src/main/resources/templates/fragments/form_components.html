@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--
+  Fragment: inputField(field, label, type='text', placeholder='', required='false')
+  - field: the property name in the form-backing bean (string), e.g. 'razonSocial'
+  Usage example:
+    <div th:replace="fragments/form_components :: inputField('razonSocial','Razón Social','text','', 'true')"></div>
+-->
+<div th:fragment="inputField(field, label, type='text', placeholder='', required='false')">
+    <label th:for="${field}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" th:text="${label}">Label</label>
+    <input th:field="*{${field}}"
+           th:id="${field}"
+           th:type="${type}"
+           th:placeholder="${placeholder}"
+           th:class="${'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'}"
+           th:attr="required=${required == 'true'}" />
+</div>
+
+<!-- Fragment for textarea -->
+<div th:fragment="textareaField(field, label, rows='4', placeholder='')">
+    <label th:for="${field}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" th:text="${label}">Label</label>
+    <textarea th:field="*{${field}}"
+              th:id="${field}"
+              th:rows="${rows}"
+              th:placeholder="${placeholder}"
+        th:class="${'block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'}"></textarea>
+</div>
+
+<!--
+  Fragment: selectField(field, label, options, classes='')
+  - options: a map or list provided with th:with when calling the fragment
+  Example usage:
+    <div th:with="opts=${{'activo':'Activo','inactivo':'Inactivo'}}" th:replace="fragments/form_components :: selectField('estado','Estado',opts)"></div>
+  The select uses th:field so Spring binding will set the selected option automatically.
+-->
+<div th:fragment="selectField(field, label, options)">
+    <label th:for="${field}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" th:text="${label}">Label</label>
+    <select th:field="*{${field}}"
+            th:id="${field}"
+      th:class="${'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'}">
+        <option th:each="optEntry : ${options}" th:value="${optEntry.key}" th:text="${optEntry.value}">Option</option>
+    </select>
+</div>
+
+<!-- Button fragment -->
+<div th:fragment="buttonPrimary(text, type='submit', classes='')">
+    <button th:attr="type=${type}"
+            th:class="${'inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800'} + ( ${classes} != null ? ' ' + ${classes} : '' )"
+            th:text="${text}">Button</button>
+</div>
+
+</body>
+</html>
