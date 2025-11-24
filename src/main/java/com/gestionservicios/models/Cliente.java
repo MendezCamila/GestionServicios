@@ -9,6 +9,10 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -22,15 +26,20 @@ public class Cliente {
     private Long id;
 
     @Column(name = "razon_social", nullable = false)
+    @NotBlank(message = "La razón social es obligatoria")
+    @Size(max = 255, message = "La razón social no puede superar los 255 caracteres")
     private String razonSocial;
 
     @Column(name = "cuit", nullable = false, unique = true)
+    @NotBlank(message = "El CUIT es obligatorio")
+    @Pattern(regexp = "\\d{11}", message = "El CUIT debe contener 11 dígitos")
     private String cuit;
 
     @Column(name = "condicion_fiscal")
     private String condicionFiscal;
 
     @Column(name = "email")
+    @Email(message = "El email debe ser válido")
     private String email;
 
     @Column(name = "telefono")
@@ -40,5 +49,6 @@ public class Cliente {
     private String direccion;
 
     @Column(name = "estado") // activo, inactivo
+    @NotBlank(message = "El estado es obligatorio")
     private String estado;
 }

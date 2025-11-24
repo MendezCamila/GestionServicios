@@ -11,6 +11,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -24,8 +27,11 @@ public class Servicio {
 	private Long id;
 
 	@Column(name = "nombre", nullable = false)
+	@NotBlank(message = "El nombre es obligatorio")
 	private String nombre;
 
 	@Column(name = "precio_base", nullable = false)
+	@NotNull(message = "El precio es obligatorio")
+	@DecimalMin(value = "0.01", message = "El precio debe ser mayor a 0")
 	private BigDecimal precioBase;
 }

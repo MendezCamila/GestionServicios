@@ -5,6 +5,8 @@ import com.gestionservicios.services.ServicioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 
 @Controller
 @RequestMapping("/servicios")
@@ -34,7 +36,11 @@ public class ServicioController {
 	}
 
 	@PostMapping("/guardar")
-	public String guardarServicio(@ModelAttribute Servicio servicio) {
+	public String guardarServicio(@Valid @ModelAttribute Servicio servicio, BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("servicio", servicio);
+			return "servicio_form";
+		}
 		servicioService.guardar(servicio);
 		return "redirect:/servicios";
 	}

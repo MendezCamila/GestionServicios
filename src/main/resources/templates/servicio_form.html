@@ -21,10 +21,12 @@
             <div>
                 <label class="block text-sm text-gray-600">Nombre</label>
                 <input type="text" th:field="*{nombre}" required class="w-full px-3 py-2 border rounded-md" />
+                <div th:if="${#fields.hasErrors('nombre')}" class="text-sm text-red-600 mt-1" th:errors="*{nombre}"></div>
             </div>
             <div>
                 <label class="block text-sm text-gray-600">Precio Base</label>
                 <input type="number" step="0.01" th:field="*{precioBase}" required class="w-full px-3 py-2 border rounded-md" />
+                <div th:if="${#fields.hasErrors('precioBase')}" class="text-sm text-red-600 mt-1" th:errors="*{precioBase}"></div>
             </div>
         </div>
 
