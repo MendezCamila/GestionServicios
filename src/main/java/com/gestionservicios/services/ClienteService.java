@@ -1,48 +1,38 @@
 package com.gestionservicios.services;
 
 import com.gestionservicios.models.Cliente;
+import com.gestionservicios.repositories.ClienteRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-
-
 
 @Service
 public class ClienteService {
-    private List<Cliente> clientes = new ArrayList<>();
-    private Long contador = 1L;
 
-    //listar todos los clientes
+    private final ClienteRepository clienteRepository;
+
+    public ClienteService(ClienteRepository clienteRepository) {
+        this.clienteRepository = clienteRepository;
+    }
+
+    // Listar todos los clientes
     public List<Cliente> listarClientes() {
-        return clientes;
+        return clienteRepository.findAll();
     }
 
-    //obtener por id
+    // Obtener por id
     public Cliente obtenerPorId(long id) {
-        return clientes.stream()
-                .filter(c -> c.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-                
+        return clienteRepository.findById(id).orElse(null);
     }
 
-    //guardar cliente
+    // Guardar o actualizar cliente
     public Cliente guardar(Cliente cliente) {
-        if (cliente.getId() == null) {
-            cliente.setId(contador++);
-            clientes.add(cliente);
-        } else {
-            clientes.removeIf(c -> c.getId().equals(cliente.getId()));
-            clientes.add(cliente);
-        }
-        return cliente;
+        return clienteRepository.save(cliente);
     }
 
-    //eliminar cliente 
+    // Eliminar cliente
     public void eliminar(long id) {
-        clientes.removeIf(c -> c.getId().equals(id));
+        clienteRepository.deleteById(id);
     }
-
 
 }
