@@ -67,4 +67,28 @@ public class ContratoServicioController {
         contratoServicioService.eliminar(id);
         return "redirect:/contratos";
     }
+
+    @PostMapping("/crear-para-cliente/{clienteId}")
+    public String crearContratosParaCliente(@PathVariable Long clienteId,
+                                           @RequestParam(name = "servicioIds", required = false) java.util.List<Long> servicioIds) {
+        if (servicioIds == null || servicioIds.isEmpty()) {
+            return "redirect:/clientes/" + clienteId + "/servicios";
+        }
+        var cliente = clienteService.obtenerPorId(clienteId);
+        for (Long servicioId : servicioIds) {
+            // evitar duplicados activos
+            boolean exists = contratoServicioService.existeContratoActivo(clienteId, servicioId);
+            if (exists) continue;
+            var servicio = servicioService.obtenerPorId(servicioId);
+            ContratoServicio contrato = new ContratoServicio();
+            contrato.setCliente(cliente);
+            contrato.setServicio(servicio);
+            contrato.setFechaInicio(java.time.LocalDate.now());
+            contrato.setFechaFin(null);
+            contrato.setImportePersonalizado(null);
+            contrato.setEstado("Activo");
+            contratoServicioService.guardar(contrato);
+        }
+        return "redirect:/clientes/" + clienteId + "/servicios";
+    }
 }

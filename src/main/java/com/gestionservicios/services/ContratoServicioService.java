@@ -38,4 +38,8 @@ public class ContratoServicioService {
     public List<ContratoServicio> listarPorServicio(Long servicioId) {
         return contratoServicioRepository.findByServicioId(servicioId);
     }
+
+    public boolean existeContratoActivo(Long clienteId, Long servicioId) {
+        return contratoServicioRepository.existsByClienteIdAndServicioIdAndEstado(clienteId, servicioId, "Activo");
+    }
 }

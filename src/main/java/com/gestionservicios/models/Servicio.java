@@ -34,4 +34,8 @@ public class Servicio {
 	@NotNull(message = "El precio es obligatorio")
 	@DecimalMin(value = "0.01", message = "El precio debe ser mayor a 0")
 	private BigDecimal precioBase;
+
+	@Column(name = "estado")
+	@NotBlank(message = "El estado es obligatorio")
+	private String estado = "Activo"; // Activo / Inactivo
 }

@@ -1,0 +1,68 @@
+<div>
+
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h2 class="text-lg font-semibold" th:text="${cliente.razonSocial}">Cliente</h2>
+            <div class="text-sm text-gray-500">CUIT: <span th:text="${cliente.cuit}"></span></div>
+            <div class="text-sm text-gray-500">Email: <span th:text="${cliente.email}"></span></div>
+            <div class="text-sm text-gray-500">Condición fiscal: <span th:text="${cliente.condicionFiscal}"></span></div>
+        </div>
+        <a th:href="@{'/clientes'}" class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-2 rounded-md">Volver</a>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full bg-white shadow rounded overflow-hidden">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="p-3 text-left text-sm text-gray-600">ID</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Servicio</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Fecha inicio</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Fecha fin</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Importe</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Estado</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="contrato : ${contratos}" class="border-b hover:bg-gray-50">
+                    <td class="p-3" th:text="${contrato.id}"></td>
+                    <td class="p-3" th:text="${contrato.servicio.nombre}"></td>
+                    <td class="p-3" th:text="${contrato.fechaInicio}"></td>
+                    <td class="p-3" th:text="${contrato.fechaFin}"></td>
+                    <td class="p-3" th:text="${contrato.importePersonalizado != null ? contrato.importePersonalizado : contrato.servicio.precioBase}"></td>
+                    <td class="p-3" th:text="${contrato.estado}"></td>
+                    <td class="p-3">
+                        <a th:href="@{'/contratos/editar/' + ${contrato.id}}" class="inline-block text-violet-600 hover:underline mr-2">Editar</a>
+                        <a th:href="@{'/contratos/eliminar/' + ${contrato.id}}" class="inline-block text-red-600 hover:underline">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="my-6"/>
+
+    <div>
+        <h3 class="text-lg font-semibold mb-4">Asignar servicios al cliente</h3>
+        <form th:action="@{'/contratos/crear-para-cliente/' + ${cliente.id}}" method="post">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div th:each="servicio : ${servicios}" class="p-4 bg-white rounded shadow">
+                    <div class="flex items-center gap-4">
+                        <div>
+                            <input type="checkbox" th:name="servicioIds" th:value="${servicio.id}" th:disabled="${servicio.estado}!='Activo'" />
+                        </div>
+                        <div>
+                            <div class="font-semibold" th:text="${servicio.nombre}">Servicio</div>
+                            <div class="text-sm text-gray-500">Precio: <span th:text="${servicio.precioBase}"></span></div>
+                            <div class="text-sm text-gray-400" th:if="${servicio.estado}!='Activo'">(Inactivo)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="bg-violet-600 text-white px-4 py-2 rounded">Asignar seleccionados</button>
+            </div>
+        </form>
+    </div>
+
+</div>
