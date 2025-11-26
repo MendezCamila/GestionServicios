@@ -25,6 +25,15 @@ public class ClienteService {
         return clienteRepository.findById(id).orElse(null);
     }
 
+    public List<Cliente> buscarPorNombreOCuit(String q) {
+        if (q == null || q.isBlank()) return listarClientes();
+        // intentar buscar por CUIT exacto primero
+        var byCuit = clienteRepository.findByCuit(q);
+        if (byCuit.isPresent()) return List.of(byCuit.get());
+        // buscar por razón social parcial (ignore case)
+        return clienteRepository.findByRazonSocialContainingIgnoreCase(q);
+    }
+
     // Guardar o actualizar cliente
     public Cliente guardar(Cliente cliente) {
         return clienteRepository.save(cliente);

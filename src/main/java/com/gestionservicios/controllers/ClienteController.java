@@ -59,10 +59,10 @@ public class ClienteController {
     public String verServiciosCliente(@PathVariable Long id, Model model) {
         Cliente cliente = clienteService.obtenerPorId(id);
         model.addAttribute("cliente", cliente);
-        model.addAttribute("contratos", contratoServicioService.listarPorCliente(id));
-        model.addAttribute("servicios", servicioService.listarServicios());
-        model.addAttribute("titulo", "Servicios del cliente");
-        model.addAttribute("contenido", "cliente_servicios");
+        model.addAttribute("contratos", contratoServicioService.listarPorCliente(id));//listar los servicios por cliente
+        model.addAttribute("servicios", servicioService.listarServicios());//listar todos los servicios
+        model.addAttribute("titulo", "Servicios del cliente");//le mando titulo
+        model.addAttribute("contenido", "cliente_servicios");//le mando contenido
         return "layout";
     }
 

@@ -11,10 +11,12 @@ public class ContratoServicioService {
 
     private final ContratoServicioRepository contratoServicioRepository;
 
+    // Constructor Injection de lo que se necesita
     public ContratoServicioService(ContratoServicioRepository contratoServicioRepository) {
         this.contratoServicioRepository = contratoServicioRepository;
     }
 
+    // Listar todos los contratos (cliente-servicio)
     public List<ContratoServicio> listarContratos() {
         return contratoServicioRepository.findAll();
     }

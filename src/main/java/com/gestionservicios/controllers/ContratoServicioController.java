@@ -18,6 +18,7 @@ public class ContratoServicioController {
     private final ClienteService clienteService;
     private final ServicioService servicioService;
 
+    // Constructor Injection de lo que se necesita
     public ContratoServicioController(ContratoServicioService contratoServicioService,
                                       ClienteService clienteService,
                                       ServicioService servicioService) {

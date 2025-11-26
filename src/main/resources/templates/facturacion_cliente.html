@@ -1,0 +1,42 @@
+<div>
+
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h2 class="text-lg font-semibold" th:text="${cliente.razonSocial}">Cliente</h2>
+            <div class="text-sm text-gray-500">CUIT: <span th:text="${cliente.cuit}"></span></div>
+            <div class="text-sm text-gray-500">Email: <span th:text="${cliente.email}"></span></div>
+        </div>
+        <a th:href="@{'/facturacion/individual'}" class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-2 rounded-md">Volver</a>
+    </div>
+
+    <div class="mb-6">
+        <h3 class="font-semibold mb-3">Contratos del cliente</h3>
+        <table class="w-full bg-white shadow rounded overflow-hidden">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="p-3 text-left text-sm text-gray-600">ID</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Servicio</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Fecha inicio</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Fecha fin</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Importe</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="contrato : ${contratos}" class="border-b hover:bg-gray-50">
+                    <td class="p-3" th:text="${contrato.id}"></td>
+                    <td class="p-3" th:text="${contrato.servicio.nombre}"></td>
+                    <td class="p-3" th:text="${contrato.fechaInicio}"></td>
+                    <td class="p-3" th:text="${contrato.fechaFin}"></td>
+                    <td class="p-3" th:text="${contrato.importePersonalizado != null ? contrato.importePersonalizado : contrato.servicio.precioBase}"></td>
+                    <td class="p-3" th:text="${contrato.estado}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <p class="text-sm text-gray-500">Para generar una factura, selecciona los contratos/servicios y presiona "Generar factura" (pendiente de implementación).</p>
+    </div>
+
+</div>
