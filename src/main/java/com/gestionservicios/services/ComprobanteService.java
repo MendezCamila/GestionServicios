@@ -18,4 +18,8 @@ public class ComprobanteService {
     public List<Comprobante> listarComprobantes() {
         return comprobanteRepository.findAll();
     }
+
+    public Comprobante guardar(Comprobante comprobante) {
+        return comprobanteRepository.save(comprobante);
+    }
 }

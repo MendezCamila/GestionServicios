@@ -11,28 +11,43 @@
 
     <div class="mb-6">
         <h3 class="font-semibold mb-3">Contratos del cliente</h3>
-        <table class="w-full bg-white shadow rounded overflow-hidden">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="p-3 text-left text-sm text-gray-600">ID</th>
-                    <th class="p-3 text-left text-sm text-gray-600">Servicio</th>
-                    <th class="p-3 text-left text-sm text-gray-600">Fecha inicio</th>
-                    <th class="p-3 text-left text-sm text-gray-600">Fecha fin</th>
-                    <th class="p-3 text-left text-sm text-gray-600">Importe</th>
-                    <th class="p-3 text-left text-sm text-gray-600">Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="contrato : ${contratos}" class="border-b hover:bg-gray-50">
-                    <td class="p-3" th:text="${contrato.id}"></td>
-                    <td class="p-3" th:text="${contrato.servicio.nombre}"></td>
-                    <td class="p-3" th:text="${contrato.fechaInicio}"></td>
-                    <td class="p-3" th:text="${contrato.fechaFin}"></td>
-                    <td class="p-3" th:text="${contrato.importePersonalizado != null ? contrato.importePersonalizado : contrato.servicio.precioBase}"></td>
-                    <td class="p-3" th:text="${contrato.estado}"></td>
-                </tr>
-            </tbody>
-        </table>
+        <form th:action="@{'/facturacion/cliente/' + ${cliente.id} + '/generar'}" method="post" id="facturarForm">
+            <table class="w-full bg-white shadow rounded overflow-hidden">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="p-3 text-left text-sm text-gray-600">Sel</th>
+                        <th class="p-3 text-left text-sm text-gray-600">ID</th>
+                        <th class="p-3 text-left text-sm text-gray-600">Servicio</th>
+                        <th class="p-3 text-left text-sm text-gray-600">Fecha inicio</th>
+                        <th class="p-3 text-left text-sm text-gray-600">Fecha fin</th>
+                        <th class="p-3 text-left text-sm text-gray-600">Precio unitario</th>
+                        <th class="p-3 text-left text-sm text-gray-600">Cantidad</th>
+                        <th class="p-3 text-left text-sm text-gray-600">Subtotal</th>
+                        <th class="p-3 text-left text-sm text-gray-600">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="contrato : ${contratos}" class="border-b hover:bg-gray-50">
+                        <td class="p-3"><input type="checkbox" name="contratoIds" th:value="${contrato.id}" class="selbox" onchange="recalcular()" /></td>
+                        <td class="p-3" th:text="${contrato.id}"></td>
+                        <td class="p-3" th:text="${contrato.servicio.nombre}"></td>
+                        <td class="p-3" th:text="${contrato.fechaInicio}"></td>
+                        <td class="p-3" th:text="${contrato.fechaFin}"></td>
+                        <td class="p-3"><input type="number" step="0.01" readonly th:id="${'precio_' + contrato.id}" th:value="${contrato.importePersonalizado != null ? contrato.importePersonalizado : contrato.servicio.precioBase}" class="w-28 px-2 py-1 border rounded" /></td>
+                        <td class="p-3"><input type="number" min="1" value="1" th:name="${'cantidad_' + contrato.id}" th:id="${'cantidad_' + contrato.id}" class="w-20 px-2 py-1 border rounded qty" onchange="recalcular()" /></td>
+                        <td class="p-3"><input type="text" readonly th:id="${'subtotal_' + contrato.id}" value="0.00" class="w-28 px-2 py-1 border rounded subtotal" /></td>
+                        <td class="p-3" th:text="${contrato.estado}"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="mt-4 flex items-center justify-between">
+                <div>
+                    <button type="submit" class="bg-violet-600 text-white px-4 py-2 rounded">Generar factura</button>
+                </div>
+                <div class="text-lg font-semibold">Total: <span id="totalDisplay">0.00</span></div>
+            </div>
+        </form>
     </div>
 
     <div>
@@ -40,3 +55,34 @@
     </div>
 
 </div>
+
+<script>
+    function parseDecimal(v) {
+        try { return parseFloat(v) || 0; } catch(e) { return 0; }
+    }
+    function recalcular() {
+        let total = 0.0;
+        document.querySelectorAll('input.selbox').forEach(cb => {
+            if (!cb.checked) {
+                const id = cb.value;
+                document.getElementById('subtotal_' + id).value = '0.00';
+                return;
+            }
+            const id = cb.value;
+            const precio = parseDecimal(document.getElementById('precio_' + id).value);
+            const qtyEl = document.getElementById('cantidad_' + id);
+            const cantidad = parseInt(qtyEl ? qtyEl.value : '1') || 0;
+            const subtotal = precio * cantidad;
+            document.getElementById('subtotal_' + id).value = subtotal.toFixed(2);
+            total += subtotal;
+        });
+        document.getElementById('totalDisplay').innerText = total.toFixed(2);
+    }
+
+    // initial calc
+    window.addEventListener('load', function(){
+        recalcular();
+        document.querySelectorAll('input.qty').forEach(el => el.addEventListener('change', recalcular));
+        document.querySelectorAll('input.selbox').forEach(el => el.addEventListener('change', recalcular));
+    });
+</script>
