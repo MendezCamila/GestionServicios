@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,6 +49,10 @@ public class Comprobante {
     @DecimalMin(value = "0.00", message = "El total debe ser mayor o igual a 0")
     private BigDecimal total;
 
+    // Saldo pendiente que se irá reduciendo con los pagos (inicializa en total)
+    @Column(name = "saldo_pendiente", nullable = false)
+    private BigDecimal saldoPendiente;
+
     // Estado del comprobante (activo, cancelado, etc.)
     @Column(name = "estado", nullable = false)
     @NotBlank(message = "El estado es obligatorio")
@@ -57,4 +63,22 @@ public class Comprobante {
      // orphanRemoval = true → si se elimina un detalle desde la lista, se borra de la BD
     @OneToMany(mappedBy = "comprobante", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ComprobanteDetalle> detalles = new ArrayList<>();
+
+    // Relación con detalles de pago (no se propaga borrado automáticamente)
+    @OneToMany(mappedBy = "comprobante")
+    private List<PagoDetalle> pagoDetalles = new ArrayList<>();
+
+    @PrePersist
+    public void prePersist() {
+        if (this.saldoPendiente == null && this.total != null) {
+            this.saldoPendiente = this.total;
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        if (this.saldoPendiente == null && this.total != null) {
+            this.saldoPendiente = this.total;
+        }
+    }
 }

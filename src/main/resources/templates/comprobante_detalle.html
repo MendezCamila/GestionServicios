@@ -1,0 +1,57 @@
+<div>
+    <!-- Detalle del comprobante -->
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-semibold">Comprobante <span th:text="${comprobante.id}"></span></h2>
+        <a th:href="@{'/facturacion'}" class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-2 rounded-md">Volver</a>
+    </div>
+
+    <!-- Información del cliente -->
+    <div class="bg-white shadow rounded p-4 mb-6">
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <div class="text-sm text-gray-600">Cliente</div>
+                <div class="font-semibold" th:text="${comprobante.cliente.razonSocial}"></div>
+                <div class="text-sm text-gray-500">CUIT: <span th:text="${comprobante.cliente.cuit}"></span></div>
+            </div>
+            <div>
+                <div class="text-sm text-gray-600">Tipo</div>
+                <div th:text="${comprobante.tipoComprobante}"></div>
+                <div class="text-sm text-gray-600">Fecha</div>
+                <div th:text="${comprobante.fechaEmision}"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de detalles del comprobante -->
+    <div class="overflow-x-auto">
+        <table class="w-full bg-white shadow rounded overflow-hidden">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="p-3 text-left text-sm text-gray-600">ID</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Servicio</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Contrato ID</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Cant</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Precio U.</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="d : ${comprobante.detalles}" class="border-b hover:bg-gray-50">
+                    <td class="p-3" th:text="${d.id}"></td>
+                    <td class="p-3" th:text="${d.servicio.nombre}"></td>
+                    <td class="p-3" th:text="${d.contratoServicio != null ? d.contratoServicio.id : '-'}"></td>
+                    <td class="p-3" th:text="${d.cantidad}"></td>
+                    <td class="p-3" th:text="${d.precioUnitario}"></td>
+                    <td class="p-3" th:text="${d.subtotal}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Total del comprobante -->
+    <div class="mt-4 text-right">
+        <span class="text-lg font-semibold">Total: </span>
+        <span class="text-lg" th:text="${comprobante.total}"></span>
+    </div>
+
+</div>
