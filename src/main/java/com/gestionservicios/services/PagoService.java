@@ -83,4 +83,32 @@ public class PagoService {
         return pago;
     }
 
+    /**
+     * Calcula un estado resumido para un pago:
+     * - "Pendiente": si montoIngresado == 0 o no hay detalles y montoIngresado == 0
+     * - "Parcial": si al menos un PagoDetalle deja saldoPosterior > 0
+     * - "Completado": si hay monto ingresado y todos los detalles tienen saldoPosterior == 0
+     */
+    public String estadoResumido(Pago pago) {
+        if (pago == null) return "Pendiente";
+        java.math.BigDecimal monto = pago.getMontoIngresado();
+        if (monto == null || monto.compareTo(java.math.BigDecimal.ZERO) == 0) {
+            return "Pendiente";
+        }
+        var detalles = pago.getDetalles();
+        if (detalles == null || detalles.isEmpty()) {
+            // Si no hay detalles pero hay monto ingresado, lo consideramos completado
+            return "Completado";
+        }
+        boolean anyPendiente = false;
+        for (com.gestionservicios.models.PagoDetalle d : detalles) {
+            java.math.BigDecimal saldoPosterior = d.getSaldoPosterior();
+            if (saldoPosterior != null && saldoPosterior.compareTo(java.math.BigDecimal.ZERO) > 0) {
+                anyPendiente = true;
+                break;
+            }
+        }
+        return anyPendiente ? "Parcial" : "Completado";
+    }
+
 }

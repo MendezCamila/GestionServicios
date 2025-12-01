@@ -19,6 +19,10 @@ public class ComprobanteService {
         return comprobanteRepository.findAll();
     }
 
+    public Comprobante obtenerPorId(Long id) {
+        return comprobanteRepository.findById(id).orElse(null);
+    }
+
     public Comprobante guardar(Comprobante comprobante) {
         // Asegurar que saldoPendiente se inicialice al total cuando no esté seteado
         if (comprobante.getSaldoPendiente() == null && comprobante.getTotal() != null) {

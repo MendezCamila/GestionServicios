@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,7 +30,12 @@ public class PagoController {
 
     @GetMapping
     public String listarPagos(Model model) {
-        model.addAttribute("pagos", pagoService.listarPagos());
+        var pagos = pagoService.listarPagos();
+        model.addAttribute("pagos", pagos);
+        // calcular estados resumidos y pasarlos a la vista como mapa id->estado
+        Map<Long, String> estados = pagos.stream()
+                .collect(Collectors.toMap(p -> p.getId(), p -> pagoService.estadoResumido(p)));
+        model.addAttribute("estadosPago", estados);
         model.addAttribute("titulo", "Pagos");
         model.addAttribute("contenido", "pagos");
         return "layout";

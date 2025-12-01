@@ -115,4 +115,14 @@ public class ComprobanteController {
 
         return "redirect:/facturacion";
     }
+
+    @GetMapping("/{id}")
+    public String verComprobante(@PathVariable Long id, Model model) {
+        var comprobante = comprobanteService.obtenerPorId(id);
+        if (comprobante == null) return "redirect:/facturacion";
+        model.addAttribute("comprobante", comprobante);
+        model.addAttribute("titulo", "Comprobante " + id);
+        model.addAttribute("contenido", "comprobante_detalle");
+        return "layout";
+    }
 }
