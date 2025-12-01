@@ -25,7 +25,7 @@
             <table id="facturasTable" class="w-full bg-white shadow rounded overflow-hidden hidden">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="p-3 text-left text-sm text-gray-600">#</th>
+                        <th class="p-3 text-left text-sm text-gray-600"></th>
                         <th class="p-3 text-left text-sm text-gray-600">Factura</th>
                         <th class="p-3 text-left text-sm text-gray-600">Fecha</th>
                         <th class="p-3 text-left text-sm text-gray-600">Total</th>
@@ -38,7 +38,7 @@
         </div>
 
         <div class="mb-4 text-right">
-            <strong>Total aplicado: $</strong> <span id="totalAplicado">0.00</span>
+            <strong>Total aplicado:</strong> <span id="totalAplicado">0</span>
         </div>
 
         <h3 class="font-semibold mb-2">Métodos de pago</h3>
@@ -55,9 +55,14 @@
             </table>
         </div>
 
-        <div class="flex items-center gap-4 mb-6">
+        <div class="flex items-center gap-4 mb-2">
             <button type="button" id="agregarMetodo" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-md">➕ Agregar método de pago</button>
-            <div class="ml-auto">Total pagado: $<span id="totalPagado">0.00</span></div>
+            <div class="ml-auto">Total pagado: <span id="totalPagado">0</span></div>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Observaciones</label>
+            <input type="text" name="observaciones" id="observacionesInput" class="w-full border rounded px-2 py-1" placeholder="Observaciones (opcional)" />
         </div>
 
         <div id="errores" class="text-sm text-red-600 mb-4"></div>
@@ -67,9 +72,7 @@
             <a href="/pagos" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md">Cancelar</a>
         </div>
 
-        <div class="hidden">
-            <input type="text" name="observaciones" id="observacionesInput" />
-        </div>
+        
     </form>
 
 </div>
@@ -88,6 +91,22 @@
     const erroresEl = document.getElementById('errores');
     const formPago = document.getElementById('formPago');
 
+    function pad(n){ return n < 10 ? '0' + n : n }
+    function formatDate(dateStr){
+        if(!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return dateStr;
+        return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
+    }
+    function formatCurrency(v){
+        const n = Number(v || 0);
+        try{
+            return new Intl.NumberFormat('es-AR',{ style: 'currency', currency: 'ARS', minimumFractionDigits: 2 }).format(n);
+        }catch(e){
+            return n.toFixed(2);
+        }
+    }
+
     clienteSelect.addEventListener('change', async () => {
         const clienteId = clienteSelect.value;
         if (!clienteId) {
@@ -97,35 +116,27 @@
             return;
         }
 
-        // buscar datos del cliente en el select option (ya cargados)
         const opt = clienteSelect.options[clienteSelect.selectedIndex];
         clienteNombre.textContent = 'Nombre: ' + opt.text;
         clienteCondicion.textContent = 'Condición fiscal: ' + (opt.getAttribute('data-condicion') || '-');
         clienteEmail.textContent = 'Email: ' + (opt.getAttribute('data-email') || '-');
         clienteDatos.classList.remove('hidden');
 
-        // obtener facturas pendientes via fetch
         const res = await fetch('/pagos/facturas?clienteId=' + clienteId);
         if (!res.ok) return;
         const facturas = await res.json();
         facturasBody.innerHTML = '';
-        let idx = 0;
         for (const f of facturas) {
-            idx++;
             const tr = document.createElement('tr');
             tr.className = 'border-b hover:bg-gray-50';
+            tr.setAttribute('data-saldo', f.saldoPendiente || 0);
             tr.innerHTML = `
-                <td class="p-3">${idx}</td>
+                <td class="p-3"><input type="checkbox" class="fact-check" name="factura_id" value="${f.id}" /></td>
                 <td class="p-3">${f.id}</td>
-                <td class="p-3">${f.fechaEmision}</td>
-                <td class="p-3">${f.total}</td>
-                <td class="p-3">${f.saldoPendiente}</td>
-                <td class="p-3">
-                    <label class="inline-flex items-center">
-                        <input type="checkbox" class="fact-check" name="factura_id" value="${f.id}" />
-                        <input type="number" step="0.01" min="0" name="monto_aplicar_${f.id}" class="ml-2 monto-input border rounded px-2 py-1" disabled />
-                    </label>
-                </td>
+                <td class="p-3">${formatDate(f.fechaEmision)}</td>
+                <td class="p-3">${formatCurrency(f.total)}</td>
+                <td class="p-3">${formatCurrency(f.saldoPendiente)}</td>
+                <td class="p-3"><input type="number" step="0.01" min="0" name="monto_aplicar_${f.id}" class="ml-2 monto-input border rounded px-2 py-1" disabled data-default="" /></td>
             `;
             facturasBody.appendChild(tr);
         }
@@ -177,17 +188,18 @@
     function computeTotals() {
         let totalAplicado = 0.0;
         document.querySelectorAll('.monto-input').forEach(inp => {
+            if (inp.disabled) return;
             const v = parseFloat(inp.value || 0);
             if (!isNaN(v)) totalAplicado += v;
         });
-        totalAplicadoEl.textContent = totalAplicado.toFixed(2);
+        totalAplicadoEl.textContent = formatCurrency(totalAplicado);
 
         let totalPagado = 0.0;
         document.querySelectorAll('input[name="metodo_monto[]"]').forEach(inp => {
             const v = parseFloat(inp.value || 0);
             if (!isNaN(v)) totalPagado += v;
         });
-        totalPagadoEl.textContent = totalPagado.toFixed(2);
+        totalPagadoEl.textContent = formatCurrency(totalPagado);
     }
 
     formPago.addEventListener('submit', (e) => {
@@ -198,23 +210,21 @@
         const checked = Array.from(document.querySelectorAll('.fact-check')).filter(c => c.checked);
         if (checked.length === 0) { erroresEl.textContent = 'Debe seleccionar al menos una factura.'; e.preventDefault(); return; }
 
-        // validar montos aplicados
         let totalAplicado = 0.0;
         for (const c of checked) {
             const id = c.value;
             const inp = document.querySelector('input[name="monto_aplicar_' + id + '"]');
             const monto = parseFloat(inp.value || 0);
-            const saldo = parseFloat(c.closest('tr').querySelectorAll('td')[4].innerText || 0);
+            const saldo = parseFloat(c.closest('tr').dataset.saldo || 0);
             if (isNaN(monto) || monto < 0.01) { erroresEl.textContent = 'El monto a pagar debe ser al menos $0.01 por factura.'; e.preventDefault(); return; }
             if (monto > saldo) { erroresEl.textContent = 'El monto ingresado no puede superar el saldo pendiente de la factura ' + id + '.'; e.preventDefault(); return; }
             totalAplicado += monto;
         }
 
-        // validar métodos
         const metodoMontos = Array.from(document.querySelectorAll('input[name="metodo_monto[]"]')).map(i => parseFloat(i.value || 0));
         if (metodoMontos.length === 0) { erroresEl.textContent = 'Debe agregar al menos un método de pago.'; e.preventDefault(); return; }
         const totalPagado = metodoMontos.reduce((a,b) => a + (isNaN(b) ? 0 : b), 0);
-        if (Math.abs(totalPagado - totalAplicado) > 0.005) { erroresEl.textContent = `El monto total ingresado en los métodos ($${totalPagado.toFixed(2)}) no coincide con el total aplicado a las facturas ($${totalAplicado.toFixed(2)}).`; e.preventDefault(); return; }
+        if (Math.abs(totalPagado - totalAplicado) > 0.005) { erroresEl.textContent = `El monto total ingresado en los métodos (${formatCurrency(totalPagado)}) no coincide con el total aplicado a las facturas (${formatCurrency(totalAplicado)}).`; e.preventDefault(); return; }
 
         // todo ok
     });
