@@ -1,0 +1,50 @@
+<div>
+
+    <div class="flex items-center justify-between mb-6">
+        <a href="/facturacion/masiva/nuevo" class="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md shadow">
+            Nueva Facturación Masiva
+        </a>
+        <div class="text-sm text-gray-500">Total: <span th:text="${facturaciones.size()}">0</span></div>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full bg-white shadow rounded overflow-hidden">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="p-3 text-left text-sm text-gray-600">ID</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Usuario</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Periodo</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Fecha</th>
+                    <th class="p-3 text-left text-sm text-gray-600"># Facturas</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Total facturado</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="f : ${facturaciones}" class="border-b hover:bg-gray-50">
+                    <td class="p-3" th:text="${f.id}"></td>
+                    <td class="p-3" th:text="${f.usuario}"></td>
+                    <td class="p-3" th:text="${f.periodo}"></td>
+                    <td class="p-3" th:text="${#temporals.format(f.fecha, 'dd/MM/yyyy HH:mm')}" ></td>
+                    <td class="p-3" th:text="${f.cantidadFacturas}"></td>
+                    <td class="p-3 monto-cell" th:attr="data-amount=${f.totalFacturado}" th:text="${f.totalFacturado}"></td>
+                    <td class="p-3" th:text="${f.estado}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    (function(){
+        try{
+            const fmt = new Intl.NumberFormat('es-AR',{ style: 'currency', currency: 'ARS', minimumFractionDigits: 2 });
+            document.querySelectorAll('.monto-cell').forEach(td => {
+                const a = td.getAttribute('data-amount');
+                const n = Number(a || 0);
+                td.textContent = fmt.format(isNaN(n) ? 0 : n);
+            });
+        }catch(e){/* ignore */}
+    })();
+</script>

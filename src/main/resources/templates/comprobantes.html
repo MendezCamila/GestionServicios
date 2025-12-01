@@ -4,7 +4,12 @@
         <a href="/facturacion/individual" class="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md shadow">
             Facturación Individual
         </a>
-        <div class="text-sm text-gray-500">Total: <span th:text="${comprobantes.size()}">0</span></div>
+        <div class="flex items-center gap-2">
+            <a href="#" id="openMassModal" class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-200">
+                Facturación Masiva
+            </a>
+            <div class="text-sm text-gray-500">Total: <span th:text="${comprobantes.size()}">0</span></div>
+        </div>
     </div>
 
     <div class="overflow-x-auto">
@@ -34,6 +39,22 @@
         </table>
     </div>
 
+    <!-- Modal Facturación Masiva (vacío por ahora) -->
+    <div id="massModal" class="fixed inset-0 flex items-center justify-center bg-black/50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-2xl p-6">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-lg font-semibold">Facturación Masiva</h3>
+                <button id="closeMassModal" class="text-gray-500 hover:text-gray-700">✕</button>
+            </div>
+            <div id="massModalBody">
+                <!-- contenido provisional: en blanco por ahora -->
+            </div>
+            <div class="text-right mt-4">
+                <button id="massModalCloseBtn" class="bg-gray-100 px-3 py-2 rounded-md">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
 <script>
     (function(){
         try{
@@ -44,6 +65,28 @@
                 td.textContent = fmt.format(isNaN(n) ? 0 : n);
             });
         }catch(e){/* no bloquear si falla */}
+    })();
+
+    // Modal Facturación Masiva (apertura/cierre sencillo)
+    (function(){
+        const openBtn = document.getElementById('openMassModal');
+        const modal = document.getElementById('massModal');
+        const closeBtn = document.getElementById('closeMassModal');
+        const closeBtnFooter = document.getElementById('massModalCloseBtn');
+
+        function showModal(){ modal.classList.remove('hidden'); }
+        function hideModal(){ modal.classList.add('hidden'); }
+
+        if(openBtn){ openBtn.addEventListener('click', function(e){ e.preventDefault(); showModal(); }); }
+        if(closeBtn){ closeBtn.addEventListener('click', function(e){ e.preventDefault(); hideModal(); }); }
+        if(closeBtnFooter){ closeBtnFooter.addEventListener('click', function(e){ e.preventDefault(); hideModal(); }); }
+
+        // click fuera del diálogo cierra modal
+        if(modal){
+            modal.addEventListener('click', function(e){
+                if(e.target === modal){ hideModal(); }
+            });
+        }
     })();
 </script>
 

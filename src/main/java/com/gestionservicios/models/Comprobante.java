@@ -68,6 +68,11 @@ public class Comprobante {
     @OneToMany(mappedBy = "comprobante")
     private List<PagoDetalle> pagoDetalles = new ArrayList<>();
 
+    // Relación (opcional) con facturación masiva que generó este comprobante
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "facturacion_masiva_id")
+    private com.gestionservicios.models.FacturacionMasiva facturacionMasiva;
+
     @PrePersist
     public void prePersist() {
         if (this.saldoPendiente == null && this.total != null) {
