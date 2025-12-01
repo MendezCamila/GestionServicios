@@ -11,4 +11,5 @@ public interface ContratoServicioRepository extends JpaRepository<ContratoServic
     List<ContratoServicio> findByClienteId(Long clienteId);
     List<ContratoServicio> findByServicioId(Long servicioId);
     boolean existsByClienteIdAndServicioIdAndEstado(Long clienteId, Long servicioId, String estado);
+    List<ContratoServicio> findByEstado(String estado);
 }

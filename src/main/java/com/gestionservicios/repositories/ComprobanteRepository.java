@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ComprobanteRepository extends JpaRepository<Comprobante, Long> {
     List<Comprobante> findByClienteId(Long clienteId);
+    boolean existsByContratoIdAndPeriodo(Long contratoId, String periodo);
 }

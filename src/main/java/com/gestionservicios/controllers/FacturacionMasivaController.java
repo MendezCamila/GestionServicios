@@ -6,9 +6,13 @@ import com.gestionservicios.services.FacturacionMasivaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.gestionservicios.models.FacturacionPreviewDTO;
 
 @Controller
 @RequestMapping("/facturacion/masiva")
@@ -20,6 +24,15 @@ public class FacturacionMasivaController {
     public FacturacionMasivaController(FacturacionMasivaService facturacionMasivaService, FacturacionMasivaRepository facturacionMasivaRepository) {
         this.facturacionMasivaService = facturacionMasivaService;
         this.facturacionMasivaRepository = facturacionMasivaRepository;
+    }
+
+    @GetMapping("/preview")
+    @ResponseBody
+    public FacturacionPreviewDTO preview(@RequestParam(value = "periodo", required = false) String periodo) {
+        if (periodo == null || periodo.isBlank()) {
+            periodo = java.time.YearMonth.now().toString();
+        }
+        return facturacionMasivaService.simularFacturacionMasiva(periodo);
     }
 
     @GetMapping

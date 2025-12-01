@@ -49,6 +49,12 @@ public class Comprobante {
     @DecimalMin(value = "0.00", message = "El total debe ser mayor o igual a 0")
     private BigDecimal total;
 
+    @Column(name = "periodo")
+    private String periodo;
+
+    @Column(name = "contrato_id")
+    private Long contratoId;
+
     // Saldo pendiente que se irá reduciendo con los pagos (inicializa en total)
     @Column(name = "saldo_pendiente", nullable = false)
     private BigDecimal saldoPendiente;

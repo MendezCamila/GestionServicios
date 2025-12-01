@@ -2,6 +2,9 @@ package com.gestionservicios.services;
 
 import com.gestionservicios.models.Comprobante;
 import com.gestionservicios.models.FacturacionMasiva;
+import com.gestionservicios.models.FacturacionPreviewDTO;
+import com.gestionservicios.models.ContratoServicio;
+import com.gestionservicios.repositories.ContratoServicioRepository;
 import com.gestionservicios.repositories.ComprobanteRepository;
 import com.gestionservicios.repositories.FacturacionMasivaRepository;
 import org.springframework.stereotype.Service;
@@ -16,11 +19,15 @@ public class FacturacionMasivaService {
 
     private final FacturacionMasivaRepository facturacionMasivaRepository;
     private final ComprobanteRepository comprobanteRepository;
+    private final ContratoServicioRepository contratoServicioRepository;
 
+    // New constructor for injection including contrato repo
     public FacturacionMasivaService(FacturacionMasivaRepository facturacionMasivaRepository,
-                                    ComprobanteRepository comprobanteRepository) {
+                                    ComprobanteRepository comprobanteRepository,
+                                    ContratoServicioRepository contratoServicioRepository) {
         this.facturacionMasivaRepository = facturacionMasivaRepository;
         this.comprobanteRepository = comprobanteRepository;
+        this.contratoServicioRepository = contratoServicioRepository;
     }
 
     public FacturacionMasiva crearFacturacion(String usuario, String periodo) {
@@ -53,5 +60,32 @@ public class FacturacionMasivaService {
         fm.setEstado("EN_PROCESO");
         facturacionMasivaRepository.save(fm);
     }
+
+        /**
+         * Simula la facturación masiva para el periodo dado.
+         * Retorna conteos: clientes activos, clientes con factura en el periodo, y cantidad a generar.
+         */
+        public FacturacionPreviewDTO simularFacturacionMasiva(String periodo) {
+        // obtener contratos activos
+        List<ContratoServicio> contratos = contratoServicioRepository.findByEstado("ACTIVO");
+
+        // clientes activos = cantidad de clientes distintos en contratos
+        long clientesActivos = contratos.stream().map(c -> c.getCliente().getId()).distinct().count();
+
+        // contratos que ya tienen comprobante en este periodo
+        List<ContratoServicio> contratosConFactura = contratos.stream()
+            .filter(c -> comprobanteRepository.existsByContratoIdAndPeriodo(c.getId(), periodo))
+            .toList();
+
+        // contratos a facturar
+        List<ContratoServicio> contratosAFacturar = contratos.stream()
+            .filter(c -> !comprobanteRepository.existsByContratoIdAndPeriodo(c.getId(), periodo))
+            .toList();
+
+        // clientes con factura del periodo = clientes distintos entre contratosConFactura
+        long clientesConFactura = contratosConFactura.stream().map(c -> c.getCliente().getId()).distinct().count();
+
+        return new FacturacionPreviewDTO((int) clientesActivos, (int) clientesConFactura, contratosAFacturar.size());
+        }
 
 }

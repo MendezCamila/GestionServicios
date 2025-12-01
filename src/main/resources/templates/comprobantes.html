@@ -77,7 +77,50 @@
         function showModal(){ modal.classList.remove('hidden'); }
         function hideModal(){ modal.classList.add('hidden'); }
 
-        if(openBtn){ openBtn.addEventListener('click', function(e){ e.preventDefault(); showModal(); }); }
+        if(openBtn){ openBtn.addEventListener('click', function(e){ e.preventDefault(); showModal();
+                // fetch preview data and render inside modal
+                fetch('/facturacion/masiva/preview')
+                    .then(r => r.ok ? r.json() : Promise.reject(r))
+                    .then(data => {
+                        const body = document.getElementById('massModalBody');
+                        const periodo = (() => { const d = new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0'); })();
+                        body.innerHTML = `
+                            <div class="mb-4">
+                                <h4 class="font-semibold">Facturación Masiva - Resumen</h4>
+                                <div class="text-sm text-gray-600 mt-2">Periodo: ${periodo}</div>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div>Clientes activos: <strong>${data.clientesActivos}</strong></div>
+                                <div>Clientes con factura del mes: <strong>${data.clientesConFacturaDelPeriodo}</strong></div>
+                                <div>Se generarán: <strong>${data.seGeneraran} facturas</strong></div>
+                            </div>
+                            <div class="flex justify-end gap-2 mt-6">
+                                <button id="massCancelBtn" class="px-3 py-2 bg-gray-100 rounded">Cancelar</button>
+                                <button id="massConfirmBtn" class="px-3 py-2 bg-violet-600 text-white rounded">Confirmar</button>
+                            </div>
+                        `;
+
+                        // wire buttons
+                        const cancel = document.getElementById('massCancelBtn');
+                        const confirm = document.getElementById('massConfirmBtn');
+                        if(cancel) cancel.addEventListener('click', function(e){ e.preventDefault(); hideModal(); });
+                        if(confirm) confirm.addEventListener('click', function(e){
+                            e.preventDefault();
+                            // submit to create the FacturacionMasiva (simple POST)
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = '/facturacion/masiva';
+                            const inpPeriodo = document.createElement('input'); inpPeriodo.type = 'hidden'; inpPeriodo.name = 'periodo'; inpPeriodo.value = periodo; form.appendChild(inpPeriodo);
+                            const inpUsuario = document.createElement('input'); inpUsuario.type = 'hidden'; inpUsuario.name = 'usuario'; inpUsuario.value = 'web'; form.appendChild(inpUsuario);
+                            document.body.appendChild(form);
+                            form.submit();
+                        });
+                    })
+                    .catch(err => {
+                        const body = document.getElementById('massModalBody');
+                        body.innerHTML = '<div class="text-red-600">Error obteniendo la simulación. Intente nuevamente.</div>';
+                    });
+            }); }
         if(closeBtn){ closeBtn.addEventListener('click', function(e){ e.preventDefault(); hideModal(); }); }
         if(closeBtnFooter){ closeBtnFooter.addEventListener('click', function(e){ e.preventDefault(); hideModal(); }); }
 
