@@ -4,26 +4,40 @@
         <a href="/pagos" class="text-sm text-gray-600 hover:underline">← Volver a pagos</a>
     </div>
 
-    <h2 class="text-lg font-semibold mb-2">Detalle del Pago</h2>
+    
 
-    <div class="grid grid-cols-2 gap-4 mb-4">
-        <div>
-            <strong>ID:</strong> <span th:text="${pago.id}"></span>
-        </div>
-        <div>
-            <strong>Cliente:</strong> <span th:text="${pago.cliente != null ? pago.cliente.razonSocial : 'N/A'}"></span>
-        </div>
-        <div>
-            <strong>Fecha:</strong> <span th:text="${#temporals.format(pago.fechaPago, 'dd/MM/yyyy')}"></span>
-        </div>
-        <div>
-            <strong>Método:</strong> <span th:text="${pago.metodoPago}"></span>
-        </div>
-        <div>
-            <strong>Monto ingresado:</strong> <span class="monto-cell" th:attr="data-amount=${pago.montoIngresado}" th:text="${pago.montoIngresado}"></span>
-        </div>
-        <div>
-            <strong>Observaciones:</strong> <span th:text="${pago.observaciones}"></span>
+    <h2 class="text-xl font-semibold mb-4">Detalle del Pago</h2>
+
+    <div class="bg-white shadow rounded-lg p-4 mb-6">
+        <div class="flex justify-between">
+            <div class="flex-1">
+                <div class="grid grid-cols-2 gap-x-6 gap-y-1 items-center">
+                    <div>
+                        <span class="text-sm text-gray-500">ID:</span>
+                        <span class="font-medium text-gray-800" th:text="${pago.id}"></span>
+                    </div>
+                    <div class="text-right md:text-left">
+                        <span class="text-sm text-gray-500">Fecha:</span>
+                        <span class="font-medium text-gray-800" th:text="${#temporals.format(pago.fechaPago, 'dd/MM/yyyy')}"></span>
+                    </div>
+
+                    <div class="col-span-2 mt-1">
+                        <span class="text-sm text-gray-500">Cliente:</span>
+                        <span class="font-medium text-gray-800" th:text="${pago.cliente != null ? pago.cliente.razonSocial : 'N/A'}"></span>
+                    </div>
+
+                    <div class="col-span-2 mt-2">
+                        <div class="text-sm text-gray-500">Observaciones:</div>
+                        <div class="text-gray-700 text-sm" th:text="${pago.observaciones != null && !#strings.isEmpty(pago.observaciones) ? pago.observaciones : '-'}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ml-4">
+                <div class="text-right">
+                    <span class="inline-block px-3 py-1 rounded text-white text-sm" th:classappend="${estadoPago == 'Completado' ? ' bg-green-600' : (estadoPago == 'Parcial' ? ' bg-yellow-500' : ' bg-gray-500')}" th:text="${estadoPago}"></span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -33,26 +47,52 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th class="p-3 text-left text-sm text-gray-600">Comprobante</th>
-                    <th class="p-3 text-left text-sm text-gray-600">Monto aplicado</th>
-                    <th class="p-3 text-left text-sm text-gray-600">Saldo anterior</th>
-                    <th class="p-3 text-left text-sm text-gray-600">Saldo posterior</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Descripción</th>
+                    <th class="p-3 text-right text-sm text-gray-600">Monto aplicado</th>
+                    <th class="p-3 text-right text-sm text-gray-600">Saldo anterior</th>
+                    <th class="p-3 text-right text-sm text-gray-600">Saldo posterior</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="d : ${pago.detalles}" class="border-b hover:bg-gray-50">
                     <td class="p-3">
-                                <button type="button" class="text-blue-600 hover:underline comprobante-btn"
-                                    th:attr="data-id=${d.comprobante.id},
-                                             data-fecha=${d.comprobante.fechaEmision},
-                                             data-comprobante-total=${d.comprobante.total},
-                                             data-comprobante-saldo=${d.saldoPosterior},
-                                             data-monto-aplicado=${d.montoAplicado}">
-                            <span th:text="${d.comprobante.id}"></span>
+                        <button type="button" class="text-blue-600 hover:underline comprobante-btn" style="background:none;border:none;padding:0;"
+                                th:attr="data-id=${d.comprobante.id},
+                                         data-fecha=${d.comprobante.fechaEmision},
+                                         data-comprobante-total=${d.comprobante.total},
+                                         data-comprobante-saldo=${d.saldoPosterior},
+                                         data-monto-aplicado=${d.montoAplicado}">
+                            <span class="font-medium" th:text="${d.comprobante.id}"></span>
                         </button>
                     </td>
-                    <td class="p-3 monto-cell" th:attr="data-amount=${d.montoAplicado}" th:text="${d.montoAplicado}"></td>
-                    <td class="p-3 monto-cell" th:attr="data-amount=${d.saldoAnterior}" th:text="${d.saldoAnterior}"></td>
-                    <td class="p-3 monto-cell" th:attr="data-amount=${d.saldoPosterior}" th:text="${d.saldoPosterior}"></td>
+                    <td class="p-3 text-sm text-gray-600">
+                        <div th:text="${d.comprobante.tipoComprobante != null ? d.comprobante.tipoComprobante : '-'}"></div>
+                        <div class="text-xs text-gray-500" th:text="${d.comprobante.fechaEmision != null ? #temporals.format(d.comprobante.fechaEmision, 'dd/MM/yyyy') : ''}"></div>
+                    </td>
+                    <td class="p-3 text-right monto-cell" th:attr="data-amount=${d.montoAplicado}" th:text="${d.montoAplicado}"></td>
+                    <td class="p-3 text-right monto-cell" th:attr="data-amount=${d.saldoAnterior}" th:text="${d.saldoAnterior}"></td>
+                    <td class="p-3 text-right monto-cell" th:attr="data-amount=${d.saldoPosterior}" th:text="${d.saldoPosterior}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="font-semibold mt-4 mb-2">Métodos de pago</h3>
+    <div class="bg-white shadow rounded p-3 mb-4">
+        <table class="w-full text-sm">
+            <thead class="text-left text-gray-600">
+                <tr>
+                    <th class="p-2">Método</th>
+                    <th class="p-2 text-right">Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pm : ${metodosPagoDetalle}" class="border-t">
+                    <td class="p-2"><span class="inline-block px-2 py-0.5 bg-gray-100 rounded text-xs" th:text="${pm.metodo}"></span></td>
+                    <td class="p-2 text-right monto-cell" th:attr="data-amount=${pm.monto}" th:text="${pm.monto}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(metodosPagoDetalle)}">
+                    <td colspan="3" class="p-2 text-gray-500">No hay métodos registrados para este pago.</td>
                 </tr>
             </tbody>
         </table>

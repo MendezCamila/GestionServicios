@@ -210,4 +210,13 @@ public class PagoService {
         return resultado;
     }
 
+    /**
+     * Devuelve los métodos de pago asociados a un pago (lista de PagoMetodo).
+     */
+    public java.util.List<com.gestionservicios.models.PagoMetodo> listarMetodosPorPago(Long pagoId) {
+        if (pagoId == null) return java.util.Collections.emptyList();
+        java.util.List<com.gestionservicios.models.PagoMetodo> metodos = pagoMetodoRepository.findByPagoIdIn(java.util.List.of(pagoId));
+        return metodos == null ? java.util.Collections.emptyList() : metodos;
+    }
+
 }

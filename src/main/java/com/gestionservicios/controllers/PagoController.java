@@ -54,6 +54,8 @@ public class PagoController {
         }
         model.addAttribute("metodosPagoFull", metodosFull);
         model.addAttribute("metodosPagoShort", metodosShort);
+        // también pasar la lista estructurada para render como lista en la vista
+        model.addAttribute("metodosPagoList", metodosList);
         model.addAttribute("titulo", "Pagos");
         model.addAttribute("contenido", "pagos");
         return "layout";
@@ -66,6 +68,10 @@ public class PagoController {
             return "redirect:/pagos";
         }
         model.addAttribute("pago", pago);
+        // agregar estado resumido para mostrar en la vista de detalle
+        model.addAttribute("estadoPago", pagoService.estadoResumido(pago));
+        // agregar métodos de pago para el detalle
+        model.addAttribute("metodosPagoDetalle", pagoService.listarMetodosPorPago(pago.getId()));
         model.addAttribute("titulo", "Detalle de Pago");
         model.addAttribute("contenido", "pago_detalle");
         return "layout";
