@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ComprobanteDetalleRepository extends JpaRepository<ComprobanteDetalle, Long> {
+    boolean existsByContratoServicioIdAndComprobantePeriodo(Long contratoServicioId, String periodo);
 }

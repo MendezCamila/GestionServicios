@@ -4,6 +4,8 @@ import com.gestionservicios.models.Comprobante;
 import com.gestionservicios.models.FacturacionMasiva;
 import com.gestionservicios.models.FacturacionPreviewDTO;
 import com.gestionservicios.models.ContratoServicio;
+import com.gestionservicios.models.ClientePreviewItem;
+import com.gestionservicios.repositories.ComprobanteDetalleRepository;
 import com.gestionservicios.repositories.ContratoServicioRepository;
 import com.gestionservicios.repositories.ComprobanteRepository;
 import com.gestionservicios.repositories.FacturacionMasivaRepository;
@@ -20,14 +22,17 @@ public class FacturacionMasivaService {
     private final FacturacionMasivaRepository facturacionMasivaRepository;
     private final ComprobanteRepository comprobanteRepository;
     private final ContratoServicioRepository contratoServicioRepository;
+    private final ComprobanteDetalleRepository comprobanteDetalleRepository;
 
-    // New constructor for injection including contrato repo
+    // New constructor including comprobanteDetalleRepository
     public FacturacionMasivaService(FacturacionMasivaRepository facturacionMasivaRepository,
                                     ComprobanteRepository comprobanteRepository,
-                                    ContratoServicioRepository contratoServicioRepository) {
+                                    ContratoServicioRepository contratoServicioRepository,
+                                    ComprobanteDetalleRepository comprobanteDetalleRepository) {
         this.facturacionMasivaRepository = facturacionMasivaRepository;
         this.comprobanteRepository = comprobanteRepository;
         this.contratoServicioRepository = contratoServicioRepository;
+        this.comprobanteDetalleRepository = comprobanteDetalleRepository;
     }
 
     public FacturacionMasiva crearFacturacion(String usuario, String periodo) {
@@ -72,20 +77,46 @@ public class FacturacionMasivaService {
         // clientes activos = cantidad de clientes distintos en contratos
         long clientesActivos = contratos.stream().map(c -> c.getCliente().getId()).distinct().count();
 
-        // contratos que ya tienen comprobante en este periodo
-        List<ContratoServicio> contratosConFactura = contratos.stream()
-            .filter(c -> comprobanteRepository.existsByContratoIdAndPeriodo(c.getId(), periodo))
+        // Map contratos por cliente
+        java.util.Map<Long, java.util.List<ContratoServicio>> contratosPorCliente = contratos.stream()
+            .collect(java.util.stream.Collectors.groupingBy(c -> c.getCliente().getId()));
+
+        // clientes con al menos una factura en el periodo
+        long clientesConFactura = contratosPorCliente.keySet().stream()
+            .filter(clienteId -> comprobanteRepository.existsByClienteIdAndPeriodo(clienteId, periodo))
+            .count();
+
+        // clientes a facturar = clientes que tengan al menos un contrato sin comprobante en el periodo
+        java.util.List<Long> clientesAFacturarIds = contratosPorCliente.entrySet().stream()
+            .filter(entry -> entry.getValue().stream().anyMatch(c -> !comprobanteDetalleRepository.existsByContratoServicioIdAndComprobantePeriodo(c.getId(), periodo)))
+            .map(java.util.Map.Entry::getKey)
             .toList();
 
-        // contratos a facturar
-        List<ContratoServicio> contratosAFacturar = contratos.stream()
-            .filter(c -> !comprobanteRepository.existsByContratoIdAndPeriodo(c.getId(), periodo))
+        int seGeneraran = clientesAFacturarIds.size();
+
+        // primeros 10 clientes a facturar con listado de contratos pendientes
+        java.util.List<ClientePreviewItem> primerosClientes = clientesAFacturarIds.stream()
+            .limit(10)
+            .map(clienteId -> {
+                String nombre = contratosPorCliente.get(clienteId).get(0).getCliente().getRazonSocial();
+                java.util.List<Long> pendientes = contratosPorCliente.get(clienteId).stream()
+                    .filter(c -> !comprobanteDetalleRepository.existsByContratoServicioIdAndComprobantePeriodo(c.getId(), periodo))
+                    .map(ContratoServicio::getId)
+                    .toList();
+                return new ClientePreviewItem(clienteId, nombre, pendientes);
+            })
             .toList();
 
-        // clientes con factura del periodo = clientes distintos entre contratosConFactura
-        long clientesConFactura = contratosConFactura.stream().map(c -> c.getCliente().getId()).distinct().count();
+        // periodo formateado MM/yyyy
+        String periodoFormateado;
+        try {
+            java.time.YearMonth ym = java.time.YearMonth.parse(periodo);
+            periodoFormateado = ym.format(java.time.format.DateTimeFormatter.ofPattern("MM/yyyy"));
+        } catch (Exception e) {
+            periodoFormateado = periodo;
+        }
 
-        return new FacturacionPreviewDTO((int) clientesActivos, (int) clientesConFactura, contratosAFacturar.size());
+        return new FacturacionPreviewDTO(periodoFormateado, (int) clientesActivos, (int) clientesConFactura, seGeneraran, primerosClientes);
         }
 
 }

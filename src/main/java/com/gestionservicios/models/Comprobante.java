@@ -52,9 +52,6 @@ public class Comprobante {
     @Column(name = "periodo")
     private String periodo;
 
-    @Column(name = "contrato_id")
-    private Long contratoId;
-
     // Saldo pendiente que se irá reduciendo con los pagos (inicializa en total)
     @Column(name = "saldo_pendiente", nullable = false)
     private BigDecimal saldoPendiente;

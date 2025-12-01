@@ -83,16 +83,24 @@
                     .then(r => r.ok ? r.json() : Promise.reject(r))
                     .then(data => {
                         const body = document.getElementById('massModalBody');
-                        const periodo = (() => { const d = new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0'); })();
+                        const periodo = data.periodo || (() => { const d = new Date(); return String(d.getMonth()+1).padStart(2,'0')+"/"+d.getFullYear(); })();
+                        const primeros = data.primerosClientes || [];
                         body.innerHTML = `
                             <div class="mb-4">
                                 <h4 class="font-semibold">Facturación Masiva - Resumen</h4>
                                 <div class="text-sm text-gray-600 mt-2">Periodo: ${periodo}</div>
                             </div>
-                            <div class="space-y-2 text-sm">
+                            <div class="grid grid-cols-2 gap-4 text-sm">
                                 <div>Clientes activos: <strong>${data.clientesActivos}</strong></div>
-                                <div>Clientes con factura del mes: <strong>${data.clientesConFacturaDelPeriodo}</strong></div>
-                                <div>Se generarán: <strong>${data.seGeneraran} facturas</strong></div>
+                                <div>Clientes ya facturados: <strong>${data.clientesConFacturaDelPeriodo}</strong></div>
+                                <div>Se generarán: <strong>${data.seGeneraran} comprobantes</strong></div>
+                            </div>
+                            <hr class="my-4" />
+                            <div>
+                                <h5 class="font-medium">Primeros ${primeros.length} clientes a facturar:</h5>
+                                <ul class="list-disc list-inside text-sm mt-2">
+                                    ${primeros.map(p => `<li>${p.clienteNombre} — Contrato(s) #${(p.contratoIds||[]).join(', #')}</li>`).join('')}
+                                </ul>
                             </div>
                             <div class="flex justify-end gap-2 mt-6">
                                 <button id="massCancelBtn" class="px-3 py-2 bg-gray-100 rounded">Cancelar</button>
@@ -110,7 +118,9 @@
                             const form = document.createElement('form');
                             form.method = 'POST';
                             form.action = '/facturacion/masiva';
-                            const inpPeriodo = document.createElement('input'); inpPeriodo.type = 'hidden'; inpPeriodo.name = 'periodo'; inpPeriodo.value = periodo; form.appendChild(inpPeriodo);
+                            // periodo for POST: use YYYY-MM format
+                            const periodoPost = (() => { const d = new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0'); })();
+                            const inpPeriodo = document.createElement('input'); inpPeriodo.type = 'hidden'; inpPeriodo.name = 'periodo'; inpPeriodo.value = periodoPost; form.appendChild(inpPeriodo);
                             const inpUsuario = document.createElement('input'); inpUsuario.type = 'hidden'; inpUsuario.name = 'usuario'; inpUsuario.value = 'web'; form.appendChild(inpUsuario);
                             document.body.appendChild(form);
                             form.submit();

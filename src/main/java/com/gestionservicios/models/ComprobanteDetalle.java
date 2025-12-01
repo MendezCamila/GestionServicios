@@ -45,4 +45,7 @@ public class ComprobanteDetalle {
     @NotNull(message = "El subtotal es obligatorio")
     @DecimalMin(value = "0.00", message = "El subtotal debe ser mayor o igual a 0")
     private BigDecimal subtotal;
+
+    @Column(name = "contrato_servicio_id")
+    private Long contratoServicioId;
 }
