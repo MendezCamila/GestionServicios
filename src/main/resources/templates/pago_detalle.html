@@ -40,13 +40,41 @@
             </thead>
             <tbody>
                 <tr th:each="d : ${pago.detalles}" class="border-b hover:bg-gray-50">
-                    <td class="p-3" th:text="${d.comprobante.id}"></td>
+                    <td class="p-3">
+                        <button type="button" class="text-blue-600 hover:underline comprobante-btn"
+                            th:attr="data-id=${d.comprobante.id},
+                                 data-fecha=${d.comprobante.fechaEmision},
+                                 data-comprobante-total=${d.comprobante.total},
+                                 data-comprobante-saldo=${d.saldoPosterior},
+                                 data-monto-aplicado=${d.montoAplicado}">
+                            <span th:text="${d.comprobante.id}"></span>
+                        </button>
+                    </td>
                     <td class="p-3 monto-cell" th:attr="data-amount=${d.montoAplicado}" th:text="${d.montoAplicado}"></td>
                     <td class="p-3 monto-cell" th:attr="data-amount=${d.saldoAnterior}" th:text="${d.saldoAnterior}"></td>
                     <td class="p-3 monto-cell" th:attr="data-amount=${d.saldoPosterior}" th:text="${d.saldoPosterior}"></td>
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <!-- Modal comprobante -->
+    <div id="comprobanteModal" class="fixed inset-0 flex items-center justify-center bg-black/50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-2xl p-6">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-lg font-semibold">Comprobante <span id="modalComprobanteId"></span></h3>
+                <button id="modalClose" class="text-gray-500 hover:text-gray-700">✕</button>
+            </div>
+            <div class="grid grid-cols-1 gap-4 mb-4">
+                <div><strong>Fecha:</strong> <span id="modalComprobanteFecha"></span></div>
+                <div><strong>Total comprobante:</strong> <span id="modalComprobanteTotal"></span></div>
+                <div><strong>Cuánto se pagó (en este pago):</strong> <span id="modalMontoAplicado"></span></div>
+                <div><strong>Saldo pendiente:</strong> <span id="modalComprobanteSaldo"></span></div>
+            </div>
+            <div class="text-right">
+                <button id="modalCloseBtn" class="bg-gray-100 px-3 py-2 rounded-md">Cerrar</button>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -61,5 +89,57 @@
                 td.textContent = fmt.format(isNaN(n) ? 0 : n);
             });
         }catch(e){/* ignore */}
+    })();
+
+    // Modal logic for comprobante
+    (function(){
+        function pad(n){ return n < 10 ? '0' + n : n }
+        function formatDate(dateStr){
+            if(!dateStr) return '';
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
+            return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
+        }
+        function fmtCurrency(v){
+            try{
+                return new Intl.NumberFormat('es-AR',{ style: 'currency', currency: 'ARS', minimumFractionDigits: 2 }).format(Number(v || 0));
+            }catch(e){ return (Number(v || 0)).toFixed(2); }
+        }
+
+        const modal = document.getElementById('comprobanteModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+        function openModal(data){
+            document.getElementById('modalComprobanteId').textContent = data.id || '';
+            document.getElementById('modalComprobanteFecha').textContent = formatDate(data.fecha);
+            document.getElementById('modalComprobanteTotal').textContent = fmtCurrency(data.comprobanteTotal || data.montoAplicado);
+            document.getElementById('modalComprobanteSaldo').textContent = fmtCurrency(data.comprobanteSaldo);
+            document.getElementById('modalMontoAplicado').textContent = fmtCurrency(data.montoAplicado);
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal(){ modal.classList.add('hidden'); }
+
+        modalClose.addEventListener('click', closeModal);
+        modalCloseBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+
+        document.querySelectorAll('.comprobante-btn').forEach(btn=>{
+            btn.addEventListener('click', (e)=>{
+                const el = e.currentTarget;
+                const data = {
+                    id: el.getAttribute('data-id'),
+                    fecha: el.getAttribute('data-fecha'),
+                    comprobanteTotal: el.getAttribute('data-comprobante-total'),
+                    comprobanteSaldo: el.getAttribute('data-comprobante-saldo'),
+                    comprobanteEstado: el.getAttribute('data-comprobante-estado'),
+                    montoAplicado: el.getAttribute('data-monto-aplicado'),
+                    saldoAnterior: el.getAttribute('data-saldo-anterior'),
+                    saldoPosterior: el.getAttribute('data-saldo-posterior')
+                };
+                openModal(data);
+            });
+        });
     })();
 </script>
