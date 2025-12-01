@@ -107,6 +107,8 @@ public class ComprobanteController {
         }
 
         comprobante.setTotal(total);
+        // Inicializar saldo pendiente al total al crear la factura
+        comprobante.setSaldoPendiente(total);
         comprobante.setDetalles(detalles);
 
         comprobanteService.guardar(comprobante);

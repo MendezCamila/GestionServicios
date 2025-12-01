@@ -20,6 +20,10 @@ public class ComprobanteService {
     }
 
     public Comprobante guardar(Comprobante comprobante) {
+        // Asegurar que saldoPendiente se inicialice al total cuando no esté seteado
+        if (comprobante.getSaldoPendiente() == null && comprobante.getTotal() != null) {
+            comprobante.setSaldoPendiente(comprobante.getTotal());
+        }
         return comprobanteRepository.save(comprobante);
     }
 }

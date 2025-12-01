@@ -100,8 +100,11 @@ public class PagoController {
 
     @GetMapping(value = "/facturas", produces = "application/json")
     @ResponseBody
-    public java.util.List<com.gestionservicios.models.Comprobante> facturasPendientes(@RequestParam("clienteId") Long clienteId) {
-        return pagoService.listarFacturasPendientesPorCliente(clienteId);
+    public java.util.List<com.gestionservicios.dto.ComprobantePendienteDTO> facturasPendientes(@RequestParam("clienteId") Long clienteId) {
+        var list = pagoService.listarFacturasPendientesDTO(clienteId);
+        // simple logging to help debugging
+        System.out.println("[PagoController] facturas pendientes para cliente " + clienteId + ": " + (list == null ? 0 : list.size()));
+        return list;
     }
 
 }

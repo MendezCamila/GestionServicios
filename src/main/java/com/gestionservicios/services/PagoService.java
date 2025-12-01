@@ -31,8 +31,18 @@ public class PagoService {
 
     public List<com.gestionservicios.models.Comprobante> listarFacturasPendientesPorCliente(Long clienteId) {
         var all = comprobanteRepository.findByClienteId(clienteId);
-        return all.stream().filter(c -> c.getSaldoPendiente() != null && c.getSaldoPendiente().compareTo(java.math.BigDecimal.ZERO) > 0)
-                .toList();
+            return all.stream().filter(c -> {
+                // Facturas pendientes: estado "Emitida" o saldoPendiente > 0
+                boolean estadoEmitida = c.getEstado() != null && c.getEstado().trim().equalsIgnoreCase("Emitida");
+                boolean saldoPositivo = c.getSaldoPendiente() != null && c.getSaldoPendiente().compareTo(java.math.BigDecimal.ZERO) > 0;
+                return estadoEmitida || saldoPositivo;
+            }).toList();
+    }
+    public java.util.List<com.gestionservicios.dto.ComprobantePendienteDTO> listarFacturasPendientesDTO(Long clienteId) {
+        var list = listarFacturasPendientesPorCliente(clienteId);
+        return list.stream().map(c -> new com.gestionservicios.dto.ComprobantePendienteDTO(
+                c.getId(), c.getFechaEmision(), c.getTotal(), c.getSaldoPendiente(), c.getEstado()
+        )).toList();
     }
 
     @org.springframework.transaction.annotation.Transactional

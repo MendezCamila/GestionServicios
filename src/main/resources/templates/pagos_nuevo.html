@@ -5,7 +5,11 @@
             <label class="block text-sm font-medium text-gray-700">Buscar cliente</label>
             <select id="clienteSelect" name="clienteId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                 <option value="">-- Seleccione un cliente --</option>
-                <option th:each="c : ${clientes}" th:value="${c.id}" th:text="${c.razonSocial}"></option>
+                <option th:each="c : ${clientes}"
+                    th:value="${c.id}"
+                    th:text="${c.razonSocial}"
+                    th:attr="data-condicion=${c.condicionFiscal},data-email=${c.email}">
+                </option>
             </select>
         </div>
 
