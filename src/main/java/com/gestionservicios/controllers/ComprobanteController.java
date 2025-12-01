@@ -125,4 +125,5 @@ public class ComprobanteController {
         model.addAttribute("contenido", "comprobante_detalle");
         return "layout";
     }
+    
 }

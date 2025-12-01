@@ -12,13 +12,16 @@ public class PagoService {
     private final PagoRepository pagoRepository;
     private final com.gestionservicios.repositories.ComprobanteRepository comprobanteRepository;
     private final com.gestionservicios.repositories.PagoDetalleRepository pagoDetalleRepository;
+    private final com.gestionservicios.repositories.PagoMetodoRepository pagoMetodoRepository;
 
     public PagoService(PagoRepository pagoRepository,
                        com.gestionservicios.repositories.ComprobanteRepository comprobanteRepository,
-                       com.gestionservicios.repositories.PagoDetalleRepository pagoDetalleRepository) {
+                       com.gestionservicios.repositories.PagoDetalleRepository pagoDetalleRepository,
+                       com.gestionservicios.repositories.PagoMetodoRepository pagoMetodoRepository) {
         this.pagoRepository = pagoRepository;
         this.comprobanteRepository = comprobanteRepository;
         this.pagoDetalleRepository = pagoDetalleRepository;
+        this.pagoMetodoRepository = pagoMetodoRepository;
     }
 
     public List<Pago> listarPagos() {
@@ -47,6 +50,12 @@ public class PagoService {
 
     @org.springframework.transaction.annotation.Transactional
     public Pago crearPagoConDetalles(Pago pago, List<com.gestionservicios.models.PagoDetalle> detalles) {
+        // Delegate to the new implementation that also accepts métodos de pago (lista vacía aquí)
+        return crearPagoConDetalles(pago, detalles, java.util.Collections.emptyList());
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    public Pago crearPagoConDetalles(Pago pago, List<com.gestionservicios.models.PagoDetalle> detalles, List<com.gestionservicios.models.PagoMetodo> metodos) {
         // guardar pago primero para obtener id
         pago = pagoRepository.save(pago);
 
@@ -80,6 +89,15 @@ public class PagoService {
             pago.getDetalles().add(det);
         }
 
+        // guardar métodos de pago asociados al pago
+        if (metodos != null && !metodos.isEmpty()) {
+            for (com.gestionservicios.models.PagoMetodo pm : metodos) {
+                pm.setPago(pago);
+                if (pm.getMonto() == null) pm.setMonto(java.math.BigDecimal.ZERO);
+                pagoMetodoRepository.save(pm);
+            }
+        }
+
         return pago;
     }
 
@@ -109,6 +127,87 @@ public class PagoService {
             }
         }
         return anyPendiente ? "Parcial" : "Completado";
+    }
+
+    /**
+     * Agrupa los métodos de pago (de la tabla `pago_metodos`) por pago y formatea cada entrada
+     * como "EFECTIVO (1.000,00), TARJETA (2.500,00)". Devuelve un mapa idPago -> cadena formateada.
+     */
+    public java.util.Map<Long, String> agruparMetodosConMontos(java.util.List<Pago> pagos) {
+        java.util.Map<Long, String> resultado = new java.util.HashMap<>();
+        if (pagos == null || pagos.isEmpty()) return resultado;
+
+        java.util.List<Long> ids = pagos.stream()
+                .map(Pago::getId)
+                .filter(java.util.Objects::nonNull)
+                .toList();
+        if (ids.isEmpty()) return resultado;
+
+        java.util.List<com.gestionservicios.models.PagoMetodo> metodos = pagoMetodoRepository.findByPagoIdIn(ids);
+        if (metodos == null || metodos.isEmpty()) return resultado;
+
+        java.util.Locale locale = new java.util.Locale("es", "AR");
+        java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(locale);
+        nf.setMinimumFractionDigits(2);
+        nf.setMaximumFractionDigits(2);
+        nf.setGroupingUsed(true);
+
+        java.util.Map<Long, java.util.List<com.gestionservicios.models.PagoMetodo>> grouped = metodos.stream()
+                .collect(java.util.stream.Collectors.groupingBy(pm -> pm.getPago().getId()));
+
+        for (var entry : grouped.entrySet()) {
+            Long pagoId = entry.getKey();
+            java.util.List<com.gestionservicios.models.PagoMetodo> lista = entry.getValue();
+            String joined = lista.stream().map(pm -> {
+                String metodo = pm.getMetodo() == null ? "" : pm.getMetodo().name();
+                java.math.BigDecimal monto = pm.getMonto() == null ? java.math.BigDecimal.ZERO : pm.getMonto();
+                String montoFmt = nf.format(monto);
+                return metodo + " (" + montoFmt + ")";
+            }).collect(java.util.stream.Collectors.joining(", "));
+            resultado.put(pagoId, joined);
+        }
+
+        return resultado;
+    }
+
+    /**
+     * Variante que devuelve la lista estructurada por pago: idPago -> List<"METODO (monto)">
+     */
+    public java.util.Map<Long, java.util.List<String>> agruparMetodosConMontosLista(java.util.List<Pago> pagos) {
+        java.util.Map<Long, java.util.List<String>> resultado = new java.util.HashMap<>();
+        if (pagos == null || pagos.isEmpty()) return resultado;
+
+        java.util.List<Long> ids = pagos.stream()
+                .map(Pago::getId)
+                .filter(java.util.Objects::nonNull)
+                .toList();
+        if (ids.isEmpty()) return resultado;
+
+        java.util.List<com.gestionservicios.models.PagoMetodo> metodos = pagoMetodoRepository.findByPagoIdIn(ids);
+        if (metodos == null || metodos.isEmpty()) return resultado;
+
+        java.util.Locale locale = new java.util.Locale("es", "AR");
+        java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(locale);
+        nf.setMinimumFractionDigits(2);
+        nf.setMaximumFractionDigits(2);
+        nf.setGroupingUsed(true);
+
+        java.util.Map<Long, java.util.List<com.gestionservicios.models.PagoMetodo>> grouped = metodos.stream()
+                .collect(java.util.stream.Collectors.groupingBy(pm -> pm.getPago().getId()));
+
+        for (var entry : grouped.entrySet()) {
+            Long pagoId = entry.getKey();
+            java.util.List<com.gestionservicios.models.PagoMetodo> lista = entry.getValue();
+            java.util.List<String> items = lista.stream().map(pm -> {
+                String metodo = pm.getMetodo() == null ? "" : pm.getMetodo().name();
+                java.math.BigDecimal monto = pm.getMonto() == null ? java.math.BigDecimal.ZERO : pm.getMonto();
+                String montoFmt = nf.format(monto);
+                return metodo + " (" + montoFmt + ")";
+            }).collect(java.util.stream.Collectors.toList());
+            resultado.put(pagoId, items);
+        }
+
+        return resultado;
     }
 
 }

@@ -26,7 +26,9 @@
                     <td class="p-3" th:text="${pago.cliente != null ? pago.cliente.razonSocial : 'N/A'}"></td>
                     <td class="p-3" th:text="${#temporals.format(pago.fechaPago, 'dd/MM/yyyy')}"></td>
                     <td class="p-3" th:text="${estadosPago[pago.id]}"></td>
-                    <td class="p-3" th:text="${pago.metodoPago}"></td>
+                    <td class="p-3" th:attr="title=${metodosPagoFull[pago.id]}">
+                        <span th:text="${metodosPagoShort[pago.id]} ?: ${pago.metodoPago}"></span>
+                    </td>
                     <td class="p-3 monto-cell" th:attr="data-amount=${pago.montoIngresado}" th:text="${pago.montoIngresado}"></td>
                     <td class="p-3"><a th:href="@{/pagos/{id}(id=${pago.id})}" class="text-blue-600 hover:underline">Ver</a></td>
                 </tr>

@@ -36,6 +36,24 @@ public class PagoController {
         Map<Long, String> estados = pagos.stream()
                 .collect(Collectors.toMap(p -> p.getId(), p -> pagoService.estadoResumido(p)));
         model.addAttribute("estadosPago", estados);
+        // agrupar métodos de pago (nombres + montos) por pago y pasar a la vista
+        java.util.Map<Long, java.util.List<String>> metodosList = pagoService.agruparMetodosConMontosLista(pagos);
+        java.util.Map<Long, String> metodosFull = new java.util.HashMap<>();
+        java.util.Map<Long, String> metodosShort = new java.util.HashMap<>();
+        for (var e : metodosList.entrySet()) {
+            Long id = e.getKey();
+            java.util.List<String> items = e.getValue();
+            String full = String.join(", ", items);
+            metodosFull.put(id, full);
+            if (items.size() <= 2) {
+                metodosShort.put(id, full);
+            } else {
+                String firstTwo = String.join(", ", items.subList(0, 2));
+                metodosShort.put(id, firstTwo + " +" + (items.size() - 2));
+            }
+        }
+        model.addAttribute("metodosPagoFull", metodosFull);
+        model.addAttribute("metodosPagoShort", metodosShort);
         model.addAttribute("titulo", "Pagos");
         model.addAttribute("contenido", "pagos");
         return "layout";
@@ -100,15 +118,29 @@ public class PagoController {
             String[] metodos = request.getParameterValues("metodo_pago[]");
             String[] metodosMontos = request.getParameterValues("metodo_monto[]");
             java.math.BigDecimal totalPagos = java.math.BigDecimal.ZERO;
-            if (metodosMontos != null) {
-                for (String s : metodosMontos) {
-                    try { totalPagos = totalPagos.add(new java.math.BigDecimal(s)); } catch (Exception ignored) {}
+            java.util.List<com.gestionservicios.models.PagoMetodo> metodosList = new java.util.ArrayList<>();
+            if (metodos != null) {
+                for (int i = 0; i < metodos.length; i++) {
+                    String m = metodos[i];
+                    String montoStr = (metodosMontos != null && metodosMontos.length > i) ? metodosMontos[i] : "0";
+                    try {
+                        java.math.BigDecimal monto = new java.math.BigDecimal(montoStr == null || montoStr.isBlank() ? "0" : montoStr);
+                        totalPagos = totalPagos.add(monto);
+                        com.gestionservicios.models.PagoMetodo pm = new com.gestionservicios.models.PagoMetodo();
+                        try {
+                            pm.setMetodo(com.gestionservicios.models.MetodoPago.valueOf(m));
+                        } catch (Exception ex) {
+                            pm.setMetodo(null);
+                        }
+                        pm.setMonto(monto);
+                        metodosList.add(pm);
+                    } catch (Exception ignored) {}
                 }
             }
             pago.setMontoIngresado(totalPagos);
 
-            // crear pago con detalles
-            pagoService.crearPagoConDetalles(pago, detalles);
+            // crear pago con detalles y métodos
+            pagoService.crearPagoConDetalles(pago, detalles, metodosList);
 
             return "redirect:/pagos";
         } catch (Exception e) {
