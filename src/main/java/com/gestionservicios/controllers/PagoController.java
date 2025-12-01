@@ -71,7 +71,13 @@ public class PagoController {
         // agregar estado resumido para mostrar en la vista de detalle
         model.addAttribute("estadoPago", pagoService.estadoResumido(pago));
         // agregar métodos de pago para el detalle
-        model.addAttribute("metodosPagoDetalle", pagoService.listarMetodosPorPago(pago.getId()));
+        var metodosDetalle = pagoService.listarMetodosPorPago(pago.getId());
+        model.addAttribute("metodosPagoDetalle", metodosDetalle);
+        // calcular total de los métodos de pago y pasarlo a la vista
+        java.math.BigDecimal totalMetodos = metodosDetalle.stream()
+            .map(pm -> pm.getMonto() == null ? java.math.BigDecimal.ZERO : pm.getMonto())
+            .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+        model.addAttribute("totalMetodosPago", totalMetodos);
         model.addAttribute("titulo", "Detalle de Pago");
         model.addAttribute("contenido", "pago_detalle");
         return "layout";
