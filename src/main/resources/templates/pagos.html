@@ -16,20 +16,34 @@
                     <th class="p-3 text-left text-sm text-gray-600">Fecha</th>
                     <th class="p-3 text-left text-sm text-gray-600">Método</th>
                     <th class="p-3 text-left text-sm text-gray-600">Monto</th>
-                    <th class="p-3 text-left text-sm text-gray-600">Observaciones</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Detalle</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="pago : ${pagos}" class="border-b hover:bg-gray-50">
                     <td class="p-3" th:text="${pago.id}"></td>
                     <td class="p-3" th:text="${pago.cliente != null ? pago.cliente.razonSocial : 'N/A'}"></td>
-                    <td class="p-3" th:text="${pago.fechaPago}"></td>
+                    <td class="p-3" th:text="${#temporals.format(pago.fechaPago, 'dd/MM/yyyy')}"></td>
                     <td class="p-3" th:text="${pago.metodoPago}"></td>
-                    <td class="p-3" th:text="${pago.montoIngresado}"></td>
-                    <td class="p-3" th:text="${pago.observaciones}"></td>
+                    <td class="p-3 monto-cell" th:attr="data-amount=${pago.montoIngresado}" th:text="${pago.montoIngresado}"></td>
+                    <td class="p-3"><a th:href="@{/pagos/{id}(id=${pago.id})}" class="text-blue-600 hover:underline">Ver</a></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
 </div>
+
+<script>
+    // formatea las celdas de monto a formato moneda (cliente-side)
+    (function(){
+        try{
+            const fmt = new Intl.NumberFormat('es-AR',{ style: 'currency', currency: 'ARS', minimumFractionDigits: 2 });
+            document.querySelectorAll('.monto-cell').forEach(td => {
+                const a = td.getAttribute('data-amount');
+                const n = Number(a || 0);
+                td.textContent = fmt.format(isNaN(n) ? 0 : n);
+            });
+        }catch(e){/* no bloquear si falla */}
+    })();
+</script>

@@ -1,0 +1,65 @@
+<div>
+
+    <div class="mb-4">
+        <a href="/pagos" class="text-sm text-gray-600 hover:underline">← Volver a pagos</a>
+    </div>
+
+    <h2 class="text-lg font-semibold mb-2">Detalle del Pago</h2>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+        <div>
+            <strong>ID:</strong> <span th:text="${pago.id}"></span>
+        </div>
+        <div>
+            <strong>Cliente:</strong> <span th:text="${pago.cliente != null ? pago.cliente.razonSocial : 'N/A'}"></span>
+        </div>
+        <div>
+            <strong>Fecha:</strong> <span th:text="${#temporals.format(pago.fechaPago, 'dd/MM/yyyy')}"></span>
+        </div>
+        <div>
+            <strong>Método:</strong> <span th:text="${pago.metodoPago}"></span>
+        </div>
+        <div>
+            <strong>Monto ingresado:</strong> <span class="monto-cell" th:attr="data-amount=${pago.montoIngresado}" th:text="${pago.montoIngresado}"></span>
+        </div>
+        <div>
+            <strong>Observaciones:</strong> <span th:text="${pago.observaciones}"></span>
+        </div>
+    </div>
+
+    <h3 class="font-semibold mb-2">Aplicado a comprobantes</h3>
+    <div class="overflow-x-auto mb-4">
+        <table class="w-full bg-white shadow rounded overflow-hidden">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="p-3 text-left text-sm text-gray-600">Comprobante</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Monto aplicado</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Saldo anterior</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Saldo posterior</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="d : ${pago.detalles}" class="border-b hover:bg-gray-50">
+                    <td class="p-3"><a th:href="@{/comprobantes/{id}(id=${d.comprobante.id})}" class="text-blue-600 hover:underline" th:text="${d.comprobante.id}"></a></td>
+                    <td class="p-3 monto-cell" th:attr="data-amount=${d.montoAplicado}" th:text="${d.montoAplicado}"></td>
+                    <td class="p-3 monto-cell" th:attr="data-amount=${d.saldoAnterior}" th:text="${d.saldoAnterior}"></td>
+                    <td class="p-3 monto-cell" th:attr="data-amount=${d.saldoPosterior}" th:text="${d.saldoPosterior}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    (function(){
+        try{
+            const fmt = new Intl.NumberFormat('es-AR',{ style: 'currency', currency: 'ARS', minimumFractionDigits: 2 });
+            document.querySelectorAll('.monto-cell').forEach(td => {
+                const a = td.getAttribute('data-amount');
+                const n = Number(a || 0);
+                td.textContent = fmt.format(isNaN(n) ? 0 : n);
+            });
+        }catch(e){/* ignore */}
+    })();
+</script>

@@ -34,6 +34,18 @@ public class PagoController {
         return "layout";
     }
 
+    @GetMapping("/{id}")
+    public String verPago(@org.springframework.web.bind.annotation.PathVariable Long id, Model model) {
+        var pago = pagoService.obtenerPorId(id);
+        if (pago == null) {
+            return "redirect:/pagos";
+        }
+        model.addAttribute("pago", pago);
+        model.addAttribute("titulo", "Detalle de Pago");
+        model.addAttribute("contenido", "pago_detalle");
+        return "layout";
+    }
+
     @GetMapping("/nuevo")
     public String nuevoPago(Model model) {
         model.addAttribute("clientes", clienteService.listarClientes());
