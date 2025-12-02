@@ -399,3 +399,27 @@ Unconditional classes:
 2025-12-01T21:42:42.327-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
 2025-12-01T21:42:42.348-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
 2025-12-01T21:42:42.350-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Starting...
+2025-12-01T21:42:42.898-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-10 - Added connection com.mysql.cj.jdbc.ConnectionImpl@17e25ae8
+2025-12-01T21:42:42.898-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Start completed.
+2025-12-01T21:42:42.900-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:42:42.901-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-01T21:42:42.902-03:00  INFO 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-10)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:42:43.090-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:42:43.397-03:00  INFO 12040 --- [GestionServicios] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:42:43.574-03:00  WARN 12040 --- [GestionServicios] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:42:43.792-03:00  INFO 12040 --- [GestionServicios] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name users
+2025-12-01T21:42:44.212-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-12-01T21:42:44.241-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-12-01T21:42:44.254-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-01T21:42:44.255-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-01T21:42:44.256-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Started GestionServiciosApplication in 3.131 seconds (process running for 2229.142)
+2025-12-01T21:42:44.258-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-12-01T21:42:44.259-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-12-01T21:42:49.949-03:00  WARN 12040 --- [GestionServicios] [http-nio-8080-exec-4] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8080-exec-4][layout] Deprecated unwrapped fragment expression "${contenido}" found in template layout, line 59, col 22. Please use the complete syntax of fragment expressions instead ("~{${contenido}}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
