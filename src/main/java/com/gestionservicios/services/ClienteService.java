@@ -1,6 +1,8 @@
 package com.gestionservicios.services;
 
 import com.gestionservicios.models.Cliente;
+import com.gestionservicios.models.CondicionFiscal;
+import com.gestionservicios.util.CuitValidator;
 import com.gestionservicios.repositories.ClienteRepository;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,25 @@ public class ClienteService {
 
     // Guardar o actualizar cliente
     public Cliente guardar(Cliente cliente) {
+        if (cliente == null) throw new IllegalArgumentException("Cliente no puede ser null");
+
+        CondicionFiscal condicion = cliente.getCondicionFiscal();
+        String cuitRaw = cliente.getCuit();
+        String cuit = CuitValidator.normalize(cuitRaw);
+
+        if (condicion == CondicionFiscal.RESPONSABLE_INSCRIPTO
+                || condicion == CondicionFiscal.MONOTRIBUTO
+                || condicion == CondicionFiscal.EXENTO) {
+            if (cuit == null || cuit.isBlank()) {
+                throw new IllegalArgumentException("CUIT es obligatorio para la condición fiscal: " + condicion);
+            }
+            if (!CuitValidator.isValid(cuit)) {
+                throw new IllegalArgumentException("CUIT inválido para la condición fiscal: " + condicion);
+            }
+        } else if (condicion == CondicionFiscal.CONSUMIDOR_FINAL) {
+            // para CONSUMIDOR_FINAL el CUIT puede ser null o vacío -> no validar
+        }
+
         return clienteRepository.save(cliente);
     }
 
