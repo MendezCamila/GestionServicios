@@ -86,7 +86,8 @@ public class ComprobanteController {
 
         com.gestionservicios.models.Comprobante comprobante = new com.gestionservicios.models.Comprobante();
         comprobante.setCliente(cliente);
-        comprobante.setTipoComprobante("Factura");
+        // determinar tipo de comprobante según condición fiscal
+        comprobante.setTipoComprobante(com.gestionservicios.util.TaxRules.tipoComprobantePorCondicion(cliente != null ? cliente.getCondicionFiscal() : null));
         comprobante.setFechaEmision(java.time.LocalDate.now());
         comprobante.setEstado("Emitida");
 
