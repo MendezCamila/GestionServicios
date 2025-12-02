@@ -5,6 +5,7 @@
             <h2 class="text-lg font-semibold" th:text="${cliente.razonSocial}">Cliente</h2>
             <div class="text-sm text-gray-500">CUIT: <span th:text="${cliente.cuit}"></span></div>
             <div class="text-sm text-gray-500">Email: <span th:text="${cliente.email}"></span></div>
+            <div class="text-sm text-gray-500">Condición fiscal: <span th:text="${condicionFiscal}"></span></div>
         </div>
         <a th:href="@{'/facturacion/individual'}" class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-2 rounded-md">Volver</a>
     </div>

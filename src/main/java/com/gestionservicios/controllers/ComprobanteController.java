@@ -60,6 +60,8 @@ public class ComprobanteController {
         Cliente cliente = clienteService.obtenerPorId(id);
         model.addAttribute("cliente", cliente);
         model.addAttribute("contratos", contratoServicioService.listarPorCliente(id));
+        // exponer condición fiscal explícitamente (útil en la vista)
+        model.addAttribute("condicionFiscal", cliente != null ? cliente.getCondicionFiscal() : null);
         model.addAttribute("titulo", "Facturación - Cliente");
         // calcular si corresponde aplicar IVA (solo para RESPONSABLE_INSCRIPTO)
         boolean showIva = cliente != null && cliente.getCondicionFiscal() == com.gestionservicios.models.CondicionFiscal.RESPONSABLE_INSCRIPTO;
