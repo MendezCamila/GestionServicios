@@ -21,7 +21,7 @@ public class SecurityConfig {
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/error", "/login").permitAll()
                 .anyRequest().authenticated()
             )
-                .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/facturacion", true).permitAll())
+                .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/", true).permitAll())
             .logout(Customizer.withDefaults());
 
         return http.build();
