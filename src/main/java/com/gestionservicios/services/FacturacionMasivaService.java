@@ -103,7 +103,15 @@ public class FacturacionMasivaService {
                     .filter(c -> !comprobanteDetalleRepository.existsByContratoServicioIdAndComprobantePeriodo(c.getId(), periodo))
                     .map(ContratoServicio::getId)
                     .toList();
-                return new ClientePreviewItem(clienteId, nombre, pendientes);
+                ClientePreviewItem item = new ClientePreviewItem(clienteId, nombre, pendientes);
+                try {
+                    // obtener condición fiscal desde el primer contrato del cliente
+                    var cond = contratosPorCliente.get(clienteId).get(0).getCliente().getCondicionFiscal();
+                    item.setCondicionFiscal(cond != null ? cond.name() : null);
+                } catch (Exception e) {
+                    item.setCondicionFiscal(null);
+                }
+                return item;
             })
             .toList();
 

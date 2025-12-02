@@ -6,6 +6,7 @@ public class ClientePreviewItem {
     private Long clienteId;
     private String clienteNombre;
     private List<Long> contratoIds;
+    private String condicionFiscal;
 
     public ClientePreviewItem() {}
 
@@ -13,6 +14,7 @@ public class ClientePreviewItem {
         this.clienteId = clienteId;
         this.clienteNombre = clienteNombre;
         this.contratoIds = contratoIds;
+        this.condicionFiscal = null;
     }
 
     public Long getClienteId() {
@@ -37,5 +39,13 @@ public class ClientePreviewItem {
 
     public void setContratoIds(List<Long> contratoIds) {
         this.contratoIds = contratoIds;
+    }
+
+    public String getCondicionFiscal() {
+        return condicionFiscal;
+    }
+
+    public void setCondicionFiscal(String condicionFiscal) {
+        this.condicionFiscal = condicionFiscal;
     }
 }
