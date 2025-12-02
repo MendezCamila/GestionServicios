@@ -42,8 +42,8 @@
         <aside class="w-64 hidden md:block bg-gradient-to-b from-violet-700 to-violet-600 text-white p-6">
             <h2 class="text-xl font-bold mb-6">Menú</h2>
 
-            <nav class="flex flex-col gap-2">
-                <a href="/" th:classappend="${titulo == 'Inicio'} ? ' bg-violet-600/80' : ''" class="block py-2 px-3 rounded-md hover:bg-violet-600/80">Inicio</a>
+                <nav class="flex flex-col gap-2">
+                <a href="/" th:classappend="${titulo == 'Inicio' ? ' bg-violet-600/80' : ''}" class="block py-2 px-3 rounded-md hover:bg-violet-600/80">Inicio</a>
                 <a href="/clientes" class="block py-2 px-3 rounded-md hover:bg-violet-600/80">Clientes</a>
                 <a href="/servicios" class="block py-2 px-3 rounded-md hover:bg-violet-600/80">Servicios</a>
                 <a href="/facturacion" class="block py-2 px-3 rounded-md hover:bg-violet-600/80">Facturación</a>

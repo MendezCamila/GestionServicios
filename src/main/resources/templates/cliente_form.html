@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title th:text="${cliente.id == null} ? 'Nuevo Cliente' : 'Editar Cliente'">Formulario Cliente</title>
+    <title th:text="${cliente.id == null ? 'Nuevo Cliente' : 'Editar Cliente'}">Formulario Cliente</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/css/style.css">
     <style> /* small local tweaks in case */
@@ -12,7 +12,7 @@
 </head>
 <body class="bg-gray-50 p-6">
 <div class="max-w-3xl mx-auto bg-white shadow rounded-lg p-6">
-    <h2 class="text-xl font-bold mb-4" th:text="${cliente.id == null} ? 'Nuevo Cliente' : 'Editar Cliente'"></h2>
+    <h2 class="text-xl font-bold mb-4" th:text="${cliente.id == null ? 'Nuevo Cliente' : 'Editar Cliente'}"></h2>
 
     <form th:action="@{/clientes/guardar}" method="post" th:object="${cliente}" class="space-y-4">
         <input type="hidden" th:field="*{id}" />

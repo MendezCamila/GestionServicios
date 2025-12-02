@@ -5,7 +5,7 @@
 <!-- Fragment: clienteForm -->
 <div th:fragment="clienteForm">
     <div class="max-w-3xl mx-auto bg-white shadow rounded-lg p-6">
-        <h2 class="text-xl font-bold mb-4" th:text="${cliente.id == null} ? 'Nuevo Cliente' : 'Editar Cliente'"></h2>
+        <h2 class="text-xl font-bold mb-4" th:text="${cliente.id == null ? 'Nuevo Cliente' : 'Editar Cliente'}"></h2>
 
         <form th:action="@{/clientes/guardar}" method="post" th:object="${cliente}" class="space-y-4">
             <input type="hidden" th:field="*{id}" />
@@ -64,7 +64,7 @@
 <!-- Fragment: servicioForm -->
 <div th:fragment="servicioForm">
     <div class="max-w-3xl mx-auto bg-white shadow rounded-lg p-6">
-        <h2 class="text-xl font-bold mb-4" th:text="${servicio.id == null} ? 'Nuevo Servicio' : 'Editar Servicio'"></h2>
+        <h2 class="text-xl font-bold mb-4" th:text="${servicio.id == null ? 'Nuevo Servicio' : 'Editar Servicio'}"></h2>
 
         <form th:action="@{/servicios/guardar}" method="post" th:object="${servicio}" class="space-y-4">
             <input type="hidden" th:field="*{id}" />
