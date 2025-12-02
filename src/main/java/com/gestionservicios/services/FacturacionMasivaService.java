@@ -111,6 +111,9 @@ public class FacturacionMasivaService {
                     // indicar si aplica IVA según regla centralizada
                     boolean applies = com.gestionservicios.util.TaxRules.appliesIva(cond);
                     item.setApplyIva(applies);
+                    // determinar tipo de comprobante para mostrar en la preview
+                    String tipo = com.gestionservicios.util.TaxRules.tipoComprobantePorCondicion(cond);
+                    item.setTipoComprobante(tipo);
                 } catch (Exception e) {
                     item.setCondicionFiscal(null);
                     item.setApplyIva(false);

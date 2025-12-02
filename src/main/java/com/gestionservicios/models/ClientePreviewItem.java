@@ -8,6 +8,7 @@ public class ClientePreviewItem {
     private List<Long> contratoIds;
     private String condicionFiscal;
     private boolean applyIva;
+    private String tipoComprobante;
 
     public ClientePreviewItem() {}
 
@@ -17,6 +18,7 @@ public class ClientePreviewItem {
         this.contratoIds = contratoIds;
         this.condicionFiscal = null;
         this.applyIva = false;
+        this.tipoComprobante = null;
     }
 
     public Long getClienteId() {
@@ -49,6 +51,14 @@ public class ClientePreviewItem {
 
     public void setCondicionFiscal(String condicionFiscal) {
         this.condicionFiscal = condicionFiscal;
+    }
+
+    public String getTipoComprobante() {
+        return tipoComprobante;
+    }
+
+    public void setTipoComprobante(String tipoComprobante) {
+        this.tipoComprobante = tipoComprobante;
     }
 
     public boolean isApplyIva() {
