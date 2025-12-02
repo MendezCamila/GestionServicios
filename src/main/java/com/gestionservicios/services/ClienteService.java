@@ -5,6 +5,7 @@ import com.gestionservicios.repositories.ClienteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class ClienteService {
@@ -17,7 +18,7 @@ public class ClienteService {
 
     // Listar todos los clientes
     public List<Cliente> listarClientes() {
-        return clienteRepository.findAll();
+        return clienteRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     // Obtener por id

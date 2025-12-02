@@ -35,6 +35,13 @@ public class ServicioController {
 		return "servicio_form";
 	}
 
+	@GetMapping("/search")
+	@ResponseBody
+	public java.util.List<Servicio> buscarServicios(@RequestParam(value = "q", required = false) String q) {
+		if (q == null || q.isBlank()) return servicioService.listarServicios();
+		return servicioService.buscarPorNombre(q);
+	}
+
 	@PostMapping("/guardar")
 	public String guardarServicio(@Valid @ModelAttribute Servicio servicio, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {

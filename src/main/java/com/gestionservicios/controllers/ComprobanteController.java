@@ -2,6 +2,8 @@ package com.gestionservicios.controllers;
 
 import com.gestionservicios.models.Comprobante;
 import com.gestionservicios.models.Cliente;
+import com.gestionservicios.models.ContratoServicio;
+import com.gestionservicios.models.Servicio;
 import com.gestionservicios.services.ClienteService;
 import com.gestionservicios.services.ComprobanteService;
 import com.gestionservicios.services.ContratoServicioService;
@@ -32,7 +34,10 @@ public class ComprobanteController {
 
     @GetMapping
     public String listarComprobantes(Model model) {
-        model.addAttribute("comprobantes", comprobanteService.listarComprobantes());
+
+        java.util.List<Comprobante> lista = comprobanteService.listarComprobantes();
+
+        model.addAttribute("comprobantes", lista);
         model.addAttribute("titulo", "Facturación");
         model.addAttribute("contenido", "comprobantes");
         return "layout";
@@ -76,11 +81,11 @@ public class ComprobanteController {
         java.util.List<com.gestionservicios.models.ComprobanteDetalle> detalles = new java.util.ArrayList<>();
 
         for (String sId : contratoIds) {
-            try {
+                try {
                 Long contratoId = Long.parseLong(sId);
-                var contrato = contratoServicioService.obtenerPorId(contratoId);
+                ContratoServicio contrato = contratoServicioService.obtenerPorId(contratoId);
                 if (contrato == null) continue;
-                var servicio = contrato.getServicio();
+                Servicio servicio = contrato.getServicio();
 
                 String qtyParam = request.getParameter("cantidad_" + contratoId);
                 int cantidad = 1;
@@ -100,6 +105,8 @@ public class ComprobanteController {
                 detalle.setCantidad(cantidad);
                 detalle.setPrecioUnitario(precioUnitario);
                 detalle.setSubtotal(subtotal);
+                // Asignar contratoServicioId para trazabilidad (regla: todos los detalles provienen de un contrato)
+                detalle.setContratoServicioId(contrato.getId());
                 detalles.add(detalle);
             } catch (NumberFormatException e) {
                 // ignore
@@ -118,7 +125,7 @@ public class ComprobanteController {
 
     @GetMapping("/{id}")
     public String verComprobante(@PathVariable Long id, Model model) {
-        var comprobante = comprobanteService.obtenerPorId(id);
+        Comprobante comprobante = comprobanteService.obtenerPorId(id);
         if (comprobante == null) return "redirect:/facturacion";
         model.addAttribute("comprobante", comprobante);
         model.addAttribute("titulo", "Comprobante " + id);

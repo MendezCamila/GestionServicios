@@ -5,6 +5,7 @@ import com.gestionservicios.repositories.PagoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class PagoService {
@@ -25,7 +26,7 @@ public class PagoService {
     }
 
     public List<Pago> listarPagos() {
-        return pagoRepository.findAll();
+        return pagoRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public Pago obtenerPorId(Long id) {

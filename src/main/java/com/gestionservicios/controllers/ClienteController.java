@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 
+
 @Controller
 @RequestMapping("/clientes")
 public class ClienteController {
@@ -32,6 +33,13 @@ public class ClienteController {
         return "layout";
     }
 
+    @GetMapping("/search")
+    @ResponseBody
+    public java.util.List<Cliente> buscarClientes(@RequestParam(value = "q", required = false) String q) {
+        if (q == null || q.isBlank()) return clienteService.listarClientes();
+        return clienteService.buscarPorNombreOCuit(q);
+    }
+
     @GetMapping("/nuevo")
     public String nuevoCliente(Model model) {
         model.addAttribute("cliente", new Cliente());
@@ -48,9 +56,10 @@ public class ClienteController {
         return "redirect:/clientes";
     }
 
-    @GetMapping("/editar/{id}")
+    @GetMapping("/editar/{id:\\d+}")
     public String editarCliente(@PathVariable Long id, Model model) {
         Cliente cliente = clienteService.obtenerPorId(id);
+        // cliente ahora se carga directamente y se pasa al modelo
         model.addAttribute("cliente", cliente);
         return "cliente_form";
     }
@@ -66,10 +75,11 @@ public class ClienteController {
         return "layout";
     }
 
-    @GetMapping("/eliminar/{id}")
+    @GetMapping("/eliminar/{id:\\d+}")
     public String eliminarCliente(@PathVariable Long id) {
         clienteService.eliminar(id);
         return "redirect:/clientes";
     }
+
 
 }

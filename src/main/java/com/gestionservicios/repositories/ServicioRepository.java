@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ServicioRepository extends JpaRepository<Servicio, Long> {
+	java.util.List<com.gestionservicios.models.Servicio> findByNombreContainingIgnoreCase(String nombre);
 }

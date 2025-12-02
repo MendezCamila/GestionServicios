@@ -1,14 +1,18 @@
 <div>
 
-    <div class="flex items-center justify-between mb-6">
-        <a href="/clientes/nuevo" class="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md shadow">
-            <!-- plus icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            Nuevo Cliente
-        </a>
-        <div class="text-sm text-gray-500">Total: <span th:text="${clientes.size()}">0</span></div>
+    <div class="flex items-center justify-between gap-4 mb-4">
+        <div class="flex-1">
+            <input id="clienteSearch" type="search" placeholder="Buscar por nombre" class="w-full px-3 py-2 border rounded-md" />
+        </div>
+        <div class="shrink-0">
+            <a href="/clientes/nuevo" class="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md shadow">
+                <!-- plus icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Nuevo Cliente
+            </a>
+        </div>
     </div>
 
     <div class="overflow-x-auto">
@@ -21,39 +25,81 @@
                     <th class="p-3 text-left text-sm text-gray-600">Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="clientesTbody">
                 <tr th:each="cliente : ${clientes}" class="border-b hover:bg-gray-50">
                     <td class="p-3" th:text="${cliente.id}"></td>
                     <td class="p-3" th:text="${cliente.razonSocial}"></td>
                     <td class="p-3" th:text="${cliente.email}"></td>
                     <td class="p-3">
-                        <select class="border rounded px-2 py-1" onchange="onClienteAction(this)">
-                            <option value="">Acciones</option>
-                            <option th:value="@{'/clientes/editar/' + ${cliente.id}}">Editar</option>
-                            <option th:value="@{'/clientes/eliminar/' + ${cliente.id}}">Eliminar</option>
-                            <option th:value="@{'/clientes/' + ${cliente.id} + '/servicios'}">Servicios</option>
-                        </select>
+                        <div class="flex items-center gap-2">
+                            <a th:href="@{'/clientes/editar/' + ${cliente.id}}" class="text-sm text-blue-600 hover:underline">Editar</a>
+                            <a th:href="@{'/clientes/' + ${cliente.id} + '/servicios'}" class="text-sm text-gray-600 hover:underline">Servicios</a>
+                            <a href="#" th:attr="data-url=@{'/clientes/eliminar/' + ${cliente.id}}" class="text-sm text-red-600 hover:underline" onclick="confirmEliminar(this)">Eliminar</a>
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-</div>
+    <div class="mt-2 flex justify-end text-sm text-gray-500">
+        Total: <span class="ml-2" id="clientesCount" th:text="${clientes.size()}">0</span>
+    </div>
 
-<script>
-    function onClienteAction(sel) {
-        var url = sel.value;
-        if (!url) return;
-        // confirmar eliminación
-        if (url.indexOf('/eliminar/') !== -1) {
-            if (!confirm('¿Confirmar eliminación del cliente?')) {
-                sel.selectedIndex = 0;
-                return;
-            }
-        }
+ </div>
+
+ <script>
+    function confirmEliminar(el) {
+        var url = el.getAttribute('data-url');
+        if (!confirm('¿Confirmar eliminación del cliente?')) return false;
         window.location.href = url;
     }
+
+    // Dynamic search: debounce and fetch
+    (function(){
+        function debounce(fn, wait){
+            let t;
+            return function(...args){ clearTimeout(t); t = setTimeout(()=> fn.apply(this,args), wait); }
+        }
+
+        function renderRows(clients){
+            const tbody = document.getElementById('clientesTbody');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            clients.forEach(c => {
+                const tr = document.createElement('tr'); tr.className = 'border-b hover:bg-gray-50';
+                tr.innerHTML = `
+                    <td class="p-3">${c.id || ''}</td>
+                    <td class="p-3">${escapeHtml(c.razonSocial || '')}</td>
+                    <td class="p-3">${escapeHtml(c.email || '')}</td>
+                    <td class="p-3">
+                        <div class="flex items-center gap-2">
+                            <a href="/clientes/editar/${c.id}" class="text-sm text-blue-600 hover:underline">Editar</a>
+                            <a href="/clientes/${c.id}/servicios" class="text-sm text-gray-600 hover:underline">Servicios</a>
+                            <a href="#" data-url="/clientes/eliminar/${c.id}" class="text-sm text-red-600 hover:underline" onclick="confirmEliminar(this)">Eliminar</a>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            const count = document.getElementById('clientesCount'); if(count) count.textContent = clients.length;
+        }
+
+        function escapeHtml(str){ return String(str).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[m]; }); }
+
+        const input = document.getElementById('clienteSearch');
+        if(!input) return;
+        const doSearch = debounce(function(){
+            const q = input.value.trim();
+            const url = '/clientes/search' + (q ? ('?q=' + encodeURIComponent(q)) : '');
+            fetch(url).then(r => {
+                if(!r.ok) throw new Error('network');
+                return r.json();
+            }).then(data => renderRows(data)).catch(()=>{/* ignore errors silently */});
+        }, 300);
+
+        input.addEventListener('input', doSearch);
+    })();
 </script>
 
 
