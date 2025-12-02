@@ -1,9 +1,19 @@
 <div>
 
-    <div class="flex items-center justify-end mb-6">
-        <a href="/pagos/nuevo" class="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md shadow">
-            Nuevo pago
-        </a>
+    <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+            <label for="estadoFilterPagos" class="text-sm text-gray-600">Estado</label>
+            <select id="estadoFilterPagos" class="text-sm px-2 py-1 w-36 border rounded">
+                <option value="todas">Todas</option>
+                <option value="Completado">Completado</option>
+                <option value="Parcial">Parcial</option>
+            </select>
+        </div>
+        <div class="flex items-center">
+            <a href="/pagos/nuevo" class="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md shadow">
+                Nuevo pago
+            </a>
+        </div>
     </div>
 
     <div class="overflow-x-auto">
@@ -35,7 +45,7 @@
 </div>
 
     <div class="mt-2 flex justify-end text-sm text-gray-500">
-        Total pagos: <span class="ml-2 font-medium" th:text="${pagos.size()}">0</span>
+        Total pagos: <span id="totalCountPagos" class="ml-2 font-medium" th:text="${pagos.size()}">0</span>
     </div>
 </div>
 
@@ -50,5 +60,38 @@
                 td.textContent = fmt.format(isNaN(n) ? 0 : n);
             });
         }catch(e){/* no bloquear si falla */}
+    })();
+
+    // Filtro dinámico por estado en la vista de pagos (cliente-side)
+    (function(){
+        const select = document.getElementById('estadoFilterPagos');
+        const totalEl = document.getElementById('totalCountPagos');
+        if(!select) return;
+
+        function updateVisibleCount(){
+            const rows = document.querySelectorAll('tbody tr');
+            let visible = 0;
+            rows.forEach(r => { if(r.style.display !== 'none') visible++; });
+            if(totalEl) totalEl.textContent = String(visible);
+        }
+
+        function applyFilter(){
+            const val = (select.value || 'todas').toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(r => {
+                const estadoSpan = r.querySelector('td:nth-child(4) span');
+                const text = estadoSpan ? estadoSpan.textContent.trim().toLowerCase() : '';
+                if(val === 'todas' || text === val){
+                    r.style.display = '';
+                } else {
+                    r.style.display = 'none';
+                }
+            });
+            updateVisibleCount();
+        }
+
+        select.addEventListener('change', applyFilter);
+        // asegurar contador correcto al cargar
+        document.addEventListener('DOMContentLoaded', updateVisibleCount);
     })();
 </script>
