@@ -42,7 +42,11 @@ public class CuitValidator implements ConstraintValidator<CUIT, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null) return false;
+        // Cuando el valor es null o vacío, no consideramos esto un fallo aquí:
+        // la obligatoriedad (según CondicionFiscal) se valida en el service.
+        if (value == null) return true;
+        String normalized = normalize(value);
+        if (normalized == null) return true; // vacío -> no validar checksum
         return isValid(value);
     }
 }

@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -29,16 +30,21 @@ public class Cliente {
 
     @Column(name = "razon_social", nullable = false)
     @NotBlank(message = "La razón social es obligatoria")
+    @Size(min = 2, message = "La razón social debe tener al menos 2 caracteres")
     @Size(max = 255, message = "La razón social no puede superar los 255 caracteres")
     private String razonSocial;
 
-    @Column(name = "cuit", nullable = false, unique = true)
-    @NotBlank(message = "El CUIT es obligatorio")
+    @Column(name = "cuit", nullable = true, unique = true)
+    // El campo puede estar vacío para ciertos tipos de cliente (p.ej. CONSUMIDOR_FINAL).
+    // Permitimos cadena vacía o exactamente 11 dígitos. La obligatoriedad según condición
+    // fiscal se valida en el service y lanzará IllegalArgumentException si corresponde.
+    @Pattern(regexp = "(^$|\\d{11})", message = "El CUIT debe tener exactamente 11 dígitos")
     @com.gestionservicios.validation.CUIT
     private String cuit;
 
     @Column(name = "condicion_fiscal")
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "La condición fiscal es obligatoria")
     private CondicionFiscal condicionFiscal;
 
     @Column(name = "email")
