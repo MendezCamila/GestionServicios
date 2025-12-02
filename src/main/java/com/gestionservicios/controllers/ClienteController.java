@@ -62,6 +62,12 @@ public class ClienteController {
             bindingResult.addError(new FieldError("cliente", "cuit", "Ya existe un cliente con ese CUIT"));
             model.addAttribute("cliente", cliente);
             return "cliente_form";
+        } catch (IllegalArgumentException ex) {
+            // Validación lanzada desde el service (CUIT inválido/obligatorio según condición fiscal)
+            String msg = ex.getMessage() != null ? ex.getMessage() : "Valor inválido";
+            bindingResult.addError(new FieldError("cliente", "cuit", msg));
+            model.addAttribute("cliente", cliente);
+            return "cliente_form";
         }
     }
 

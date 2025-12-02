@@ -27,6 +27,7 @@
                 <label class="block text-sm text-gray-600">CUIT</label>
                 <input id="cuitField" type="text" th:field="*{cuit}" required class="w-full px-3 py-2 border rounded-md" />
                 <div id="cuitClientError" class="text-sm text-red-600 mt-1" style="display:none;"></div>
+                <div class="text-danger" th:errors="*{cuit}"></div>
                 <div th:if="${#fields.hasErrors('cuit')}" class="text-sm text-red-600 mt-1" th:errors="*{cuit}"></div>
             </div>
         </div>
@@ -40,6 +41,7 @@
                             th:text="${c.name()}">
                     </option>
                 </select>
+                <div class="text-danger" th:errors="*{condicionFiscal}"></div>
                 <div th:if="${#fields.hasErrors('condicionFiscal')}" class="text-sm text-red-600 mt-1" th:errors="*{condicionFiscal}"></div>
             </div>
             <div>
