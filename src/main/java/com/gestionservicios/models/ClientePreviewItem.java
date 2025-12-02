@@ -7,6 +7,7 @@ public class ClientePreviewItem {
     private String clienteNombre;
     private List<Long> contratoIds;
     private String condicionFiscal;
+    private boolean applyIva;
 
     public ClientePreviewItem() {}
 
@@ -15,6 +16,7 @@ public class ClientePreviewItem {
         this.clienteNombre = clienteNombre;
         this.contratoIds = contratoIds;
         this.condicionFiscal = null;
+        this.applyIva = false;
     }
 
     public Long getClienteId() {
@@ -47,5 +49,13 @@ public class ClientePreviewItem {
 
     public void setCondicionFiscal(String condicionFiscal) {
         this.condicionFiscal = condicionFiscal;
+    }
+
+    public boolean isApplyIva() {
+        return applyIva;
+    }
+
+    public void setApplyIva(boolean applyIva) {
+        this.applyIva = applyIva;
     }
 }

@@ -129,7 +129,7 @@ public class ComprobanteController {
         // Calcular IVA si corresponde según condición fiscal del cliente
         java.math.BigDecimal ivaTotal = java.math.BigDecimal.ZERO;
         java.math.BigDecimal totalConIva = subtotalTotal;
-        if (cliente.getCondicionFiscal() == com.gestionservicios.models.CondicionFiscal.RESPONSABLE_INSCRIPTO) {
+        if (com.gestionservicios.util.TaxRules.appliesIva(cliente.getCondicionFiscal())) {
             try {
                 java.math.BigDecimal ivaPercent = configuracionService.getIvaGeneralOrDefault(new java.math.BigDecimal("21"));
                 java.math.BigDecimal ivaDecimal = ivaPercent.divide(new java.math.BigDecimal("100"));
@@ -170,7 +170,7 @@ public class ComprobanteController {
 
         java.math.BigDecimal ivaTotal = java.math.BigDecimal.ZERO;
         try {
-            if (comprobante.getCliente() != null && comprobante.getCliente().getCondicionFiscal() == com.gestionservicios.models.CondicionFiscal.RESPONSABLE_INSCRIPTO) {
+            if (comprobante.getCliente() != null && com.gestionservicios.util.TaxRules.appliesIva(comprobante.getCliente().getCondicionFiscal())) {
                 java.math.BigDecimal ivaPercent = configuracionService.getIvaGeneralOrDefault(new java.math.BigDecimal("21"));
                 java.math.BigDecimal ivaDecimal = ivaPercent.divide(new java.math.BigDecimal("100"));
                 ivaTotal = subtotalTotal.multiply(ivaDecimal).setScale(2, java.math.RoundingMode.HALF_UP);

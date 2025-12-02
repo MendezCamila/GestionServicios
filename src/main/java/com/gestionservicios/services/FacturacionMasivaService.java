@@ -108,8 +108,12 @@ public class FacturacionMasivaService {
                     // obtener condición fiscal desde el primer contrato del cliente
                     var cond = contratosPorCliente.get(clienteId).get(0).getCliente().getCondicionFiscal();
                     item.setCondicionFiscal(cond != null ? cond.name() : null);
+                    // indicar si aplica IVA según regla centralizada
+                    boolean applies = com.gestionservicios.util.TaxRules.appliesIva(cond);
+                    item.setApplyIva(applies);
                 } catch (Exception e) {
                     item.setCondicionFiscal(null);
+                    item.setApplyIva(false);
                 }
                 return item;
             })
