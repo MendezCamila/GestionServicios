@@ -25,11 +25,13 @@ public class ComprobanteController {
     private final ComprobanteService comprobanteService;
     private final ClienteService clienteService;
     private final ContratoServicioService contratoServicioService;
+    private final com.gestionservicios.services.ConfiguracionService configuracionService;
 
-    public ComprobanteController(ComprobanteService comprobanteService, ClienteService clienteService, ContratoServicioService contratoServicioService) {
+    public ComprobanteController(ComprobanteService comprobanteService, ClienteService clienteService, ContratoServicioService contratoServicioService, com.gestionservicios.services.ConfiguracionService configuracionService) {
         this.comprobanteService = comprobanteService;
         this.clienteService = clienteService;
         this.contratoServicioService = contratoServicioService;
+        this.configuracionService = configuracionService;
     }
 
     @GetMapping
@@ -59,6 +61,15 @@ public class ComprobanteController {
         model.addAttribute("cliente", cliente);
         model.addAttribute("contratos", contratoServicioService.listarPorCliente(id));
         model.addAttribute("titulo", "Facturación - Cliente");
+        // calcular si corresponde aplicar IVA (solo para RESPONSABLE_INSCRIPTO)
+        boolean showIva = cliente != null && cliente.getCondicionFiscal() == com.gestionservicios.models.CondicionFiscal.RESPONSABLE_INSCRIPTO;
+        model.addAttribute("showIva", showIva);
+        try {
+            java.math.BigDecimal ivaPercent = configuracionService.getIvaGeneralOrDefault(new java.math.BigDecimal("21"));
+            model.addAttribute("ivaPercent", ivaPercent);
+        } catch (Exception e) {
+            model.addAttribute("ivaPercent", new java.math.BigDecimal("21"));
+        }
         model.addAttribute("contenido", "facturacion_cliente");
         return "layout";
     }
@@ -77,7 +88,7 @@ public class ComprobanteController {
         comprobante.setFechaEmision(java.time.LocalDate.now());
         comprobante.setEstado("Emitida");
 
-        java.math.BigDecimal total = java.math.BigDecimal.ZERO;
+        java.math.BigDecimal subtotalTotal = java.math.BigDecimal.ZERO;
         java.util.List<com.gestionservicios.models.ComprobanteDetalle> detalles = new java.util.ArrayList<>();
 
         for (String sId : contratoIds) {
@@ -97,7 +108,7 @@ public class ComprobanteController {
                 }
 
                 java.math.BigDecimal subtotal = precioUnitario.multiply(java.math.BigDecimal.valueOf(cantidad));
-                total = total.add(subtotal);
+                subtotalTotal = subtotalTotal.add(subtotal);
 
                 com.gestionservicios.models.ComprobanteDetalle detalle = new com.gestionservicios.models.ComprobanteDetalle();
                 detalle.setComprobante(comprobante);
@@ -113,10 +124,29 @@ public class ComprobanteController {
             }
         }
 
-        comprobante.setTotal(total);
+        // Calcular IVA si corresponde según condición fiscal del cliente
+        java.math.BigDecimal ivaTotal = java.math.BigDecimal.ZERO;
+        java.math.BigDecimal totalConIva = subtotalTotal;
+        if (cliente.getCondicionFiscal() == com.gestionservicios.models.CondicionFiscal.RESPONSABLE_INSCRIPTO) {
+            try {
+                java.math.BigDecimal ivaPercent = configuracionService.getIvaGeneralOrDefault(new java.math.BigDecimal("21"));
+                java.math.BigDecimal ivaDecimal = ivaPercent.divide(new java.math.BigDecimal("100"));
+                ivaTotal = subtotalTotal.multiply(ivaDecimal).setScale(2, java.math.RoundingMode.HALF_UP);
+                totalConIva = subtotalTotal.add(ivaTotal);
+            } catch (Exception e) {
+                // si falla la lectura de config, dejamos ivaTotal en 0 y continuamos
+                ivaTotal = java.math.BigDecimal.ZERO;
+                totalConIva = subtotalTotal;
+            }
+        }
+
+        comprobante.setTotal(totalConIva);
         // Inicializar saldo pendiente al total al crear la factura
-        comprobante.setSaldoPendiente(total);
+        comprobante.setSaldoPendiente(totalConIva);
         comprobante.setDetalles(detalles);
+
+        // opcional: almacenar subtotal/iva en atributos transitorios del comprobante antes de guardar (no persistidos)
+        // Los mostramos en la vista calculándolos de nuevo al ver el comprobante
 
         comprobanteService.guardar(comprobante);
 
@@ -128,6 +158,35 @@ public class ComprobanteController {
         Comprobante comprobante = comprobanteService.obtenerPorId(id);
         if (comprobante == null) return "redirect:/facturacion";
         model.addAttribute("comprobante", comprobante);
+        // calcular subtotal y IVA para mostrar en la vista
+        java.math.BigDecimal subtotalTotal = java.math.BigDecimal.ZERO;
+        if (comprobante.getDetalles() != null) {
+            for (var d : comprobante.getDetalles()) {
+                if (d.getSubtotal() != null) subtotalTotal = subtotalTotal.add(d.getSubtotal());
+            }
+        }
+
+        java.math.BigDecimal ivaTotal = java.math.BigDecimal.ZERO;
+        try {
+            if (comprobante.getCliente() != null && comprobante.getCliente().getCondicionFiscal() == com.gestionservicios.models.CondicionFiscal.RESPONSABLE_INSCRIPTO) {
+                java.math.BigDecimal ivaPercent = configuracionService.getIvaGeneralOrDefault(new java.math.BigDecimal("21"));
+                java.math.BigDecimal ivaDecimal = ivaPercent.divide(new java.math.BigDecimal("100"));
+                ivaTotal = subtotalTotal.multiply(ivaDecimal).setScale(2, java.math.RoundingMode.HALF_UP);
+            }
+        } catch (Exception e) {
+            ivaTotal = java.math.BigDecimal.ZERO;
+        }
+
+        model.addAttribute("subtotalTotal", subtotalTotal);
+        model.addAttribute("ivaTotal", ivaTotal);
+        boolean showIva = ivaTotal != null && ivaTotal.compareTo(java.math.BigDecimal.ZERO) > 0;
+        model.addAttribute("showIva", showIva);
+        try {
+            java.math.BigDecimal ivaPercent = configuracionService.getIvaGeneralOrDefault(new java.math.BigDecimal("21"));
+            model.addAttribute("ivaPercent", ivaPercent);
+        } catch (Exception e) {
+            model.addAttribute("ivaPercent", new java.math.BigDecimal("21"));
+        }
         model.addAttribute("titulo", "Comprobante " + id);
         model.addAttribute("contenido", "comprobante_detalle");
         return "layout";

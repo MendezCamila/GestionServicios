@@ -50,8 +50,9 @@
 
     <!-- Total del comprobante -->
     <div class="mt-4 text-right">
-        <span class="text-lg font-semibold">Total: </span>
-        <span class="text-lg" th:text="${comprobante.total}"></span>
+        <div class="text-sm text-gray-600">Subtotal de servicios: <span th:text="${subtotalTotal}"></span></div>
+        <div th:if="${showIva}" class="text-sm text-gray-600">IVA (<span th:text="${ivaPercent}"></span>%): <span th:text="${ivaTotal}"></span></div>
+        <div class="mt-2 text-lg font-semibold">Total: <span class="text-lg" th:text="${comprobante.total}"></span></div>
     </div>
 
 </div>

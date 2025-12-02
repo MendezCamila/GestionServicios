@@ -45,7 +45,11 @@
                 <div>
                     <button type="submit" class="bg-violet-600 text-white px-4 py-2 rounded">Generar factura</button>
                 </div>
-                <div class="text-lg font-semibold">Total: <span id="totalDisplay">0.00</span></div>
+                <div class="text-right">
+                    <div class="text-sm text-gray-600">Subtotal: <span id="subtotalDisplay">0.00</span></div>
+                    <div id="ivaRow" class="text-sm text-gray-600" style="display:none;">IVA (<span id="ivaPercentDisplay">21</span>%): <span id="ivaDisplay">0.00</span></div>
+                    <div class="mt-1 text-lg font-semibold">Total: <span id="totalDisplay">0.00</span></div>
+                </div>
             </div>
         </form>
     </div>
@@ -56,7 +60,7 @@
 
 </div>
 
-<script>
+<script th:inline="javascript">
     function parseDecimal(v) {
         try { return parseFloat(v) || 0; } catch(e) { return 0; }
     }
@@ -79,10 +83,55 @@
         document.getElementById('totalDisplay').innerText = total.toFixed(2);
     }
 
-    // initial calc
+    // mostrar o esconder fila del IVA según la configuración pasada por el servidor
     window.addEventListener('load', function(){
-        recalcular();
+        var showIva = [[${showIva}]];
+        var ivaPercent = [[${ivaPercent}]];
+        // set displays
+        try {
+            document.getElementById('ivaPercentDisplay').innerText = parseFloat(ivaPercent).toFixed(2).replace(/\.00$/, '');
+        } catch(e) {}
+        if (showIva) {
+            document.getElementById('ivaRow').style.display = 'block';
+        } else {
+            document.getElementById('ivaRow').style.display = 'none';
+        }
+
+        // enhance recalculation to include IVA when applicable
+        const originalRecalc = recalcular;
+        window.recalcular = function(){
+            let subtotal = 0.0;
+            document.querySelectorAll('input.selbox').forEach(cb => {
+                if (!cb.checked) {
+                    const id = cb.value;
+                    document.getElementById('subtotal_' + id).value = '0.00';
+                    return;
+                }
+                const id = cb.value;
+                const precio = parseDecimal(document.getElementById('precio_' + id).value);
+                const qtyEl = document.getElementById('cantidad_' + id);
+                const cantidad = parseInt(qtyEl ? qtyEl.value : '1') || 0;
+                const subtotalItem = precio * cantidad;
+                document.getElementById('subtotal_' + id).value = subtotalItem.toFixed(2);
+                subtotal += subtotalItem;
+            });
+            document.getElementById('subtotalDisplay').innerText = subtotal.toFixed(2);
+            let iva = 0.0;
+            if (showIva) {
+                const ivaDecimal = parseFloat(ivaPercent) / 100.0;
+                iva = subtotal * ivaDecimal;
+            }
+            document.getElementById('ivaDisplay').innerText = iva.toFixed(2);
+            const totalWithIva = subtotal + iva;
+            document.getElementById('totalDisplay').innerText = totalWithIva.toFixed(2);
+        };
+
+        // attach listeners again
         document.querySelectorAll('input.qty').forEach(el => el.addEventListener('change', recalcular));
         document.querySelectorAll('input.selbox').forEach(el => el.addEventListener('change', recalcular));
+        // initial run
+        recalcular();
     });
+
+    // no duplicate initializers — recalcular ya es invocado above
 </script>
