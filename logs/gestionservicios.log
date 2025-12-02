@@ -1,0 +1,401 @@
+2025-12-01T21:23:00.298-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Starting GestionServiciosApplication using Java 22.0.1 with PID 12040 (F:\Documents\GestionServicios\gestionservicios\target\classes started by Carlos in F:\Documents\GestionServicios\gestionservicios)
+2025-12-01T21:23:00.298-03:00 DEBUG 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Running with Spring Boot v3.4.11, Spring v6.2.12
+2025-12-01T21:23:00.298-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:23:00.729-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:23:00.786-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 40 ms. Found 9 JPA repository interfaces.
+2025-12-01T21:23:01.050-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-01T21:23:01.053-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:23:01.053-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-12-01T21:23:01.177-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-01T21:23:01.177-03:00  INFO 12040 --- [GestionServicios] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 861 ms
+2025-12-01T21:23:01.259-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:23:01.275-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-01T21:23:01.291-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:23:01.291-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-12-01T21:23:01.481-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2961eda7
+2025-12-01T21:23:01.483-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-12-01T21:23:01.485-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:23:01.485-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-01T21:23:01.489-03:00  INFO 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:23:02.151-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:23:02.541-03:00  INFO 12040 --- [GestionServicios] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:23:02.776-03:00  WARN 12040 --- [GestionServicios] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:23:02.793-03:00  WARN 12040 --- [GestionServicios] [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: ac093b32-6a75-4eb5-95bb-3db8fca52bcd
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-12-01T21:23:02.815-03:00  INFO 12040 --- [GestionServicios] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-01T21:23:03.043-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-12-01T21:23:03.075-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-12-01T21:23:03.080-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Started GestionServiciosApplication in 2.899 seconds (process running for 1047.975)
+2025-12-01T21:23:03.089-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-12-01T21:25:28.478-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-01T21:25:28.479-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-01T21:25:28.482-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2025-12-01T21:27:02.583-03:00  INFO 12040 --- [GestionServicios] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-12-01T21:27:02.604-03:00  INFO 12040 --- [GestionServicios] [Thread-7] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:27:02.658-03:00  INFO 12040 --- [GestionServicios] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-12-01T21:27:02.676-03:00  INFO 12040 --- [GestionServicios] [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:27:02.686-03:00  INFO 12040 --- [GestionServicios] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2025-12-01T21:27:02.719-03:00  INFO 12040 --- [GestionServicios] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2025-12-01T21:27:02.911-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Starting GestionServiciosApplication using Java 22.0.1 with PID 12040 (F:\Documents\GestionServicios\gestionservicios\target\classes started by Carlos in F:\Documents\GestionServicios\gestionservicios)
+2025-12-01T21:27:02.913-03:00 DEBUG 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Running with Spring Boot v3.4.11, Spring v6.2.12
+2025-12-01T21:27:02.917-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:27:03.221-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:27:03.252-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 29 ms. Found 9 JPA repository interfaces.
+2025-12-01T21:27:03.456-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-01T21:27:03.459-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:27:03.459-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-12-01T21:27:03.602-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-01T21:27:03.604-03:00  INFO 12040 --- [GestionServicios] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 681 ms
+2025-12-01T21:27:03.835-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:27:03.848-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-01T21:27:03.870-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:27:03.873-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2025-12-01T21:27:04.117-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5874cac6
+2025-12-01T21:27:04.119-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2025-12-01T21:27:04.120-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:27:04.121-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-01T21:27:04.122-03:00  INFO 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:27:04.458-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:27:04.576-03:00  INFO 12040 --- [GestionServicios] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:27:04.839-03:00  WARN 12040 --- [GestionServicios] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:27:05.069-03:00  INFO 12040 --- [GestionServicios] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name users
+2025-12-01T21:27:05.388-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-12-01T21:27:05.727-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-12-01T21:27:05.733-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Started GestionServiciosApplication in 2.914 seconds (process running for 1290.622)
+2025-12-01T21:27:05.741-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   UserDetailsServiceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder; SearchStrategy: all) found beans of type 'org.springframework.security.core.userdetails.UserDetailsService' users (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+         - found 'session' scope (OnWebApplicationCondition)
+         - AnyNestedCondition 1 matched 2 did not; NestedCondition on UserDetailsServiceAutoConfiguration.MissingAlternativeOrUserPropertiesConfigured.PasswordConfigured @ConditionalOnProperty (spring.security.user.password) did not find property 'password'; NestedCondition on UserDetailsServiceAutoConfiguration.MissingAlternativeOrUserPropertiesConfigured.NameConfigured @ConditionalOnProperty (spring.security.user.name) did not find property 'name'; NestedCondition on UserDetailsServiceAutoConfiguration.MissingAlternativeOrUserPropertiesConfigured.MissingAlternative @ConditionalOnMissingClass did not find unwanted classes 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository', 'org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector', 'org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository' (UserDetailsServiceAutoConfiguration.MissingAlternativeOrUserPropertiesConfigured)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2025-12-01T21:27:16.551-03:00  INFO 12040 --- [GestionServicios] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-12-01T21:27:16.552-03:00  INFO 12040 --- [GestionServicios] [Thread-11] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:27:16.560-03:00  INFO 12040 --- [GestionServicios] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-12-01T21:27:16.564-03:00  INFO 12040 --- [GestionServicios] [Thread-11] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:27:16.566-03:00  INFO 12040 --- [GestionServicios] [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2025-12-01T21:27:16.568-03:00  INFO 12040 --- [GestionServicios] [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2025-12-01T21:27:16.661-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Starting GestionServiciosApplication using Java 22.0.1 with PID 12040 (F:\Documents\GestionServicios\gestionservicios\target\classes started by Carlos in F:\Documents\GestionServicios\gestionservicios)
+2025-12-01T21:27:16.662-03:00 DEBUG 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Running with Spring Boot v3.4.11, Spring v6.2.12
+2025-12-01T21:27:16.662-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:27:16.845-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:27:16.868-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 9 JPA repository interfaces.
+2025-12-01T21:27:17.089-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-01T21:27:17.090-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:27:17.091-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-12-01T21:27:17.196-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-01T21:27:17.197-03:00  INFO 12040 --- [GestionServicios] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 533 ms
+2025-12-01T21:27:17.291-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:27:17.297-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-01T21:27:17.322-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:27:17.331-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2025-12-01T21:27:17.495-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5789797e
+2025-12-01T21:27:17.518-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2025-12-01T21:27:17.523-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:27:17.525-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-01T21:27:17.527-03:00  INFO 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-4)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:27:17.843-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:27:19.565-03:00  INFO 12040 --- [GestionServicios] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:27:19.762-03:00  WARN 12040 --- [GestionServicios] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:27:19.969-03:00  INFO 12040 --- [GestionServicios] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name users
+2025-12-01T21:27:20.141-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-12-01T21:27:20.158-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-12-01T21:27:20.166-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Started GestionServiciosApplication in 3.531 seconds (process running for 1305.055)
+2025-12-01T21:27:20.172-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-12-01T21:27:20.333-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-01T21:27:20.333-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-01T21:27:20.335-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-12-01T21:28:31.153-03:00  WARN 12040 --- [GestionServicios] [http-nio-8080-exec-8] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8080-exec-8][layout] Deprecated unwrapped fragment expression "${contenido}" found in template layout, line 56, col 22. Please use the complete syntax of fragment expressions instead ("~{${contenido}}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-12-01T21:28:48.311-03:00  WARN 12040 --- [GestionServicios] [http-nio-8080-exec-3] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8080-exec-3][layout] Deprecated unwrapped fragment expression "${contenido}" found in template layout, line 56, col 22. Please use the complete syntax of fragment expressions instead ("~{${contenido}}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-12-01T21:28:54.008-03:00  WARN 12040 --- [GestionServicios] [http-nio-8080-exec-7] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8080-exec-7][layout] Deprecated unwrapped fragment expression "${contenido}" found in template layout, line 56, col 22. Please use the complete syntax of fragment expressions instead ("~{${contenido}}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-12-01T21:29:09.846-03:00  WARN 12040 --- [GestionServicios] [http-nio-8080-exec-7] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8080-exec-7][layout] Deprecated unwrapped fragment expression "${contenido}" found in template layout, line 56, col 22. Please use the complete syntax of fragment expressions instead ("~{${contenido}}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-12-01T21:29:42.521-03:00  WARN 12040 --- [GestionServicios] [http-nio-8080-exec-3] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8080-exec-3][layout] Deprecated unwrapped fragment expression "${contenido}" found in template layout, line 56, col 22. Please use the complete syntax of fragment expressions instead ("~{${contenido}}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-12-01T21:30:53.735-03:00  WARN 12040 --- [GestionServicios] [http-nio-8080-exec-6] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8080-exec-6][layout] Deprecated unwrapped fragment expression "${contenido}" found in template layout, line 56, col 22. Please use the complete syntax of fragment expressions instead ("~{${contenido}}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-12-01T21:31:00.690-03:00  WARN 12040 --- [GestionServicios] [http-nio-8080-exec-8] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8080-exec-8][layout] Deprecated unwrapped fragment expression "${contenido}" found in template layout, line 56, col 22. Please use the complete syntax of fragment expressions instead ("~{${contenido}}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-12-01T21:31:02.203-03:00  WARN 12040 --- [GestionServicios] [http-nio-8080-exec-10] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8080-exec-10][layout] Deprecated unwrapped fragment expression "${contenido}" found in template layout, line 56, col 22. Please use the complete syntax of fragment expressions instead ("~{${contenido}}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-12-01T21:31:03.229-03:00  WARN 12040 --- [GestionServicios] [http-nio-8080-exec-3] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8080-exec-3][layout] Deprecated unwrapped fragment expression "${contenido}" found in template layout, line 56, col 22. Please use the complete syntax of fragment expressions instead ("~{${contenido}}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-12-01T21:31:04.636-03:00  WARN 12040 --- [GestionServicios] [http-nio-8080-exec-7] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8080-exec-7][layout] Deprecated unwrapped fragment expression "${contenido}" found in template layout, line 56, col 22. Please use the complete syntax of fragment expressions instead ("~{${contenido}}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-12-01T21:33:39.325-03:00  INFO 12040 --- [GestionServicios] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-12-01T21:33:39.325-03:00  INFO 12040 --- [GestionServicios] [Thread-15] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:33:39.325-03:00  INFO 12040 --- [GestionServicios] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-12-01T21:33:39.342-03:00  INFO 12040 --- [GestionServicios] [Thread-15] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:33:39.342-03:00  INFO 12040 --- [GestionServicios] [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2025-12-01T21:33:39.345-03:00  INFO 12040 --- [GestionServicios] [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+2025-12-01T21:33:39.737-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Starting GestionServiciosApplication using Java 22.0.1 with PID 12040 (F:\Documents\GestionServicios\gestionservicios\target\classes started by Carlos in F:\Documents\GestionServicios\gestionservicios)
+2025-12-01T21:33:39.737-03:00 DEBUG 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Running with Spring Boot v3.4.11, Spring v6.2.12
+2025-12-01T21:33:39.737-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:33:40.553-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:33:40.592-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 29 ms. Found 9 JPA repository interfaces.
+2025-12-01T21:33:40.824-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-01T21:33:40.824-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:33:40.824-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-12-01T21:33:40.847-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-01T21:33:40.847-03:00  INFO 12040 --- [GestionServicios] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1068 ms
+2025-12-01T21:33:40.944-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:33:40.947-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-01T21:33:40.959-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:33:40.961-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2025-12-01T21:33:41.188-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4964cd99
+2025-12-01T21:33:41.188-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2025-12-01T21:33:41.188-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:33:41.188-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-01T21:33:41.188-03:00  INFO 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-5)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:33:41.405-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:33:41.521-03:00  INFO 12040 --- [GestionServicios] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:33:41.754-03:00  WARN 12040 --- [GestionServicios] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:33:41.983-03:00  INFO 12040 --- [GestionServicios] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name users
+2025-12-01T21:33:42.237-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-12-01T21:33:42.261-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-12-01T21:33:42.261-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Started GestionServiciosApplication in 2.574 seconds (process running for 1687.154)
+2025-12-01T21:33:42.261-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-12-01T21:34:14.671-03:00  INFO 12040 --- [GestionServicios] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2025-12-01T21:34:14.673-03:00  INFO 12040 --- [GestionServicios] [Thread-19] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:34:14.693-03:00  INFO 12040 --- [GestionServicios] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-12-01T21:34:14.700-03:00  INFO 12040 --- [GestionServicios] [Thread-19] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:34:14.702-03:00  INFO 12040 --- [GestionServicios] [Thread-19] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
+2025-12-01T21:34:14.707-03:00  INFO 12040 --- [GestionServicios] [Thread-19] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
+2025-12-01T21:34:15.069-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Starting GestionServiciosApplication using Java 22.0.1 with PID 12040 (F:\Documents\GestionServicios\gestionservicios\target\classes started by Carlos in F:\Documents\GestionServicios\gestionservicios)
+2025-12-01T21:34:15.099-03:00 DEBUG 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Running with Spring Boot v3.4.11, Spring v6.2.12
+2025-12-01T21:34:15.117-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:34:15.435-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:34:15.466-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 29 ms. Found 9 JPA repository interfaces.
+2025-12-01T21:34:15.646-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-01T21:34:15.648-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:34:15.648-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-12-01T21:34:15.683-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-01T21:34:15.683-03:00  INFO 12040 --- [GestionServicios] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 533 ms
+2025-12-01T21:34:15.747-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:34:15.749-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-01T21:34:15.761-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:34:15.763-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2025-12-01T21:34:17.434-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-6 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1d12ede
+2025-12-01T21:34:17.434-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2025-12-01T21:34:17.434-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:34:17.434-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-01T21:34:17.434-03:00  INFO 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-6)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:34:17.636-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:34:17.759-03:00  INFO 12040 --- [GestionServicios] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:34:17.929-03:00  WARN 12040 --- [GestionServicios] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:34:18.176-03:00  INFO 12040 --- [GestionServicios] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name users
+2025-12-01T21:34:18.361-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-12-01T21:34:18.380-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-12-01T21:34:18.380-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Started GestionServiciosApplication in 3.509 seconds (process running for 1723.279)
+2025-12-01T21:34:18.393-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-12-01T21:34:26.569-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-01T21:34:26.570-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-01T21:34:26.572-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-12-01T21:34:48.395-03:00  WARN 12040 --- [GestionServicios] [http-nio-8080-exec-7] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8080-exec-7][layout] Deprecated unwrapped fragment expression "${contenido}" found in template layout, line 56, col 22. Please use the complete syntax of fragment expressions instead ("~{${contenido}}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2025-12-01T21:36:48.751-03:00  INFO 12040 --- [GestionServicios] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2025-12-01T21:36:48.751-03:00  INFO 12040 --- [GestionServicios] [Thread-23] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:36:48.751-03:00  INFO 12040 --- [GestionServicios] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-12-01T21:36:48.765-03:00  INFO 12040 --- [GestionServicios] [Thread-23] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:36:48.767-03:00  INFO 12040 --- [GestionServicios] [Thread-23] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2025-12-01T21:36:48.775-03:00  INFO 12040 --- [GestionServicios] [Thread-23] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+2025-12-01T21:36:49.099-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Starting GestionServiciosApplication using Java 22.0.1 with PID 12040 (F:\Documents\GestionServicios\gestionservicios\target\classes started by Carlos in F:\Documents\GestionServicios\gestionservicios)
+2025-12-01T21:36:49.099-03:00 DEBUG 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Running with Spring Boot v3.4.11, Spring v6.2.12
+2025-12-01T21:36:49.099-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:36:49.311-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:36:49.338-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 9 JPA repository interfaces.
+2025-12-01T21:36:49.497-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-01T21:36:49.497-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:36:49.497-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-12-01T21:36:49.545-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-01T21:36:49.546-03:00  INFO 12040 --- [GestionServicios] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 447 ms
+2025-12-01T21:36:49.615-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:36:49.618-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-01T21:36:49.667-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:36:49.669-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2025-12-01T21:36:50.017-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4b60090
+2025-12-01T21:36:50.017-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2025-12-01T21:36:50.065-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:36:50.076-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-01T21:36:50.082-03:00  INFO 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-7)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:36:50.440-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:36:51.623-03:00  INFO 12040 --- [GestionServicios] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:36:51.808-03:00  WARN 12040 --- [GestionServicios] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:36:52.005-03:00  INFO 12040 --- [GestionServicios] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name users
+2025-12-01T21:36:52.194-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-12-01T21:36:52.271-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-12-01T21:36:52.278-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Started GestionServiciosApplication in 3.212 seconds (process running for 1877.165)
+2025-12-01T21:36:52.283-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-12-01T21:37:06.714-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-01T21:37:06.714-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-01T21:37:06.714-03:00  INFO 12040 --- [GestionServicios] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-12-01T21:42:21.420-03:00  INFO 12040 --- [GestionServicios] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-12-01T21:42:21.420-03:00  INFO 12040 --- [GestionServicios] [Thread-27] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:42:21.420-03:00  INFO 12040 --- [GestionServicios] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-12-01T21:42:21.433-03:00  INFO 12040 --- [GestionServicios] [Thread-27] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:42:21.435-03:00  INFO 12040 --- [GestionServicios] [Thread-27] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown initiated...
+2025-12-01T21:42:21.438-03:00  INFO 12040 --- [GestionServicios] [Thread-27] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown completed.
+2025-12-01T21:42:21.575-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Starting GestionServiciosApplication using Java 22.0.1 with PID 12040 (F:\Documents\GestionServicios\gestionservicios\target\classes started by Carlos in F:\Documents\GestionServicios\gestionservicios)
+2025-12-01T21:42:21.575-03:00 DEBUG 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Running with Spring Boot v3.4.11, Spring v6.2.12
+2025-12-01T21:42:21.576-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:42:21.820-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:42:21.844-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 9 JPA repository interfaces.
+2025-12-01T21:42:22.134-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-01T21:42:22.134-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:42:22.134-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-12-01T21:42:22.159-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-01T21:42:22.159-03:00  INFO 12040 --- [GestionServicios] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 581 ms
+2025-12-01T21:42:22.237-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:42:22.237-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-01T21:42:22.237-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:42:22.253-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Starting...
+2025-12-01T21:42:22.588-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-8 - Added connection com.mysql.cj.jdbc.ConnectionImpl@fcb810e
+2025-12-01T21:42:22.589-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Start completed.
+2025-12-01T21:42:22.589-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:42:22.590-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-01T21:42:22.590-03:00  INFO 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-8)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:42:22.784-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:42:22.934-03:00  INFO 12040 --- [GestionServicios] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:42:23.130-03:00  WARN 12040 --- [GestionServicios] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:42:23.353-03:00  INFO 12040 --- [GestionServicios] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name users
+2025-12-01T21:42:23.753-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-12-01T21:42:23.775-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-12-01T21:42:23.782-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Started GestionServiciosApplication in 2.246 seconds (process running for 2208.669)
+2025-12-01T21:42:23.803-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-12-01T21:42:26.193-03:00  INFO 12040 --- [GestionServicios] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2025-12-01T21:42:26.193-03:00  INFO 12040 --- [GestionServicios] [Thread-31] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:42:26.193-03:00  INFO 12040 --- [GestionServicios] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-12-01T21:42:26.208-03:00  INFO 12040 --- [GestionServicios] [Thread-31] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:42:26.210-03:00  INFO 12040 --- [GestionServicios] [Thread-31] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown initiated...
+2025-12-01T21:42:26.214-03:00  INFO 12040 --- [GestionServicios] [Thread-31] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown completed.
+2025-12-01T21:42:26.316-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Starting GestionServiciosApplication using Java 22.0.1 with PID 12040 (F:\Documents\GestionServicios\gestionservicios\target\classes started by Carlos in F:\Documents\GestionServicios\gestionservicios)
+2025-12-01T21:42:26.316-03:00 DEBUG 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Running with Spring Boot v3.4.11, Spring v6.2.12
+2025-12-01T21:42:26.316-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:42:26.528-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:42:26.553-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 28 ms. Found 9 JPA repository interfaces.
+2025-12-01T21:42:26.700-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-01T21:42:26.700-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:42:26.700-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-12-01T21:42:26.724-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-01T21:42:26.724-03:00  INFO 12040 --- [GestionServicios] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 408 ms
+2025-12-01T21:42:26.785-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:42:26.785-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-01T21:42:26.808-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:42:26.809-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Starting...
+2025-12-01T21:42:27.245-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-9 - Added connection com.mysql.cj.jdbc.ConnectionImpl@734f1904
+2025-12-01T21:42:27.245-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Start completed.
+2025-12-01T21:42:27.246-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:42:27.247-03:00  WARN 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-01T21:42:27.247-03:00  INFO 12040 --- [GestionServicios] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-9)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:42:27.467-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:42:27.547-03:00  INFO 12040 --- [GestionServicios] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:42:27.722-03:00  WARN 12040 --- [GestionServicios] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:42:27.927-03:00  INFO 12040 --- [GestionServicios] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name users
+2025-12-01T21:42:28.213-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-12-01T21:42:28.236-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-12-01T21:42:28.273-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Started GestionServiciosApplication in 1.974 seconds (process running for 2213.161)
+2025-12-01T21:42:28.280-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-12-01T21:42:40.948-03:00  INFO 12040 --- [GestionServicios] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2025-12-01T21:42:40.948-03:00  INFO 12040 --- [GestionServicios] [Thread-35] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:42:40.969-03:00  INFO 12040 --- [GestionServicios] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-12-01T21:42:40.972-03:00  INFO 12040 --- [GestionServicios] [Thread-35] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:42:40.973-03:00  INFO 12040 --- [GestionServicios] [Thread-35] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Shutdown initiated...
+2025-12-01T21:42:40.982-03:00  INFO 12040 --- [GestionServicios] [Thread-35] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Shutdown completed.
+2025-12-01T21:42:41.190-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Starting GestionServiciosApplication using Java 22.0.1 with PID 12040 (F:\Documents\GestionServicios\gestionservicios\target\classes started by Carlos in F:\Documents\GestionServicios\gestionservicios)
+2025-12-01T21:42:41.192-03:00 DEBUG 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : Running with Spring Boot v3.4.11, Spring v6.2.12
+2025-12-01T21:42:41.192-03:00  INFO 12040 --- [GestionServicios] [restartedMain] c.g.GestionServiciosApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:42:41.817-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:42:41.926-03:00  INFO 12040 --- [GestionServicios] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 87 ms. Found 9 JPA repository interfaces.
+2025-12-01T21:42:42.179-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-01T21:42:42.182-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:42:42.182-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-12-01T21:42:42.219-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-01T21:42:42.220-03:00  INFO 12040 --- [GestionServicios] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1021 ms
+2025-12-01T21:42:42.322-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:42:42.327-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-01T21:42:42.348-03:00  INFO 12040 --- [GestionServicios] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:42:42.350-03:00  INFO 12040 --- [GestionServicios] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Starting...
