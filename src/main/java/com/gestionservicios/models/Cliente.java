@@ -1,6 +1,8 @@
 package com.gestionservicios.models;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,7 +38,8 @@ public class Cliente {
     private String cuit;
 
     @Column(name = "condicion_fiscal")
-    private String condicionFiscal;
+    @Enumerated(EnumType.STRING)
+    private CondicionFiscal condicionFiscal;
 
     @Column(name = "email")
     @Email(message = "El email debe ser válido")
