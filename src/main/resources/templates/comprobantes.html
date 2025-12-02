@@ -125,7 +125,15 @@
                                     <div>
                                         <h5 class="font-medium">Primeros ${primeros.length} clientes a facturar:</h5>
                                         <ul class="list-disc list-inside text-sm mt-2">
-                                            ${primeros.map(p => `<li>${p.clienteNombre} ${p.applyIva ? '<span class="inline-block ml-2 text-xs px-2 py-0.5 rounded bg-yellow-100 text-yellow-800">Aplica IVA</span>' : ''} <span class="text-xs text-gray-500">(${p.condicionFiscal || ''})</span> — Contrato(s) #${(p.contratoIds||[]).join(', #')}</li>`).join('')}
+                                            ${primeros.map(p => `
+                                                <li>
+                                                    ${p.clienteNombre}
+                                                    ${p.applyIva ? '<span class="inline-block ml-2 text-xs px-2 py-0.5 rounded bg-yellow-100 text-yellow-800">Aplica IVA</span>' : ''}
+                                                    ${p.tipoComprobante ? '<span class="inline-block ml-2 text-xs px-2 py-0.5 rounded bg-blue-100 text-blue-800">Tipo: ' + p.tipoComprobante + '</span>' : ''}
+                                                    <span class="text-xs text-gray-500">(${p.condicionFiscal || ''})</span>
+                                                    — Contrato(s) #${(p.contratoIds||[]).join(', #')}
+                                                </li>
+                                            `).join('')}
                                         </ul>
                                     </div>
                                     <div class="flex justify-end gap-2 mt-6">

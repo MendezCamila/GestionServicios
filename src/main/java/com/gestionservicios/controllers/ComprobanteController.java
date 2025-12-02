@@ -210,6 +210,9 @@ public class ComprobanteController {
                 sb.append("<div class='text-sm text-gray-600'>Cliente</div>");
                 sb.append("<div class='font-semibold'>").append(comprobante.getCliente().getRazonSocial()).append("</div>");
             }
+            if (comprobante.getTipoComprobante() != null) {
+                sb.append("<div class='text-sm text-gray-600 mt-2'>Tipo: ").append(comprobante.getTipoComprobante()).append("</div>");
+            }
             sb.append("<div class='text-sm text-gray-600 mt-2'>Fecha: ").append(comprobante.getFechaEmision()).append("</div>");
             sb.append("</div>");
 
