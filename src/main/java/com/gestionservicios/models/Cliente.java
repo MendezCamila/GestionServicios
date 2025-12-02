@@ -32,7 +32,7 @@ public class Cliente {
 
     @Column(name = "cuit", nullable = false, unique = true)
     @NotBlank(message = "El CUIT es obligatorio")
-    @Pattern(regexp = "\\d{11}", message = "El CUIT debe contener 11 dígitos")
+    @com.gestionservicios.validation.CUIT
     private String cuit;
 
     @Column(name = "condicion_fiscal")

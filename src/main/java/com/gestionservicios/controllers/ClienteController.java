@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.dao.DataIntegrityViolationException;
 
 
 @Controller
@@ -52,8 +54,15 @@ public class ClienteController {
             model.addAttribute("cliente", cliente);
             return "cliente_form";
         }
-        clienteService.guardar(cliente);
-        return "redirect:/clientes";
+        try {
+            clienteService.guardar(cliente);
+            return "redirect:/clientes";
+        } catch (DataIntegrityViolationException ex) {
+            // probable duplicado por unique constraint en cuit
+            bindingResult.addError(new FieldError("cliente", "cuit", "Ya existe un cliente con ese CUIT"));
+            model.addAttribute("cliente", cliente);
+            return "cliente_form";
+        }
     }
 
     @GetMapping("/editar/{id:\\d+}")
