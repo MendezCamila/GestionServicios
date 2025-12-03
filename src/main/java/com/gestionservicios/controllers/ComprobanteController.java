@@ -216,17 +216,62 @@ public class ComprobanteController {
             sb.append("<div class='text-sm text-gray-600 mt-2'>Fecha: ").append(comprobante.getFechaEmision()).append("</div>");
             sb.append("</div>");
 
-            sb.append("<table class='w-full bg-white rounded overflow-hidden'><thead class='bg-gray-50'><tr><th class='p-2 text-left text-sm text-gray-600'>Servicio</th><th class='p-2 text-left text-sm text-gray-600'>Cant</th><th class='p-2 text-left text-sm text-gray-600'>Precio U.</th><th class='p-2 text-left text-sm text-gray-600'>Subtotal</th></tr></thead><tbody>");
+            java.text.NumberFormat nf = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("es","AR"));
+            boolean aplicaIva = comprobante.getCliente() != null && com.gestionservicios.util.TaxRules.appliesIva(comprobante.getCliente().getCondicionFiscal());
+
+            sb.append("<table class='w-full bg-white rounded overflow-hidden'><thead class='bg-gray-50'><tr><th class='p-2 text-left text-sm text-gray-600'>Servicio</th><th class='p-2 text-left text-sm text-gray-600'>Cant</th><th class='p-2 text-left text-sm text-gray-600'>Precio U.</th><th class='p-2 text-left text-sm text-gray-600'>Subtotal</th><th class='p-2 text-left text-sm text-gray-600'>IVA</th></tr></thead><tbody>");
             if (comprobante.getDetalles() != null) {
                 for (var d : comprobante.getDetalles()) {
                     sb.append("<tr class='border-b'><td class='p-2'>");
                     sb.append(d.getServicio() != null ? d.getServicio().getNombre() : "-");
-                    sb.append("</td><td class='p-2'>").append(d.getCantidad()).append("</td><td class='p-2'>").append(d.getPrecioUnitario()).append("</td><td class='p-2'>").append(d.getSubtotal()).append("</td></tr>");
+                    sb.append("</td><td class='p-2'>").append(d.getCantidad()).append("</td>");
+                    String precioStr = d.getPrecioUnitario() != null ? nf.format(d.getPrecioUnitario()) : "-";
+                    String subtotalStr = d.getSubtotal() != null ? nf.format(d.getSubtotal()) : "-";
+                    sb.append("<td class='p-2'>").append(precioStr).append("</td>");
+                    sb.append("<td class='p-2'>").append(subtotalStr).append("</td>");
+                    sb.append("<td class='p-2'>");
+                    if (aplicaIva) {
+                        sb.append("<span class='inline-block px-2 py-0.5 text-xs rounded bg-yellow-100 text-yellow-800'>Aplica IVA</span>");
+                    } else {
+                        sb.append("-");
+                    }
+                    sb.append("</td></tr>");
                 }
             }
             sb.append("</tbody></table>");
 
-            sb.append("<div class='mt-4 text-right'><strong>Total: </strong>").append(comprobante.getTotal()).append("</div>");
+            // calcular subtotal y IVA para mostrar en el fragmento
+            java.math.BigDecimal subtotalTotal = java.math.BigDecimal.ZERO;
+            if (comprobante.getDetalles() != null) {
+                for (var d : comprobante.getDetalles()) {
+                    if (d.getSubtotal() != null) subtotalTotal = subtotalTotal.add(d.getSubtotal());
+                }
+            }
+
+            java.math.BigDecimal ivaTotal = java.math.BigDecimal.ZERO;
+            java.math.BigDecimal totalToShow = comprobante.getTotal() != null ? comprobante.getTotal() : subtotalTotal;
+            if (aplicaIva) {
+                try {
+                    java.math.BigDecimal ivaPercent = configuracionService.getIvaGeneralOrDefault(new java.math.BigDecimal("21"));
+                    java.math.BigDecimal ivaDecimal = ivaPercent.divide(new java.math.BigDecimal("100"));
+                    ivaTotal = subtotalTotal.multiply(ivaDecimal).setScale(2, java.math.RoundingMode.HALF_UP);
+                    totalToShow = subtotalTotal.add(ivaTotal);
+                } catch (Exception e) {
+                    ivaTotal = java.math.BigDecimal.ZERO;
+                }
+            }
+
+            String subtotalStr = nf.format(subtotalTotal);
+            String ivaStr = nf.format(ivaTotal);
+            String totalStr = nf.format(totalToShow);
+
+            sb.append("<div class='mt-4 text-right'>");
+            sb.append("<div class='text-sm text-gray-600'>Subtotal de servicios: <span>").append(subtotalStr).append("</span></div>");
+            if (aplicaIva) {
+                sb.append("<div class='text-sm text-gray-600'>IVA (<span>").append(configuracionService.getIvaGeneralOrDefault(new java.math.BigDecimal("21"))).append("</span>%): <span>").append(ivaStr).append("</span></div>");
+            }
+            sb.append("<div class='mt-2 text-lg font-semibold'>Total: <span class='text-lg'>").append(totalStr).append("</span></div>");
+            sb.append("</div>");
             sb.append("</div>");
 
             return sb.toString();
