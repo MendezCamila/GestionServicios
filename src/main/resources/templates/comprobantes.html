@@ -156,6 +156,18 @@
                                     const periodoPost = (() => { const d = new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0'); })();
                                     const inpPeriodo = document.createElement('input'); inpPeriodo.type = 'hidden'; inpPeriodo.name = 'periodo'; inpPeriodo.value = periodoPost; form.appendChild(inpPeriodo);
                                     const inpUsuario = document.createElement('input'); inpUsuario.type = 'hidden'; inpUsuario.name = 'usuario'; inpUsuario.value = 'web'; form.appendChild(inpUsuario);
+                                    // agregar token CSRF desde meta tags para que Spring Security acepte el POST
+                                    try {
+                                        const csrfParamMeta = document.querySelector('meta[name="_csrf_parameter"]');
+                                        const csrfTokenMeta = document.querySelector('meta[name="_csrf_token"]');
+                                        if (csrfParamMeta && csrfTokenMeta) {
+                                            const inpCsrf = document.createElement('input');
+                                            inpCsrf.type = 'hidden';
+                                            inpCsrf.name = csrfParamMeta.getAttribute('content');
+                                            inpCsrf.value = csrfTokenMeta.getAttribute('content');
+                                            form.appendChild(inpCsrf);
+                                        }
+                                    } catch(e) { /* ignore */ }
                                     document.body.appendChild(form);
                                     form.submit();
                                 });
