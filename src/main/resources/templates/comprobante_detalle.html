@@ -2,7 +2,10 @@
     <!-- Detalle del comprobante -->
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-lg font-semibold">Comprobante <span th:text="${comprobante.id}"></span></h2>
-        <a th:href="@{'/facturacion'}" class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-2 rounded-md">Volver</a>
+        <div class="flex items-center gap-2">
+            <a th:href="@{/facturacion/{id}/pdf(id=${comprobante.id})}" target="_blank" class="inline-flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-md">Generar PDF</a>
+            <a th:href="@{'/facturacion'}" class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-2 rounded-md">Volver</a>
+        </div>
     </div>
 
     <!-- Información del cliente -->

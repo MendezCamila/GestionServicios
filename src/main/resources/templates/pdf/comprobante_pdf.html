@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Comprobante</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; color: #222; font-size: 12px; }
+    .header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .logo { font-weight: 700; font-size: 18px; width: 160px; }
+    .company-sub { font-size: 10px; color: #666; }
+    .center-title { flex: 1; text-align: center; }
+    .center-title .title { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+    .center-title .identifier { font-size: 13px; color: #333; margin-top: 4px; }
+    .meta { width: 180px; text-align: right; font-size: 12px; color: #444; }
+    .meta .small { font-size: 11px; color: #666; }
+    .client-box { border: 1px solid #e6e6e6; padding: 10px; margin-bottom: 12px; background: #fafafa; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { padding: 8px 6px; }
+    th { text-align: left; font-weight: 600; background: #f3f4f6; }
+    td.right { text-align: right; }
+    .totals { width: 40%; margin-left: auto; margin-top: 12px; }
+    .totals td { padding: 6px; }
+    .footer { position: fixed; bottom: 20px; left: 0; right: 0; text-align: center; font-size: 10px; color: #666; }
+    .page-break { page-break-after: always; }
+    /* Page numbering (openhtmltopdf supports counter(page) counter(pages)) */
+    @page { @bottom-center { content: "Página " counter(page) " de " counter(pages); font-size: 10px; color: #666; } margin: 1in; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <div th:if="${logoData != null}"><img th:src="${logoData}" style="height:48px" alt="logo"/></div>
+      <div th:if="${logoData == null}">GESTIÓN SERVICIOS<br/><span class="company-sub">Soluciones y servicios</span></div>
+    </div>
+
+    <div class="center-title">
+      <div class="title">COMPROBANTE</div>
+      <div class="identifier">N° <span th:text="${comprobante.id}"></span></div>
+    </div>
+
+    <div class="meta">
+      <div class="small">Fecha emisión</div>
+      <div><span th:text="${comprobante.fechaEmision}"></span></div>
+      <div class="small" style="margin-top:6px;">Tipo / CUIT</div>
+      <div><span th:text="${comprobante.tipoComprobante}"></span> / <span th:text="${cliente != null ? cliente.cuit : '-'}"></span></div>
+    </div>
+  </div>
+
+  <div class="client-box">
+    <div><strong th:text="${cliente.razonSocial}"></strong></div>
+    <div>Email: <span th:text="${cliente.email}"></span></div>
+    <div>Dirección: <span th:text="${cliente.direccion}"></span></div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Servicio</th>
+        <th style="width:60px; text-align:center;">Cant</th>
+        <th style="width:120px; text-align:right;">Precio U.</th>
+        <th style="width:120px; text-align:right;">Subtotal</th>
+        <th style="width:60px; text-align:center;">IVA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="d : ${detalles}">
+        <td th:text="${d.servicio != null ? d.servicio.nombre : '-'}"></td>
+        <td style="text-align:center;" th:text="${d.cantidad}"></td>
+        <td style="text-align:right;" th:text="${d.precioUnitarioFmt}"></td>
+        <td style="text-align:right;" th:text="${d.subtotalFmt}"></td>
+        <td style="text-align:center;" th:text="${d.aplicaIva ? 'Si' : '-'}"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="totals">
+    <tbody>
+      <tr>
+        <td>Subtotal:</td>
+        <td style="text-align:right;" th:text="${subtotalFmt}"></td>
+      </tr>
+      <tr th:if="${aplicaIva}">
+        <td>IVA:</td>
+        <td style="text-align:right;" th:text="${ivaFmt}"></td>
+      </tr>
+      <tr>
+        <td><strong>Total:</strong></td>
+        <td style="text-align:right;" th:text="${totalFmt}"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">Generado por Gestión Servicios</div>
+</body>
+</html>

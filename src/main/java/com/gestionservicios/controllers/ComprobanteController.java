@@ -203,7 +203,8 @@ public class ComprobanteController {
 
             StringBuilder sb = new StringBuilder();
             sb.append("<div>");
-            sb.append("<div class='flex items-center justify-between mb-4'><h4 class='font-semibold'>Comprobante ").append(comprobante.getId()).append("</h4></div>");
+            sb.append("<div class='flex items-center justify-between mb-4'><h4 class='font-semibold'>Comprobante ").append(comprobante.getId()).append("</h4>");
+            sb.append("<div><a href='/facturacion/").append(comprobante.getId()).append("/pdf' target='_blank' class='inline-flex items-center gap-2 bg-blue-600 text-white px-2 py-1 rounded-md'>Generar PDF</a></div></div>");
             sb.append("<div class='bg-white p-4 rounded shadow mb-4'>");
             if (comprobante.getCliente() != null) {
                 sb.append("<div class='text-sm text-gray-600'>Cliente</div>");
@@ -278,6 +279,56 @@ public class ComprobanteController {
             e.printStackTrace();
             return "<div class='text-red-600'>Error interno: " + e.getMessage() + "</div>";
         }
+    }
+    
+    @GetMapping("/{id}/pdf")
+    public String verComprobantePdf(@PathVariable Long id, Model model) {
+        Comprobante comprobante = comprobanteService.obtenerPorId(id);
+        if (comprobante == null) return "redirect:/facturacion";
+
+        var cliente = comprobante.getCliente();
+
+        // preparar detalles y formatos simples
+        java.text.NumberFormat nf = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("es","AR"));
+        java.util.List<java.util.Map<String,Object>> detalles = new java.util.ArrayList<>();
+        java.math.BigDecimal subtotalTotal = java.math.BigDecimal.ZERO;
+        boolean aplicaIva = cliente != null && com.gestionservicios.util.TaxRules.appliesIva(cliente.getCondicionFiscal());
+
+        if (comprobante.getDetalles() != null) {
+            for (var d : comprobante.getDetalles()) {
+                java.util.Map<String,Object> map = new java.util.HashMap<>();
+                map.put("servicio", d.getServicio());
+                map.put("cantidad", d.getCantidad());
+                map.put("precioUnitarioFmt", d.getPrecioUnitario() != null ? nf.format(d.getPrecioUnitario()) : "-");
+                map.put("subtotalFmt", d.getSubtotal() != null ? nf.format(d.getSubtotal()) : "-");
+                map.put("aplicaIva", aplicaIva);
+                detalles.add(map);
+                if (d.getSubtotal() != null) subtotalTotal = subtotalTotal.add(d.getSubtotal());
+            }
+        }
+
+        java.math.BigDecimal ivaTotal = java.math.BigDecimal.ZERO;
+        if (aplicaIva) {
+            try {
+                java.math.BigDecimal ivaPercent = configuracionService.getIvaGeneralOrDefault(new java.math.BigDecimal("21"));
+                java.math.BigDecimal ivaDecimal = ivaPercent.divide(new java.math.BigDecimal("100"));
+                ivaTotal = subtotalTotal.multiply(ivaDecimal).setScale(2, java.math.RoundingMode.HALF_UP);
+            } catch (Exception e) {
+                ivaTotal = java.math.BigDecimal.ZERO;
+            }
+        }
+
+        java.math.BigDecimal totalToShow = comprobante.getTotal() != null ? comprobante.getTotal() : subtotalTotal.add(ivaTotal);
+
+        model.addAttribute("comprobante", comprobante);
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("detalles", detalles);
+        model.addAttribute("aplicaIva", aplicaIva);
+        model.addAttribute("subtotalFmt", nf.format(subtotalTotal));
+        model.addAttribute("ivaFmt", nf.format(ivaTotal));
+        model.addAttribute("totalFmt", nf.format(totalToShow));
+
+        return "pdf/comprobante_pdf";
     }
     
 }
