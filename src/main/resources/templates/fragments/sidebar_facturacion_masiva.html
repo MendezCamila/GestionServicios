@@ -10,7 +10,7 @@
                 <a th:href="@{/facturacion/masiva/{id}(id=${fm.id})}" class="block py-1 px-2 rounded hover:bg-white/10">
                     <div class="flex justify-between items-center">
                         <div class="text-white text-sm">
-                            <span th:text="${fm.fecha != null ? #dates.format(fm.fecha, 'dd/MM/yyyy') : '-'}">01/01/2025</span>
+                            <span th:text="${fm.fecha != null ? #temporals.format(fm.fecha, 'dd/MM/yyyy') : '-'}">01/01/2025</span>
                             <span class="text-white/80"> - </span>
                             <span th:text="${fm.cantidadFacturas}">0</span>
                             <span class="text-white/60">fact.</span>

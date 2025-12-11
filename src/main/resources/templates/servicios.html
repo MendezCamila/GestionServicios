@@ -40,8 +40,19 @@
         </table>
     </div>
 
-    <div class="mt-2 flex justify-end text-sm text-gray-500">
-        Total: <span class="ml-2" id="serviciosCount" th:text="${servicios.size()}">0</span>
+    <div class="mt-4 flex items-center justify-between">
+        <div class="text-sm text-gray-500">Total: <span class="ml-2" id="serviciosCount" th:text="${serviciosPage != null ? serviciosPage.totalElements : servicios.size()}">0</span></div>
+        <div>
+            <nav class="inline-flex rounded-md shadow-sm" th:if="${serviciosPage != null && serviciosPage.totalPages > 1}">
+                <a th:href="@{/servicios(page=${serviciosPage.number - 1}, size=${serviciosPage.size})}"
+                   th:classappend="${serviciosPage.first} ? 'opacity-50 pointer-events-none' : ''"
+                   class="px-3 py-2 border bg-white hover:bg-gray-50">Anterior</a>
+                <span class="px-3 py-2 border bg-white">Página <span th:text="${serviciosPage.number + 1}">1</span> de <span th:text="${serviciosPage.totalPages}">1</span></span>
+                <a th:href="@{/servicios(page=${serviciosPage.number + 1}, size=${serviciosPage.size})}"
+                   th:classappend="${serviciosPage.last} ? 'opacity-50 pointer-events-none' : ''"
+                   class="px-3 py-2 border bg-white hover:bg-gray-50">Siguiente</a>
+            </nav>
+        </div>
     </div>
 
 <script>

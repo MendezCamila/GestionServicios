@@ -52,8 +52,19 @@
             </table>
         </div>
 
-        <div class="mt-2 flex justify-end text-sm text-gray-500">
-            Total filas: <span id="totalCount" class="ml-2 font-medium" th:text="${comprobantes.size()}">0</span>
+        <div class="mt-4 flex items-center justify-between">
+            <div class="text-sm text-gray-500">Total filas: <span id="totalCount" class="ml-2 font-medium" th:text="${comprobantesPage != null ? comprobantesPage.totalElements : comprobantes.size()}">0</span></div>
+            <div>
+                <nav class="inline-flex rounded-md shadow-sm" th:if="${comprobantesPage != null && comprobantesPage.totalPages > 1}">
+                    <a th:href="@{/facturacion(page=${comprobantesPage.number - 1}, size=${comprobantesPage.size})}"
+                       th:classappend="${comprobantesPage.first} ? 'opacity-50 pointer-events-none' : ''"
+                       class="px-3 py-2 border bg-white hover:bg-gray-50">Anterior</a>
+                    <span class="px-3 py-2 border bg-white">Página <span th:text="${comprobantesPage.number + 1}">1</span> de <span th:text="${comprobantesPage.totalPages}">1</span></span>
+                    <a th:href="@{/facturacion(page=${comprobantesPage.number + 1}, size=${comprobantesPage.size})}"
+                       th:classappend="${comprobantesPage.last} ? 'opacity-50 pointer-events-none' : ''"
+                       class="px-3 py-2 border bg-white hover:bg-gray-50">Siguiente</a>
+                </nav>
+            </div>
         </div>
 
         <!-- Modal Facturación Masiva -->

@@ -42,8 +42,19 @@
         </table>
     </div>
 
-    <div class="mt-2 flex justify-end text-sm text-gray-500">
-        Total: <span class="ml-2" id="clientesCount" th:text="${clientes.size()}">0</span>
+    <div class="mt-4 flex items-center justify-between">
+        <div class="text-sm text-gray-500">Total: <span class="ml-2" id="clientesCount" th:text="${clientesPage != null ? clientesPage.totalElements : clientes.size()}">0</span></div>
+        <div>
+            <nav class="inline-flex rounded-md shadow-sm" th:if="${clientesPage != null && clientesPage.totalPages > 1}">
+                <a th:href="@{/clientes(page=${clientesPage.number - 1}, size=${clientesPage.size})}"
+                   th:classappend="${clientesPage.first} ? 'opacity-50 pointer-events-none' : ''"
+                   class="px-3 py-2 border bg-white hover:bg-gray-50">Anterior</a>
+                <span class="px-3 py-2 border bg-white">Página <span th:text="${clientesPage.number + 1}">1</span> de <span th:text="${clientesPage.totalPages}">1</span></span>
+                <a th:href="@{/clientes(page=${clientesPage.number + 1}, size=${clientesPage.size})}"
+                   th:classappend="${clientesPage.last} ? 'opacity-50 pointer-events-none' : ''"
+                   class="px-3 py-2 border bg-white hover:bg-gray-50">Siguiente</a>
+            </nav>
+        </div>
     </div>
 
  </div>

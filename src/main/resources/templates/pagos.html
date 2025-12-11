@@ -43,10 +43,23 @@
         </table>
     </div>
 </div>
+</div>
 
-    <div class="mt-2 flex justify-end text-sm text-gray-500">
-        Total pagos: <span id="totalCountPagos" class="ml-2 font-medium" th:text="${pagos.size()}">0</span>
+    <div class="mt-4 flex items-center justify-between">
+        <div class="text-sm text-gray-500">Total pagos: <span id="totalCountPagos" class="ml-2 font-medium" th:text="${pagosPage != null ? pagosPage.totalElements : pagos.size()}">0</span></div>
+        <div>
+            <nav class="inline-flex rounded-md shadow-sm" th:if="${pagosPage != null && pagosPage.totalPages > 1}">
+                <a th:href="@{/pagos(page=${pagosPage.number - 1}, size=${pagosPage.size})}"
+                   th:classappend="${pagosPage.first} ? 'opacity-50 pointer-events-none' : ''"
+                   class="px-3 py-2 border bg-white hover:bg-gray-50">Anterior</a>
+                <span class="px-3 py-2 border bg-white">Página <span th:text="${pagosPage.number + 1}">1</span> de <span th:text="${pagosPage.totalPages}">1</span></span>
+                <a th:href="@{/pagos(page=${pagosPage.number + 1}, size=${pagosPage.size})}"
+                   th:classappend="${pagosPage.last} ? 'opacity-50 pointer-events-none' : ''"
+                   class="px-3 py-2 border bg-white hover:bg-gray-50">Siguiente</a>
+            </nav>
+        </div>
     </div>
+</div>
 </div>
 
 <script>

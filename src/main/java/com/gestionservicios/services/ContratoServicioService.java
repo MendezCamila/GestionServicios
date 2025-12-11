@@ -33,8 +33,21 @@ public class ContratoServicioService {
         contratoServicioRepository.deleteById(id);
     }
 
+    public void desactivar(long id) {
+        ContratoServicio contrato = obtenerPorId(id);
+        if (contrato != null) {
+            contrato.setEstado("Inactivo");
+            contrato.setFechaFin(java.time.LocalDate.now());
+            guardar(contrato);
+        }
+    }
+
     public List<ContratoServicio> listarPorCliente(Long clienteId) {
         return contratoServicioRepository.findByClienteId(clienteId);
+    }
+
+    public List<ContratoServicio> listarPorClienteYEstado(Long clienteId, String estado) {
+        return contratoServicioRepository.findByClienteIdAndEstado(clienteId, estado);
     }
 
     public List<ContratoServicio> listarPorServicio(Long servicioId) {

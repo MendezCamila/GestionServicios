@@ -17,23 +17,19 @@
                     <th class="p-3 text-left text-sm text-gray-600">ID</th>
                     <th class="p-3 text-left text-sm text-gray-600">Servicio</th>
                     <th class="p-3 text-left text-sm text-gray-600">Fecha inicio</th>
-                    <th class="p-3 text-left text-sm text-gray-600">Fecha fin</th>
                     <th class="p-3 text-left text-sm text-gray-600">Importe</th>
-                    <th class="p-3 text-left text-sm text-gray-600">Estado</th>
-                    <th class="p-3 text-left text-sm text-gray-600">Acciones</th>
+                    <th class="p-3 text-left text-sm text-gray-600">Quitar</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="contrato : ${contratos}" class="border-b hover:bg-gray-50">
                     <td class="p-3" th:text="${contrato.id}"></td>
                     <td class="p-3" th:text="${contrato.servicio.nombre}"></td>
-                    <td class="p-3" th:text="${contrato.fechaInicio}"></td>
-                    <td class="p-3" th:text="${contrato.fechaFin}"></td>
-                    <td class="p-3" th:text="${contrato.importePersonalizado != null ? contrato.importePersonalizado : contrato.servicio.precioBase}"></td>
-                    <td class="p-3" th:text="${contrato.estado}"></td>
+                    <td class="p-3" th:text="${contrato.fechaInicio != null ? #temporals.format(contrato.fechaInicio, 'dd/MM/yyyy') : ''}"></td>
+                    <td class="p-3" th:text="${'$ ' + #numbers.formatDecimal((contrato.importePersonalizado != null ? contrato.importePersonalizado : contrato.servicio.precioBase), 1, 2)}"></td>
                     <td class="p-3">
-                        <a th:href="@{'/contratos/editar/' + ${contrato.id}}" class="inline-block text-violet-600 hover:underline mr-2">Editar</a>
-                        <a th:href="@{'/contratos/eliminar/' + ${contrato.id}}" class="inline-block text-red-600 hover:underline">Eliminar</a>
+                                <a th:href="@{'/contratos/desactivar/' + ${contrato.id}}" class="text-red-600 hover:underline"
+                                    onclick="return confirm('¿Quitar este servicio del cliente?');">Quitar</a>
                     </td>
                 </tr>
             </tbody>
@@ -45,16 +41,20 @@
     <div>
         <h3 class="text-lg font-semibold mb-4">Asignar servicios al cliente</h3>
         <form th:action="@{'/contratos/crear-para-cliente/' + ${cliente.id}}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div th:each="servicio : ${servicios}" class="p-4 bg-white rounded shadow">
-                    <div class="flex items-center gap-4">
+                 <div th:each="servicio : ${servicios}"
+                     th:if="${serviciosAsignadosIds == null or not serviciosAsignadosIds.contains(servicio.id)}"
+                     class="p-4 bg-white rounded shadow">
+                        <div class="flex items-center gap-4">
                         <div>
-                            <input type="checkbox" th:name="servicioIds" th:value="${servicio.id}" th:disabled="${servicio.estado}!='Activo'" />
+                            <input type="checkbox" th:name="servicioIds" th:value="${servicio.id}"
+                                th:disabled="${servicio.estado != 'Activo'}" />
                         </div>
                         <div>
-                            <div class="font-semibold" th:text="${servicio.nombre}">Servicio</div>
-                            <div class="text-sm text-gray-500">Precio: <span th:text="${servicio.precioBase}"></span></div>
-                            <div class="text-sm text-gray-400" th:if="${servicio.estado}!='Activo'">(Inactivo)</div>
+                            <div class="font-semibold"> <span th:text="${servicio.nombre}">Servicio</span> </div>
+                            <div class="text-sm text-gray-500">Precio: <span th:text="${'$ ' + #numbers.formatDecimal(servicio.precioBase, 1, 2)}"></span></div>
+                            <div class="text-sm text-gray-400" th:if="${servicio.estado != 'Activo'}">(Inactivo)</div>
                         </div>
                     </div>
                 </div>

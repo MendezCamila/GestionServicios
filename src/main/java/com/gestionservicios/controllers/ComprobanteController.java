@@ -35,11 +35,10 @@ public class ComprobanteController {
     }
 
     @GetMapping
-    public String listarComprobantes(Model model) {
-
-        java.util.List<Comprobante> lista = comprobanteService.listarComprobantes();
-
-        model.addAttribute("comprobantes", lista);
+    public String listarComprobantes(Model model, org.springframework.data.domain.Pageable pageable) {
+        var page = comprobanteService.listarComprobantes(pageable);
+        model.addAttribute("comprobantesPage", page);
+        model.addAttribute("comprobantes", page.getContent());
         model.addAttribute("titulo", "Facturación");
         model.addAttribute("contenido", "comprobantes");
         return "layout";

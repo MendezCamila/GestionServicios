@@ -29,8 +29,10 @@ public class PagoController {
     }
 
     @GetMapping
-    public String listarPagos(Model model) {
-        var pagos = pagoService.listarPagos();
+    public String listarPagos(Model model, org.springframework.data.domain.Pageable pageable) {
+        var page = pagoService.listarPagos(pageable);
+        var pagos = page.getContent();
+        model.addAttribute("pagosPage", page);
         model.addAttribute("pagos", pagos);
         // calcular estados resumidos y pasarlos a la vista como mapa id->estado
         Map<Long, String> estados = pagos.stream()
@@ -106,14 +108,16 @@ public class PagoController {
             pago.setMontoIngresado(java.math.BigDecimal.ZERO);
             pago.setObservaciones(request.getParameter("observaciones"));
 
-            // parse comprobantes
+            // parse comprobantes (facturas a las q se aplica el pago)
             String[] comprobanteIds = request.getParameterValues("factura_id");
             java.util.List<com.gestionservicios.models.PagoDetalle> detalles = new java.util.ArrayList<>();
             if (comprobanteIds != null) {
+                //recorre todos los comprobantes seleccionados
                 for (int i = 0; i < comprobanteIds.length; i++) {
                     String idStr = comprobanteIds[i];
                     String montoStr = request.getParameter("monto_aplicar_" + idStr);
                     try {
+                        //construccion de cada PagoDetalle
                         Long compId = Long.parseLong(idStr);
                         java.math.BigDecimal monto = new java.math.BigDecimal(montoStr == null || montoStr.isBlank() ? "0" : montoStr);
                         com.gestionservicios.models.PagoDetalle det = new com.gestionservicios.models.PagoDetalle();
@@ -126,12 +130,13 @@ public class PagoController {
                 }
             }
 
-            // parse payment methods to compute monto ingresado
+            // parseo de metodos de pago
             String[] metodos = request.getParameterValues("metodo_pago[]");
             String[] metodosMontos = request.getParameterValues("metodo_monto[]");
             java.math.BigDecimal totalPagos = java.math.BigDecimal.ZERO;
             java.util.List<com.gestionservicios.models.PagoMetodo> metodosList = new java.util.ArrayList<>();
             if (metodos != null) {
+                // recorrer todos los métodos de pago ingresados
                 for (int i = 0; i < metodos.length; i++) {
                     String m = metodos[i];
                     String montoStr = (metodosMontos != null && metodosMontos.length > i) ? metodosMontos[i] : "0";

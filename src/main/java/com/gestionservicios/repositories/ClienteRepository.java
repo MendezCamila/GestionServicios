@@ -12,3 +12,4 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     Optional<Cliente> findByCuit(String cuit);
     List<Cliente> findByRazonSocialContainingIgnoreCase(String razonSocial);
 }
+

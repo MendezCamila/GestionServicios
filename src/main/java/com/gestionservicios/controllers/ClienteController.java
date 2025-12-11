@@ -28,8 +28,10 @@ public class ClienteController {
     }
 
     @GetMapping
-    public String listarClientes(Model model) {
-        model.addAttribute("clientes", clienteService.listarClientes());
+    public String listarClientes(Model model, org.springframework.data.domain.Pageable pageable) {
+        var page = clienteService.listarClientes(pageable);
+        model.addAttribute("clientesPage", page);
+        model.addAttribute("clientes", page.getContent());
         model.addAttribute("titulo", "Listado de Clientes");
         model.addAttribute("contenido", "clientes");
         return "layout";
@@ -83,8 +85,20 @@ public class ClienteController {
     public String verServiciosCliente(@PathVariable Long id, Model model) {
         Cliente cliente = clienteService.obtenerPorId(id);
         model.addAttribute("cliente", cliente);
-        model.addAttribute("contratos", contratoServicioService.listarPorCliente(id));//listar los servicios por cliente
+        // listar solo contratos activos para mostrar y para determinar servicios ya asignados
+        model.addAttribute("contratos", contratoServicioService.listarPorClienteYEstado(id, "Activo"));//listar los servicios por cliente (solo Activos)
         model.addAttribute("servicios", servicioService.listarServicios());//listar todos los servicios
+        // build a set of servicio ids already assigned to this cliente (solo activos)
+        java.util.List<com.gestionservicios.models.ContratoServicio> contratos = contratoServicioService.listarPorClienteYEstado(id, "Activo");
+        java.util.Set<Long> serviciosAsignadosIds = new java.util.HashSet<>();
+        if (contratos != null) {
+            for (com.gestionservicios.models.ContratoServicio c : contratos) {
+                if (c.getServicio() != null && c.getServicio().getId() != null) {
+                    serviciosAsignadosIds.add(c.getServicio().getId());
+                }
+            }
+        }
+        model.addAttribute("serviciosAsignadosIds", serviciosAsignadosIds);
         model.addAttribute("titulo", "Servicios del cliente");//le mando titulo
         model.addAttribute("contenido", "cliente_servicios");//le mando contenido
         return "layout";

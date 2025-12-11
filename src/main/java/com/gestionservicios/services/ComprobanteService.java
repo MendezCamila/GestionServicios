@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class ComprobanteService {
@@ -18,6 +20,10 @@ public class ComprobanteService {
 
     public List<Comprobante> listarComprobantes() {
         return comprobanteRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+    }
+
+    public Page<Comprobante> listarComprobantes(Pageable pageable) {
+        return comprobanteRepository.findAll(pageable);
     }
     
 

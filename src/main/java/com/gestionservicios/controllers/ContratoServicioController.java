@@ -69,6 +69,20 @@ public class ContratoServicioController {
         return "redirect:/contratos";
     }
 
+    @GetMapping("/desactivar/{id}")
+    public String desactivarContrato(@PathVariable Long id) {
+        var contrato = contratoServicioService.obtenerPorId(id);
+        Long clienteId = null;
+        if (contrato != null && contrato.getCliente() != null) {
+            clienteId = contrato.getCliente().getId();
+        }
+        contratoServicioService.desactivar(id);
+        if (clienteId != null) {
+            return "redirect:/clientes/" + clienteId + "/servicios";
+        }
+        return "redirect:/contratos";
+    }
+
     @PostMapping("/crear-para-cliente/{clienteId}")
     public String crearContratosParaCliente(@PathVariable Long clienteId,
                                            @RequestParam(name = "servicioIds", required = false) java.util.List<Long> servicioIds) {

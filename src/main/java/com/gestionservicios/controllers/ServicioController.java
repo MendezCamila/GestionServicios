@@ -22,8 +22,10 @@ public class ServicioController {
 
     // Listar todos los servicios
 	@GetMapping
-	public String listarServicios(Model model) {
-		model.addAttribute("servicios", servicioService.listarServicios());
+	public String listarServicios(Model model, org.springframework.data.domain.Pageable pageable) {
+		var page = servicioService.listarServicios(pageable);
+		model.addAttribute("serviciosPage", page);
+		model.addAttribute("servicios", page.getContent());
 		model.addAttribute("titulo", "Listado de Servicios");
 		model.addAttribute("contenido", "servicios");
 		return "layout";

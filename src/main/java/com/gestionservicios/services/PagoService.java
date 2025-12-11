@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class PagoService {
@@ -29,6 +31,10 @@ public class PagoService {
         return pagoRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
+    public Page<Pago> listarPagos(Pageable pageable) {
+        return pagoRepository.findAll(pageable);
+    }
+
     public Pago obtenerPorId(Long id) {
         return pagoRepository.findById(id).orElse(null);
     }
@@ -42,6 +48,7 @@ public class PagoService {
                 return estadoEmitida || saldoPositivo;
             }).toList();
     }
+    //Convierte cada factura en una version resumida DTO para enviar al navegador
     public java.util.List<com.gestionservicios.dto.ComprobantePendienteDTO> listarFacturasPendientesDTO(Long clienteId) {
         var list = listarFacturasPendientesPorCliente(clienteId);
         return list.stream().map(c -> new com.gestionservicios.dto.ComprobantePendienteDTO(
@@ -60,17 +67,21 @@ public class PagoService {
         // guardar pago primero para obtener id
         pago = pagoRepository.save(pago);
 
+        //iteracion sobre cada detalle
         for (com.gestionservicios.models.PagoDetalle det : detalles) {
             var compOpt = comprobanteRepository.findById(det.getComprobante().getId());
             if (compOpt.isEmpty()) throw new IllegalArgumentException("Comprobante no encontrado: " + det.getComprobante().getId());
             var comp = compOpt.get();
+            //lectura y normalizacion del monto aplicado
             java.math.BigDecimal montoAplicado = det.getMontoAplicado();
             if (montoAplicado == null) montoAplicado = java.math.BigDecimal.ZERO;
             if (montoAplicado.compareTo(java.math.BigDecimal.ZERO) <= 0) continue; // ignorar montos 0
             java.math.BigDecimal saldoAnterior = comp.getSaldoPendiente() == null ? comp.getTotal() : comp.getSaldoPendiente();
+            // validar que el monto aplicado no exceda el saldo pendiente
             if (montoAplicado.compareTo(saldoAnterior) > 0) {
                 throw new IllegalArgumentException("Monto aplicado mayor al saldo pendiente para comprobante " + comp.getId());
             }
+            // calcular saldo posterior
             java.math.BigDecimal saldoPosterior = saldoAnterior.subtract(montoAplicado);
 
             // actualizar comprobante
@@ -138,27 +149,33 @@ public class PagoService {
         java.util.Map<Long, String> resultado = new java.util.HashMap<>();
         if (pagos == null || pagos.isEmpty()) return resultado;
 
+        //obtener los IDs de los pagos
         java.util.List<Long> ids = pagos.stream()
                 .map(Pago::getId)
                 .filter(java.util.Objects::nonNull)
                 .toList();
         if (ids.isEmpty()) return resultado;
 
+        //traer todos los metodos de pago asociados
         java.util.List<com.gestionservicios.models.PagoMetodo> metodos = pagoMetodoRepository.findByPagoIdIn(ids);
         if (metodos == null || metodos.isEmpty()) return resultado;
 
+        // formatear los montos argentino
         java.util.Locale locale = new java.util.Locale("es", "AR");
         java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(locale);
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
         nf.setGroupingUsed(true);
 
+        //agrupar metodos por pago
         java.util.Map<Long, java.util.List<com.gestionservicios.models.PagoMetodo>> grouped = metodos.stream()
                 .collect(java.util.stream.Collectors.groupingBy(pm -> pm.getPago().getId()));
 
+        // construir el resultado formateado
         for (var entry : grouped.entrySet()) {
             Long pagoId = entry.getKey();
             java.util.List<com.gestionservicios.models.PagoMetodo> lista = entry.getValue();
+            //por cada metodo armar "metodo(monto)"
             String joined = lista.stream().map(pm -> {
                 String metodo = pm.getMetodo() == null ? "" : pm.getMetodo().name();
                 java.math.BigDecimal monto = pm.getMonto() == null ? java.math.BigDecimal.ZERO : pm.getMonto();
@@ -178,27 +195,33 @@ public class PagoService {
         java.util.Map<Long, java.util.List<String>> resultado = new java.util.HashMap<>();
         if (pagos == null || pagos.isEmpty()) return resultado;
 
+        // obtener los IDs de los pagos
         java.util.List<Long> ids = pagos.stream()
                 .map(Pago::getId)
                 .filter(java.util.Objects::nonNull)
                 .toList();
         if (ids.isEmpty()) return resultado;
 
+        // traer todos los metodos de pago asociados
         java.util.List<com.gestionservicios.models.PagoMetodo> metodos = pagoMetodoRepository.findByPagoIdIn(ids);
         if (metodos == null || metodos.isEmpty()) return resultado;
 
+        // formatear los montos argentino
         java.util.Locale locale = new java.util.Locale("es", "AR");
         java.text.NumberFormat nf = java.text.NumberFormat.getNumberInstance(locale);
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
         nf.setGroupingUsed(true);
 
+        //agrupar los metodos por ID de pago
         java.util.Map<Long, java.util.List<com.gestionservicios.models.PagoMetodo>> grouped = metodos.stream()
                 .collect(java.util.stream.Collectors.groupingBy(pm -> pm.getPago().getId()));
 
+        //recorrer cada grupo y armar la lista de strings
         for (var entry : grouped.entrySet()) {
             Long pagoId = entry.getKey();
             java.util.List<com.gestionservicios.models.PagoMetodo> lista = entry.getValue();
+            //convertir cada metodo en "metodo(monto)"
             java.util.List<String> items = lista.stream().map(pm -> {
                 String metodo = pm.getMetodo() == null ? "" : pm.getMetodo().name();
                 java.math.BigDecimal monto = pm.getMonto() == null ? java.math.BigDecimal.ZERO : pm.getMonto();

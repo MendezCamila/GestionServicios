@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class ClienteService {
@@ -21,6 +23,10 @@ public class ClienteService {
     // Listar todos los clientes
     public List<Cliente> listarClientes() {
         return clienteRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+    }
+
+    public Page<Cliente> listarClientes(Pageable pageable) {
+        return clienteRepository.findAll(pageable);
     }
 
     // Obtener por id
