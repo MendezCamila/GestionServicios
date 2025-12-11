@@ -10,6 +10,8 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class ClienteService {
@@ -26,6 +28,10 @@ public class ClienteService {
     }
 
     public Page<Cliente> listarClientes(Pageable pageable) {
+        if (pageable == null) pageable = PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "id"));
+        if (pageable.getSort() == null || pageable.getSort().isUnsorted()) {
+            return clienteRepository.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "id")));
+        }
         return clienteRepository.findAll(pageable);
     }
 

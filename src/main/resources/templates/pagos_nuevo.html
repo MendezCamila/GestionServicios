@@ -1,5 +1,7 @@
 <div>
 
+    <!-- Tom Select CSS (select con búsqueda) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css">
     <form id="formPago" method="post" action="/pagos">
         <!-- CSRF token para Spring Security -->
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -77,9 +79,23 @@
         
     </form>
 
+    <!-- Tom Select JS -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
 </div>
 
 <script>
+    // Inicializar Tom Select para que el select de clientes sea buscable
+    try {
+        new TomSelect('#clienteSelect', {
+            create: false,
+            allowEmptyOption: true,
+            placeholder: '-- Seleccione un cliente --',
+            maxOptions: 100
+        });
+    } catch(e) {
+        console.warn('TomSelect no pudo inicializarse:', e);
+    }
     const clienteSelect = document.getElementById('clienteSelect');
     const clienteDatos = document.getElementById('clienteDatos');
     const clienteNombre = document.getElementById('clienteNombre');

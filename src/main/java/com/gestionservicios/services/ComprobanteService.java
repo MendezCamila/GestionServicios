@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class ComprobanteService {
@@ -23,6 +25,10 @@ public class ComprobanteService {
     }
 
     public Page<Comprobante> listarComprobantes(Pageable pageable) {
+        if (pageable == null) pageable = PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "id"));
+        if (pageable.getSort() == null || pageable.getSort().isUnsorted()) {
+            return comprobanteRepository.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "id")));
+        }
         return comprobanteRepository.findAll(pageable);
     }
     
